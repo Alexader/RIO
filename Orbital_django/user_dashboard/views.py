@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, get_user
 import Orbital_django.settings as settings
 from file_viewer import models
+from coterie.models import Coterie
 from home.models import User
 import re
 import os
@@ -41,13 +42,63 @@ def handle_delete(request):
     return redirect("user_dashboard")
 
 
+def handle_uncollect(request):
+    user = get_user(request)
+    document = models.Document.objects.get(id=int(request.POST["document_id"]))
+    document.collectors.remove(user)
+    document.save()
+    return redirect("user_dashboard")
+
+
+def handle_follow_user(request):
+    follow_target_user_id = request.POST['user_id']
+    user = get_user(request)
+    follow_target_user = User.objects.get(id=follow_target_user_id)
+    user.following_users.add(follow_target_user)
+    user.save()
+    return redirect("friends_page")
+
+
+def handle_unfollow_user(request):
+    follow_target_user_id = request.POST['user_id']
+    user = get_user(request)
+    follow_target_user = User.objects.get(id=follow_target_user_id)
+    user.following_users.remove(follow_target_user)
+    user.save()
+    return redirect('friends_page')
+
+
 @login_required(login_url='/')
 def display_user_dashboard(request):
     current_user = get_user(request)
     context = {
         "current_user": current_user,
     }
-    return render(request, "user_dashboard/user_dashboard_page.html", context)
+    return render(request, "user_dashboard/documents_page.html", context)
+
+
+@login_required(login_url='/')
+def display_friends_page(request):
+    current_user = get_user(request)
+    context = {
+        "current_user": current_user,
+    }
+    return render(request, "user_dashboard/friends_page.html", context)
+
+
+@login_required(login_url='/')
+def display_group_page(request):
+    current_user = get_user(request)
+    coterie = Coterie.objects.get(id=request.GET["coterie_id"])
+    context = {
+        "current_user": current_user,
+        "coterie": coterie,
+    }
+    type = request.GET["coterie_type"]
+    if type == "administrated":
+        return render(request, "user_dashboard/administrated_coterie_page.html", context)
+    elif type == "joined":
+        return render(request, "user_dashboard/joined_coterie_page.html", context)
 
 
 def change_portrait(request):
@@ -86,21 +137,3 @@ def change_portrait(request):
         user.save()  
 
         return HttpResponse()  # ajax will make the user go back his/her user dashboard
-
-
-def handle_follow_user(request):
-    follow_target_user_id = request.POST['user_id']
-    user = get_user(request)
-    follow_target_user = User.objects.get(id=follow_target_user_id)
-    user.following_users.add(follow_target_user)
-    user.save()
-    return HttpResponse()
-
-
-def handle_unfollow_user(request):
-    follow_target_user_id = request.POST['user_id']
-    user = get_user(request)
-    follow_target_user = User.objects.get(id=follow_target_user_id)
-    user.following_users.remove(follow_target_user)
-    user.save()
-    return redirect('user_dashboard')

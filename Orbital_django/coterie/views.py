@@ -33,6 +33,10 @@ def handle_join_coterie(request):
         elif request.POST["decision"] == "refuse":
             pass;
         coterie.save()
-        return redirect("user_dashboard")
+        context = {
+            "current_user": get_user(request),
+            "coterie": coterie,
+        }
+        return render(request, "user_dashboard/administrated_coterie_page.html", context)
     else: 
         return HttpResponse("<h1>Sorry, you are not an administrator</h1>")

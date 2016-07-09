@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Change portrait</title>
+
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script src="http://jcrop-cdn.tapmodo.com/v0.9.12/js/jquery.Jcrop.min.js"></script>
+        <link rel="stylesheet" href="http://jcrop-cdn.tapmodo.com/v0.9.12/css/jquery.Jcrop.css" type="text/css" />
+
+        <script type="text/javascript">
+            var img_top_margin, img_left_margin, img_width, img_height;//最后使用的2个变量
+
+            jQuery(function($){
+
+                // Create variables (in this scope) to hold the API and image size
+                var jcrop_api,
+                boundx,
+                boundy,
+                topw,
+                leftw,
+
+                // Grab some information about the preview pane
+                $preview = $('#preview-pane'),
+                $pcnt = $('#preview-pane .preview-container'),
+                $pimg = $('#preview-pane .preview-container img'),
+
+                xsize = $pcnt.width(),
+                ysize = $pcnt.height();
+
+                console.log('init',[xsize,ysize]);
+                $('#preview').Jcrop({
+                    onChange: updatePreview,
+                    onSelect: updatePreview,
+     	            aspectRatio: xsize / ysize
+                },function(){
+                    // Use the API to get the real image size
+                    var bounds = this.getBounds();
+                    boundx = bounds[0];
+                    boundy = bounds[1];
+                    // Store the API in the jcrop_api variable
+                    jcrop_api = this;
+
+                    // Move the preview into the jcrop container for css positioning
+                    $preview.appendTo(jcrop_api.ui.holder);
+
+	                });
+
+                function updatePreview(c){
+    	            if (parseInt(c.w) > 0){
+     		            var rx = xsize / c.w;
+                        var ry = ysize / c.h;
+                        console.log("new width:"+Math.round(rx * boundx) );
+                        console.log("new height:"+Math.round(ry * boundy) );
+                        console.log("marginTop:"+Math.round(ry * c.y));
+                        console.log("marginLeft:"+Math.round(rx * c.x));
+
+                        img_top_margin=c.y;
+                        img_left_margin=c.x;
+                        img_width=c.w;
+                        img_height=c.h;
+
+                        $pimg.css({
+                            width: Math.round(rx * boundx) + 'px',
+                            height: Math.round(ry * boundy) + 'px',
+                            marginLeft: '-' + Math.round(rx * c.x) + 'px',
+                            marginTop: '-' + Math.round(ry * c.y) + 'px'
+                        });
+                    }
+                };
+
+                $(function() {
+                    $("#file_preview").change(function() {
+                        var $file = $(this);
+                        var fileObj = $file[0];
+                        var windowURL = window.URL || window.webkitURL;
+                        var dataURL;
+                        var $img = $("#preview");
+                        var $img2 = $("#preview2");
+
+                        if(fileObj && fileObj.files && fileObj.files[0]){
+                            if(fileObj.files[0].size>2*1024*1024){
+                                alert("File too big, choose another one.");
+                                window.location.reload();
+                            }
+                            $("#file_preview").attr("disabled",true);
+                            dataURL = windowURL.createObjectURL(fileObj.files[0]);
+                            $img.attr('src',dataURL);
+                            $img2.attr('src',dataURL);
+                        }else{
+                            dataURL = $file.val();
+                            var imgObj = document.getElementById("preview");
+                            imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                            imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+                            var imgObj1 = document.getElementById("preview2");
+                            imgObj1.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                            imgObj1.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+                        }
+                    });
+                });
+
+                document.getElementById("change").onclick = function(){
+                    window.location.reload();
+                }
+
+                document.getElementById('save_button').onclick = function() {
+                    var canvas = document.getElementById('save_icon');
+                    canvas.height = img_height;
+                    canvas.width = img_width;
+                    var ctx = canvas.getContext('2d');
+                    var images = new Image();
+                    images.src = document.getElementById('preview').src;
+                    images.onload = function(){
+                        ctx.drawImage(images,img_left_margin, img_top_margin, img_height, img_width, 0, 0, img_height, img_width);
+                        document.getElementById('save_icon').getElementsByTagName('img').src = canvas.toDataURL();
+                        $.ajax({
+                            url:"/user_dashboard/change_portrait",
+                            type:"post",
+                            data: {
+                                csrfmiddlewaretoken: "{{ csrf_token }}",
+                                portrait_dataurl: canvas.toDataURL(),
+                            },
+                            success:function(){
+                                window.location.href = "/user_dashboard";  // return to user dashboard
+                            },
+                        });
+                    };
+                }
+            });
+        </script>
+        <style type="text/css">
+
+            .jcrop-holder #preview-pane {
+                display: block;
+                position: absolute;
+                z-index: 2000;
+                top: 10px;
+                right: -280px;
+                padding: 6px;
+                border: 1px rgba(0,0,0,.4) solid;
+                background-color: white;
+
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                border-radius: 6px;
+
+                -webkit-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+                -moz-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+                box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+            }
+
+            #preview-pane .preview-container {
+                width: 180px;
+                height: 180px;
+                overflow: hidden;
+            }
+            nav {
+                background-color: #5CACEE;
+                padding-top: 0.8cm;
+                padding-bottom: 0.8cm;
+            }
+            nav label {
+                color: white;
+            }
+            canvas {
+                display: none;
+            }
+
+            .button {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+                cursor: pointer;
+            }
+            .button2 {
+                background-color: white;
+                color: #008CB0;
+                border: 2px solid #008CBA;
+            }
+
+            .button2:hover {
+                background-color: #008CBA;
+                color: white;
+            }
+            .button:after {
+                content: "";
+                background: #008CBA;
+                display: block;
+                position: absolute;
+                padding-top: 300%;
+                padding-left: 350%;
+                margin-left: -20px!important;
+                margin-top: -120%;
+                opacity: 0;
+                transition: all 0.8s
+            }
+
+            .button:active:after {
+                padding: 0;
+                margin: 0;
+                opacity: 1;
+                transition: 0s
+            }
+        </style>
+
+    </head>
+    <body>
+        <nav class="navbar row">
+            <div class = "row">
+                <div class = "col-md-4">
+
+                </div>
+                <div class = "col-md-7 col-md-offset-4"><p>Hello!</p></div>
+                <form action = "/user_dashboard/handle_log_out" method = "post" class="form-inline col-md-1 col-md-offset-11">
+                    {% csrf_token %}
+                    <button type="submit" class="button2">Log Out</button>
+                </form>
+            </div>
+        </nav>
+        <tr>
+            <th scope="col" style="width:50%"><img id="preview"></th>
+            <th scope="col" style="width:50%">
+                <div id="preview-pane">
+                    <div class="preview-container">
+                        <img id="preview2" src="" class="jcrop-preview" alt="" />
+                    </div>
+                </div>
+            </th>
+        </tr>
+        <canvas id="save_icon"><img src=""></canvas>
+        <!-- <button id="save_button">Save</button> -->
+        <!-- <input id="file_preview" type="file"/> -->
+        <form enctype="multipart/form-data" action = "/user_dashboard/change_portrait" method = "post">
+            <!-- {% csrf_token %} -->
+            <input id= "file_preview" name = "portrait_upload" type="file" class="form-control input-sm" required="required" accept="image/*">
+            <button class="button2" type="button" id="save_button">Save</button>
+        </form>
+        <button class="button2" type="button" id="change">Change image</button>
+    </body>
+</html>
