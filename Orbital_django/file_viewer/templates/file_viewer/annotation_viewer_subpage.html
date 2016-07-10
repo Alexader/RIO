@@ -20,12 +20,12 @@
         <blockquote class="AnnotationReplyBlock" annotation_id="{{ annotation_reply.id }}">
             <footer style="float: right;">
             {% if annotation_reply.reply_to_annotation_reply.replier %}
-                reply to {{ annotation_reply.reply_to_annotation_reply.replier.nickname }} ({{ annotation_reply.reply_to_annotation_reply.replier.email_address }})
+                @ {{ annotation_reply.reply_to_annotation_reply.replier.nickname }} ({{ annotation_reply.reply_to_annotation_reply.replier.email_address }})
             {% endif %}
             </footer><br>
             <div class="content-markdown"> {{ annotation_reply.content|safe|linebreaks }} </div>
             <footer>
-                <img class="img-rounded" src="{{ annotation_reply.replier.portrait_url }}" height="60" width="60">
+                <img class="img-rounded" src="{{ annotation_reply.replier.portrait_url }}" height="40" width="40">
                 {{ annotation_reply.replier.nickname }} | {{ annotation_reply.post_time }}
                 <button class="reply_annotation_button btn btn-link">reply</button>
                 <form style="display: none">
