@@ -19,6 +19,9 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> 
 
+        <link href="https://cdn.bootcss.com/bootstrap-fileinput/4.3.3/css/fileinput.min.css" rel="stylesheet">
+        <script src="https://cdn.bootcss.com/bootstrap-fileinput/4.3.3/js/fileinput.min.js"></script>
+
     <!-- Animation library for notifications   -->
     <link href="/static/dashboard_assets/css/animate.min.css" rel="stylesheet"/>
     
@@ -283,13 +286,25 @@
                                 <p class="category">Click "Upload" button to find file in your computer</p>
                             </div>
                             <div class="content">
-                                <form id="file_upload_form" enctype="multipart/form-data" action = "/user_dashboard/handle_file_upload" method = "post">
+                                <form id="file_upload_form" enctype="multipart/form-data" action="/user_dashboard/handle_file_upload" method = "post">
                                		{% csrf_token %}
-	                                <input name = "file_upload" type="file" class="form-control input-sm" accept="application/pdf,application/zip,application/rar" required="required">
-	                                <input name = "title" type="text" class="form-control input-sm" placeholder="title" required="required">
-	               					<button type="submit" type="button" class="btn btn-info"style="float: right">Upload</button>
+                                    <input id="file_upload_input" name="file_upload" type="file" class="form-control input-sm" accept="application/pdf,application/zip,application/rar" required="required">
+                                    <div class="input-group">
+    	                                <input name="title" type="text" class="form-control input-sm" placeholder="title" required="required">
+                                        <span class="input-group-btn">
+                                            <button type="submit" type="button" class="btn btn-info" style="float: right; width: 121px;">Upload</button>
+                                        </span>
+                                    </div>
 	               					<br><br><br>
-                      			</form>								
+                      			</form>			
+                                <script>
+                                $(document).ready(function() {
+                                    $("#file_upload_input").fileinput({
+                                        'showUpload': false, 
+                                        'showPreview': false, 
+                                    });
+                                });
+                                </script>		
                             </div>
                         </div>
                     </div>
