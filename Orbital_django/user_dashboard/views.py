@@ -98,7 +98,16 @@ def display_group_page(request):
     if type == "administrated":
         return render(request, "user_dashboard/administrated_coterie_page.html", context)
     elif type == "joined":
-        return render(request, "user_dashboard/joined_coterie_page.html", context)
+        return render(request, "user_dashboard/joined_coterie_page.html", context)		
+		
+		
+@login_required(login_url='/')
+def display_friend_page(request):
+    current_user = get_user(request)
+    context = {
+        "current_user": current_user,
+    }
+    return render(request, "user_dashboard/friend_page.html", context)
 
 
 def change_portrait(request):
