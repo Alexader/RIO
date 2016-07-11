@@ -104,8 +104,10 @@ def display_group_page(request):
 @login_required(login_url='/')
 def display_friend_page(request):
     current_user = get_user(request)
+    friend = User.objects.get(id=request.GET["friend_id"])
     context = {
         "current_user": current_user,
+        "friend": friend,
     }
     return render(request, "user_dashboard/friend_page.html", context)
 
