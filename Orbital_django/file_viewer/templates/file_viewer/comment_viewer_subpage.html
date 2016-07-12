@@ -6,7 +6,7 @@
         reply to {{ comment.reply_to_comment.commenter.nickname }} ({{ comment.reply_to_comment.commenter.email_address }})
     {% endif %}
     </footer><br>
-    <div class="content-markdown"> {{ comment.content|safe|linebreaks }} </div>
+    <div class="content-markdown" style="font-size: 80%; font-family: Microsoft Yahei;"> {{ comment.content|safe|linebreaks }} </div>
     <span style="cursor: pointer;" comment_id="{{ comment.id }}" class="likeCommentButton glyphicon glyphicon-thumbs-up"></span>
     <bold id="num_like">{{ comment.num_like }}</bold>
     <footer>
