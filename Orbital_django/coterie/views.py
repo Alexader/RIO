@@ -11,7 +11,7 @@ def handle_create_coterie(request):
     coterie.description = request.POST["coterie_description"]
     coterie.save()
     coterie.administrators.add(get_user(request))
-    return redirect("user_dashboard")
+    return HttpResponse()
 
 
 def handle_apply_coterie(request):
