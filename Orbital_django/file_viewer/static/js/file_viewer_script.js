@@ -310,61 +310,6 @@ $(document).ready(function() {
         }
     });
 
-    $(document).ready(function () {
-        var wrapper = $("#wrapper");
-        var fileViewer = $("#file_viewer");
-        //设置wrapper的高度
-        wrapper.css("height", document.body.clientHeight - 24 + "px"); //jquery的css方法既可以设置css内容又可以获取css内容
-        //设置fileViewer的高度和宽度
-        fileViewer.css("height", wrapper.height() + "px");
-        fileViewer.css("width", parseInt(wrapper.css("width")) * 0.6 + "px"); //jquery的css方法获得的是字符串，用js的parseInt获取数值
-        //设置annotation_update_div的高度和宽度
-        $("#annotation_update_div").css("height", wrapper.height() * 0.8 + "px");
-        $("#annotation_update_div").css("width", wrapper.width() - fileViewer.width() - 2 + "px");
-        //设置文档的大小
-        $(".PageImg").css("width", fileViewer.width() - 24 + "px");
-        $(".PageDiv").each(function() {
-            var div = $(this);
-            var img = div.children(".PageImg");
-            imgLoad(img[0], function() {
-                div.css("width", img.width() + 6 + "px");
-                div.css("height", img.height() + 6 + "px");
-            });
-            /* this is not correct when images are gotten from cache rather than loaded from url
-               "complete" is true when the image is shown
-               "load" is triggered when the image is loaded from url
-            img.load(function() {
-                div.css("height", img.height() + 6 + "px");
-            });*/
-        });
-    });
-    $(window).resize(function () {
-        var wrapper = $("#wrapper");
-        var fileViewer = $("#file_viewer");
-        wrapper.css("height", document.body.clientHeight - 24 + "px");
-        fileViewer.css("height", wrapper.height() + "px");
-        fileViewer.css("width", wrapper.width() * 0.6 + "px");
-        $("#annotation_update_div").css("height", wrapper.height() * 0.8 + "px");
-        $("#annotation_update_div").css("width", wrapper.width() - fileViewer.width() - 2 + "px");
-        //设置文档的大小
-        var originalWidth = parseFloat($(".PageImg").css("width"));
-
-        $(".PageImg").css("width", fileViewer.width() - 24 + "px");
-
-        $(".PageDiv").each(function() {
-            var div = $(this);
-            var img = div.children(".PageImg");
-            imgLoad(img[0], function() {
-                div.css("width", img.width() + 6 + "px");
-                div.css("height", img.height() + 6 + "px");
-            });
-        });
-
-        var newWidth = parseFloat($(".PageImg").css("width"));
-        var scaleFactor = newWidth / originalWidth;
-        resizeAnnotations(scaleFactor)
-    });
-
     $("#post_comment_button").click(function () {
         $thisButton = $(this);
         var index = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
@@ -386,5 +331,78 @@ $(document).ready(function() {
             }
         })
     });
-    addCommentRelatedListener()
+    addCommentRelatedListener();
+
+    $(document).ready(function () {
+        var wrapper = $("#wrapper");
+        var fileViewer = $("#file_viewer");
+        //设置wrapper的高度
+        wrapper.css("height", document.body.clientHeight - 24 - 2 + "px"); //jquery的css方法既可以设置css内容又可以获取css内容
+        wrapper.css("width", document.body.clientWidth);
+        //设置fileViewer的高度和宽度
+        fileViewer.css("height", wrapper.height() + "px");
+        fileViewer.css("width", parseInt(wrapper.css("width")) * 0.6 + "px"); //jquery的css方法获得的是字符串，用js的parseInt获取数值
+        //设置annotation_update_div的高度和宽度
+        $("#annotation_update_div").css("height", wrapper.height() + "px");
+        $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
+
+        $("#horizontal_draggable").css("height", wrapper.height() + "px");
+        $("#horizontal_draggable").draggable({ 
+            axis: "x", 
+            containment: "#containment-wrapper", 
+            revert: true,
+            revertDuration: 0,
+            stop: function( event, ui ) {
+                var left = ui.offset["left"];
+                fileViewer.css("width", left + "px");
+                $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
+                console.log(fileViewer.width())
+            }
+        });
+        //设置文档的大小
+        $(".PageImg").css("width", fileViewer.width() - 24 + "px");
+        $(".PageDiv").each(function() {
+            var div = $(this);
+            var img = div.children(".PageImg");
+            imgLoad(img[0], function() {
+                div.css("width", img.width() + 6 + "px");
+                div.css("height", img.height() + 6 + "px");
+            });
+            /* this is not correct when images are gotten from cache rather than loaded from url
+               "complete" is true when the image is shown
+               "load" is triggered when the image is loaded from url
+            img.load(function() {
+                div.css("height", img.height() + 6 + "px");
+            });*/
+        });
+    });
+    $(window).resize(function () {
+        var wrapper = $("#wrapper");
+        var fileViewer = $("#file_viewer");
+        wrapper.css("height", document.body.clientHeight - 24 - 2 + "px");
+        wrapper.css("width", document.body.clientWidth);
+        fileViewer.css("height", wrapper.height() + "px");
+        fileViewer.css("width", wrapper.width() * 0.6 + "px");
+        $("#annotation_update_div").css("height", wrapper.height() + "px");
+        $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
+
+        $("#horizontal_draggable").css("height", wrapper.height() + "px");
+        //设置文档的大小
+        var originalWidth = parseFloat($(".PageImg").css("width"));
+
+        $(".PageImg").css("width", fileViewer.width() - 24 + "px");
+
+        $(".PageDiv").each(function() {
+            var div = $(this);
+            var img = div.children(".PageImg");
+            imgLoad(img[0], function() {
+                div.css("width", img.width() + 6 + "px");
+                div.css("height", img.height() + 6 + "px");
+            });
+        });
+
+        var newWidth = parseFloat($(".PageImg").css("width"));
+        var scaleFactor = newWidth / originalWidth;
+        resizeAnnotations(scaleFactor)
+    });
 });
