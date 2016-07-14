@@ -73,6 +73,7 @@ def display_user_dashboard(request):
     current_user = get_user(request)
     context = {
         "current_user": current_user,
+        "page_type": "documents_page",
     }
     return render(request, "user_dashboard/documents_page.html", context)
 
@@ -82,6 +83,7 @@ def display_friends_page(request):
     current_user = get_user(request)
     context = {
         "current_user": current_user,
+        "page_type": "friends_page",
     }
     return render(request, "user_dashboard/friends_page.html", context)
 
@@ -93,6 +95,7 @@ def display_group_page(request):
     context = {
         "current_user": current_user,
         "coterie": coterie,
+        "page_type": "coterie_page",
     }
     type = request.GET["coterie_type"]
     if type == "administrated":
@@ -108,6 +111,7 @@ def display_friend_page(request):
     context = {
         "current_user": current_user,
         "friend": friend,
+        "page_type": "friend_page",
     }
     return render(request, "user_dashboard/friend_page.html", context)
 

@@ -36,6 +36,7 @@ def handle_join_coterie(request):
         context = {
             "current_user": get_user(request),
             "coterie": coterie,
+            "page_type": "coterie_page",
         }
         return render(request, "user_dashboard/administrated_coterie_page.html", context)
     else: 
