@@ -11,4 +11,8 @@ urlpatterns = [
 
     url(r'^handle_join_coterie', views.handle_join_coterie, name="handle_join_coterie"),
 
+    url(r'^handle_quit_coterie', views.handle_quit_coterie, name="handle_quit_coterie"),
+
+    url(r'^handle_delete_coterie', views.handle_delete_coterie, name="handle_delete_coterie"),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

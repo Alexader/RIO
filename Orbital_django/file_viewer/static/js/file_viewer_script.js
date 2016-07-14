@@ -208,6 +208,16 @@ function prepareScrollPageIntoView() {
 function addCommentRelatedListener() {
     $(".likeCommentButton").on("click", function () {
         $this = $(this);
+        var new_num = parseInt($this.next().text()) + 1;
+        $this.next().text(new_num.toString())                
+        $this.off("click");
+        $this.css("color", "#6495ED");
+        $this.on("click", function() {
+            layer.msg('already liked', {
+                icon: 6,
+                time: 800,
+            });
+        });
         $.ajax({
             type: "POST",
             url: "",
@@ -215,17 +225,6 @@ function addCommentRelatedListener() {
                 csrfmiddlewaretoken: getCookie('csrftoken'),
                 operation: "like_comment",
                 comment_id: $this.attr("comment_id"),
-            },
-            success: function () {
-                var new_num = parseInt($this.next().text()) + 1;
-                $this.next().text(new_num.toString())                
-                $this.off("click");
-                $this.css("color", "#6495ED");
-                $this.on("click", function() {
-                    layer.msg('already liked', {
-                        icon: 6,
-                    });
-                });
             },
         });
     });

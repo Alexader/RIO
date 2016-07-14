@@ -36,8 +36,25 @@ def handle_join_coterie(request):
         context = {
             "current_user": get_user(request),
             "coterie": coterie,
-            "page_type": "coterie_page",
+            "page_type": "administrated_coterie_page",
         }
         return render(request, "user_dashboard/administrated_coterie_page.html", context)
     else: 
         return HttpResponse("<h1>Sorry, you are not an administrator</h1>")
+
+
+def handle_quit_coterie(request):
+    coterie = Coterie.objects.get(id=request.POST["coterie_id"])
+    user = get_user(request)
+    if user in coterie.members.all():
+        coterie.members.remove(user)
+        coterie.save()
+    return redirect("user_dashboard")
+
+
+def handle_delete_coterie(request):
+    coterie = Coterie.objects.get(id=request.POST["coterie_id"])
+    user = get_user(request)
+    if user in coterie.administrators.all():
+        coterie.delete()
+    return redirect("user_dashboard")

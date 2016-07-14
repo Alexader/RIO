@@ -85,9 +85,7 @@
                     </a>            
                 </li>
 
-                {% if page_type == "friends_page" %}
-                <li class="active">
-                {% elif page_type == "friend_page" %}
+                {% if page_type == "friends_page" or page_type == "friend_page" %}
                 <li class="active">
                 {% else %}
                 <li>
@@ -98,7 +96,7 @@
                     </a>
                 </li> 
                 
-                {% if page_type == "coterie_page" %}
+                {% if page_type == "administrated_coterie_page" or page_type == "joined_coterie_page "%}
                 <li class="active">
                 {% else %}
                 <li>
@@ -112,7 +110,7 @@
                             <i style="cursor: pointer; width: 1px; float: right;" class="pe-7s-plus"></i>
                         </p>
 
-                        {% if page_type == "coterie_page" %}
+                         {% if page_type == "administrated_coterie_page" or page_type == "joined_coterie_page "%}
                         <ul id="group_list" class="dropdown-toggle" data-toggle="dropdown">
                         {% else %}
                         <ul id="group_list" class="dropdown-toggle" data-toggle="dropdown" style="display: none;">
@@ -189,16 +187,42 @@
                             <a href="/user_dashboard/change_portrait">change portrait</a>
                         </li>
                         <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    Dropdown
-                                    <b class="caret"></b>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                              </ul>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Option
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+
+                                {% if page_type == "joined_coterie_page" %}
+                                    <li>
+                                        <form method="post" action="/coterie/handle_quit_coterie" style="display: none;">
+                                        {% csrf_token %}
+                                        <input name="coterie_id" value="{{coterie.id}}">
+                                        </form>
+                                        <a style="cursor: pointer;">quit from this group</a>
+                                    </li>
+                                {% elif page_type == "administrated_coterie_page" %}
+                                    <li>
+                                        <form method="post" action="/coterie/handle_delete_coterie" style="display: none;">
+                                        {% csrf_token %}
+                                        <input name="coterie_id" value="{{coterie.id}}">
+                                        </form>
+                                        <a style="cursor: pointer;">delete this group</a>
+                                    </li>
+                                {% else %}
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                {% endif %}
+                            </ul>
+                            <script>
+                                $(document).ready(function() {
+                                    $(".dropdown-menu").find("form").next("a").on("click", function() {
+                                        $(this).prev("form").submit();
+                                    });
+                                });
+                            </script>
                         </li>
                         <li>
                             <form style="display: none" action = "/user_dashboard/handle_log_out" method = "post">

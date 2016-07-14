@@ -92,12 +92,14 @@ def display_friends_page(request):
 def display_group_page(request):
     current_user = get_user(request)
     coterie = Coterie.objects.get(id=request.GET["coterie_id"])
+    type = request.GET["coterie_type"]
+
     context = {
         "current_user": current_user,
         "coterie": coterie,
-        "page_type": "coterie_page",
+        "page_type": type +"_" + "coterie_page",
     }
-    type = request.GET["coterie_type"]
+    
     if type == "administrated":
         return render(request, "user_dashboard/administrated_coterie_page.html", context)
     elif type == "joined":
