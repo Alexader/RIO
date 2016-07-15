@@ -11,45 +11,102 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-7">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Applicants<p style="display: inline;" class="category">  ——Here is a list of people who want to join in this group</p></h4>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Applicants<p style="display: inline;" class="category">  ——Here is a list of people who want to join in this group</p></h4>
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>#</th>
+                                            <th></th>
+                                        	<th>Name</th>
+                                        	<th>Email</th>
+                                        	<th></th>
+                                        </thead>
+                                        <tbody>
+                                            {% for user in coterie.applicants.all %} 
+                                            <tr>
+                                                <td>1</td>
+                                                <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
+                                                <td>{{ user.nickname }}</td>
+                                                <td>{{ user.email_address }}</td>
+                                                <form method="post" action="/coterie/handle_join_coterie" style="display: inline-block; font-family: arial; color: white">
+                                                    {% csrf_token %}
+                                                    <input name="coterie_id" value={{ coterie.id }} style="display: none;">
+                                                    <input name="applicant_id" value={{ user.id }} style="display: none;">
+                                                    <td>
+                                                        <button type="submit" class="btn btn-info" name="decision" value="accept">Allow</button>
+                                                    </td>
+                                                    <td>
+                                                        <button type="submit" class="btn btn-info" name="decision" value="refuse">Refuse</button>
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                            {% endfor %}
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>#</th>
-                                        <th></th>
-                                    	<th>Name</th>
-                                    	<th>Email</th>
-                                    	<th></th>
-                                    </thead>
-                                    <tbody>
-                                        {% for user in coterie.applicants.all %} 
-                                        <tr>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Administrator<p style="display: inline;" class="category">  ——Here is a list of administrator</p></h4>
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>#</th>
+                                            <th></th>
+                                            <th>Member Name</th>
+                                            <th>Email</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for user in coterie.administrators.all %} 
+                                            <tr>
                                             <td>1</td>
                                             <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
                                             <td>{{ user.nickname }}</td>
                                             <td>{{ user.email_address }}</td>
-                                            <form method="post" action="/coterie/handle_join_coterie" style="display: inline-block; font-family: arial; color: white">
-                                                {% csrf_token %}
-                                                <input name="coterie_id" value={{ coterie.id }} style="display: none;">
-                                                <input name="applicant_id" value={{ user.id }} style="display: none;">
-                                                <td>
-                                                    <button type="submit" class="btn btn-info" name="decision" value="accept">Allow</button>
-                                                </td>
-                                                <td>
-                                                    <button type="submit" class="btn btn-info" name="decision" value="refuse">Refuse</button>
-                                                </td>
-                                            </form>
-                                        </tr>
-                                        {% endfor %}
-                                        
-                                    </tbody>
-                                </table>
-                                   
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                        </div> 
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Members<p style="display: inline;" class="category">  ——Here is a list of your group members</p></h4>
+                                    
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>#</th>
+                                            <th></th>
+                                            <th>Member Name</th>
+                                            <th>Email</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for user in coterie.members.all %} 
+                                            <tr>
+                                            <td>1</td>
+                                            <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
+                                            <td>{{ user.nickname }}</td>
+                                            <td>{{ user.email_address }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                       
+                                </div>
+                            </div>
+                        </div>  
                     </div> 
 
 					<div class="col-md-5">
@@ -76,64 +133,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="col-md-7">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Administrator<p style="display: inline;" class="category">  ——Here is a list of administrator</p></h4>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>#</th>
-                                    	<th></th>
-                                    	<th>Member Name</th>
-										<th>Email</th>
-                                    </thead>
-                                    <tbody>
-                                        {% for user in coterie.administrators.all %} 
-                                        <tr>
-                                        <td>1</td>
-                                        <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
-                                        <td>{{ user.nickname }}</td>
-                                        <td>{{ user.email_address }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> 
-					
-                    <div class="col-md-7">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Members<p style="display: inline;" class="category">  ——Here is a list of your group members</p></h4>
-                                
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>#</th>
-                                    	<th></th>
-                                    	<th>Member Name</th>
-										<th>Email</th>
-                                    </thead>
-                                    <tbody>
-                                        {% for user in coterie.members.all %} 
-                                        <tr>
-                                        <td>1</td>
-                                        <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
-                                        <td>{{ user.nickname }}</td>
-                                        <td>{{ user.email_address }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                                   
-                            </div>
-                        </div>
-                    </div>  
+                        
 	        	</div>
 	        </div>
 	    </div>

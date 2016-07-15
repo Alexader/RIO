@@ -11,43 +11,77 @@
             <div class="container-fluid">    
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Documents Uploaded</h4>
-                                <div class="content table-responsive table-full-width">
-                                    <table class="table table-hover table-striped">
-                                        <thead>
-                                            <th>#</th>
-                                            <th>File Name</th>
-                                            <th>  </th>
-                                            <th>  </th>
-                                        </thead>
-                                        <tbody>
-                                            {% for document in current_user.document_set.all %}
-                                            <tr>
-                                                <td>1</td>
-                                                <td>{{ document.title }}</td>
-                                                <form method="get" action="/file_viewer/" style="display: inline-block; font-family: arial; color: white">
-                                                    {% csrf_token %}
-                                                    <td>
-                                                        <button type="submit" name="document_id" value={{ document.id }} class="btn btn-info">Open</button>
-                                                    </td>
-                                                </form>
-                                                <form id="file_delete_form" method="post" action="/user_dashboard/handle_delete" style="display: inline-block;">
-                                                    {% csrf_token %}
-                                                    <td>
-                                                    <button type="submit" name="document_id" class="btn btn-info" value={{ document.id }}>delete</button>
-                                                    </td>
-                                                </form>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Documents Uploaded</h4>
+                                    <div class="content table-responsive table-full-width">
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                                <th>#</th>
+                                                <th>File Name</th>
+                                                <th>  </th>
+                                                <th>  </th>
+                                            </thead>
+                                            <tbody>
+                                                {% for document in current_user.document_set.all %}
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>{{ document.title }}</td>
+                                                    <form method="get" action="/file_viewer/" style="display: inline-block; font-family: arial; color: white">
+                                                        {% csrf_token %}
+                                                        <td>
+                                                            <button type="submit" name="document_id" value={{ document.id }} class="btn btn-info">Open</button>
+                                                        </td>
+                                                    </form>
+                                                    <form id="file_delete_form" method="post" action="/user_dashboard/handle_delete" style="display: inline-block;">
+                                                        {% csrf_token %}
+                                                        <td>
+                                                        <button type="submit" name="document_id" class="btn btn-info" value={{ document.id }}>delete</button>
+                                                        </td>
+                                                    </form>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-12">
+                            <div class="card ">
+                                <div class="header">
+                                    <h4 class="title">Upload Files</h4>
+                                    <p class="category">Click "Browse" button to find files in your computer</p>
+                                </div>
+                                <div class="content">
+                                    <form id="file_upload_form" enctype="multipart/form-data" action="/user_dashboard/handle_file_upload" method = "post">
+                                        {% csrf_token %}
+                                        <input id="file_upload_input" name="file_upload" type="file" class="form-control input-sm" accept="application/pdf,application/zip,application/rar" required="required">
+                                        <div class="input-group">
+                                            <input name="title" type="text" class="form-control input-sm" placeholder="title" required="required">
+                                            <span class="input-group-btn">
+                                                <button type="submit" type="button" class="btn btn-info" style="float: right; width: 121px;">Upload</button>
+                                            </span>
+                                        </div>
+                                        <br><br><br>
+                                    </form>         
+                                    <script>
+                                    $(document).ready(function() {
+                                        $("#file_upload_input").fileinput({
+                                            'showUpload': false, 
+                                            'showPreview': false, 
+                                        });
+                                    });
+                                    </script>       
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
+
+
                     <div class="col-md-6">
                         <div class="card">
                             <div class="header">
@@ -86,40 +120,7 @@
                         </div>
                     </div>                   
                 </div>
-                    
-                
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">Upload Files</h4>
-                                <p class="category">Click "Upload" button to find file in your computer</p>
-                            </div>
-                            <div class="content">
-                                <form id="file_upload_form" enctype="multipart/form-data" action="/user_dashboard/handle_file_upload" method = "post">
-                                    {% csrf_token %}
-                                    <input id="file_upload_input" name="file_upload" type="file" class="form-control input-sm" accept="application/pdf,application/zip,application/rar" required="required">
-                                    <div class="input-group">
-                                        <input name="title" type="text" class="form-control input-sm" placeholder="title" required="required">
-                                        <span class="input-group-btn">
-                                            <button type="submit" type="button" class="btn btn-info" style="float: right; width: 121px;">Upload</button>
-                                        </span>
-                                    </div>
-                                    <br><br><br>
-                                </form>         
-                                <script>
-                                $(document).ready(function() {
-                                    $("#file_upload_input").fileinput({
-                                        'showUpload': false, 
-                                        'showPreview': false, 
-                                    });
-                                });
-                                </script>       
-                            </div>
-                        </div>
-                    </div>
-                </div>        
+
             </div>    
         </div>
 {% endblock %}

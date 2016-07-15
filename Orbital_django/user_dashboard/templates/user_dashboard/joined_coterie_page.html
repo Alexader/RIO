@@ -11,29 +11,60 @@
             <div class="container-fluid">
                 <div class="row">                   
                     <div class="col-md-7">
-                        <div class="card">
-                            <div class="header">
-                            <h4 class="title">Group Members in "Group Name" <p style="display: inline;" class="category">  ——Here is a list of members</p></h4>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="header">
+                                <h4 class="title">Group Members in "Group Name" <p style="display: inline;" class="category">  ——Here is a list of members</p></h4>
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>#</th>
+                                            <th></th>
+                                            <th>Nickname</th>
+                                            <th>Email Address</td>
+                                        </thead>
+                                        <tbody>
+                                            {% for user in coterie.members.all %} 
+                                            <tr>
+                                            <td>1</td>
+                                            <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
+                                            <td>{{ user.nickname }}</td>
+                                            <td>{{ user.email_address }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        <tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>#</th>
-                                        <th></th>
-                                        <th>Nickname</th>
-                                        <th>Email Address</td>
-                                    </thead>
-                                    <tbody>
-                                        {% for user in coterie.members.all %} 
-                                        <tr>
-                                        <td>1</td>
-                                        <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
-                                        <td>{{ user.nickname }}</td>
-                                        <td>{{ user.email_address }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    <tbody>
-                                </table>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Administrator<p style="display: inline;" class="category">  ——Here is a list of administrator</p></h4>
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-hover table-striped">
+                                        <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>#</th>
+                                            <th></th>
+                                            <th>Nickname</th>
+                                            <th>Email Address</td>
+                                        </thead>
+                                        <tbody>
+                                            {% for user in coterie.administrators.all %} 
+                                            <tr>
+                                            <td>1</td>
+                                            <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
+                                            <td>{{ user.nickname }}</td>
+                                            <td>{{ user.email_address }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        <tbody>
+                                    </table>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>  
@@ -62,35 +93,6 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-7">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Administrator<p style="display: inline;" class="category">  ——Here is a list of administrator</p></h4>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>#</th>
-                                        <th></th>
-                                        <th>Nickname</th>
-                                        <th>Email Address</td>
-                                    </thead>
-                                    <tbody>
-                                        {% for user in coterie.administrators.all %} 
-                                        <tr>
-                                        <td>1</td>
-                                        <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
-                                        <td>{{ user.nickname }}</td>
-                                        <td>{{ user.email_address }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    <tbody>
-                                </table>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
