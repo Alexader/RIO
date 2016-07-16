@@ -10,7 +10,7 @@
     <span style="cursor: pointer;" comment_id="{{ comment.id }}" class="likeCommentButton glyphicon glyphicon-thumbs-up"></span>
     <bold id="num_like">{{ comment.num_like }}</bold>
     <footer>
-        <img class="img-rounded" src="{{ comment.commenter.portrait_url }}" height="80" width="80">
+        <img class="img-rounded" src="{{ comment.commenter.portrait_url }}" height="60" width="60">
         {{ comment.commenter.nickname }} | {{ comment.post_time }}
         <button class="reply_comment_button btn btn-link">reply</button>
         <form class="reply_comment_form" style="display: none">

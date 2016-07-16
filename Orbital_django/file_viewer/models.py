@@ -66,7 +66,7 @@ class Document(models.Model):
 @receiver(models.signals.post_delete, sender=Document)
 def may_delete_unique_file(sender, instance, **kwargs):
     unique_file = instance.unique_file
-    if len(unique_file.document_set.all()) == 0:
+    if len(unique_file.document_set.all()) + len(unique_file.coteriedocument_set.all()) == 0:
         unique_file.delete()
 
 

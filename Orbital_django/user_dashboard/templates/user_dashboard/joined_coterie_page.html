@@ -74,20 +74,29 @@
                             <div class="header">
                                 <h4 class="title">Documents Uploaded</h4>
                                 <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th></th>
-                                        <th>File Name</th>
-                                        <th>  </th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>File1</td>
-                                            <td><button type="button" class="btn btn-info">Open</button> </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>#</th>
+                                            <th>File Name</th>
+                                            <th>  </th>
+                                            <th>  </th>
+                                        </thead>
+                                        <tbody>
+                                            {% for document in coterie.coteriedocument_set.all %}
+                                            <tr>
+                                                <td>1</td>
+                                                <td>{{ document.title }}</td>
+                                                <form method="get" action="/coterie/display_coteriefile_viewer_page" style="display: inline-block; font-family: arial; color: white">
+                                                    {% csrf_token %}
+                                                    <td>
+                                                        <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
+                                                        <button type="submit" name="document_id" value={{ document.id }} class="btn btn-info">Open</button>
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
