@@ -56,12 +56,8 @@ def handle_join_coterie(request):
         elif request.POST["decision"] == "refuse":
             pass;
         coterie.save()
-        context = {
-            "current_user": get_user(request),
-            "coterie": coterie,
-            "page_type": "administrated_coterie_page",
-        }
-        return render(request, "user_dashboard/administrated_coterie_page.html", context)
+        url_request_from = request.POST["current_url"]
+        return redirect(url_request_from)
     else: 
         return HttpResponse("<h1>Sorry, you are not an administrator</h1>")
 
@@ -88,11 +84,9 @@ def handle_delete_coterie(request):
 
 
 def display_coteriefile_viewer_page(request):
-    coterie = Coterie.objects.get(id=request.POST["coterie_id"])
-    if get_user(request) not in coterie.administrators.all() and get_user(request) not in coterie.members.all():
-        return redirect("user_dashboard")
 
     if request.method == "POST":
+
         if request.POST["operation"] == "like_comment":
             comment = models.CoterieComment.objects.get(id=int(request.POST["comment_id"]))
             comment.num_like += 1
@@ -113,7 +107,7 @@ def display_coteriefile_viewer_page(request):
                 "comments": document.coteriecomment_set.order_by("-post_time"),
             }
 
-            return render(request, "file_viewer/comment_viewer_subpage.html", context)
+            return render(request, "coterie_file_viewer/comment_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "comment":
             document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
@@ -132,7 +126,7 @@ def display_coteriefile_viewer_page(request):
                 "comments": document.coteriecomment_set.order_by("-post_time"),
             }
 
-            return render(request, "file_viewer/comment_viewer_subpage.html", context)
+            return render(request, "coterie_file_viewer/comment_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "annotate":
             document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
@@ -154,7 +148,7 @@ def display_coteriefile_viewer_page(request):
                 "new_annotation_id": annotation.id,
             }
 
-            return render(request, "file_viewer/annotation_viewer_subpage.html", context)
+            return render(request, "coterie_file_viewer/annotation_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "reply_annotation":
             annotation_reply = models.CoterieAnnotationReply()
@@ -174,9 +168,13 @@ def display_coteriefile_viewer_page(request):
                 "annotations": document.coterieannotation_set.order_by("page_index"),
             }
 
-            return render(request, "file_viewer/annotation_viewer_subpage.html", context)
+            return render(request, "coterie_file_viewer/annotation_viewer_subpage.html", context)
 
     else:
+        coterie = Coterie.objects.get(id=request.GET["coterie_id"])
+        if get_user(request) not in coterie.administrators.all() and get_user(request) not in coterie.members.all():
+            return redirect("user_dashboard")
+
         document = models.CoterieDocument.objects.get(id = int(request.GET["document_id"]))
         file = document.unique_file
 
@@ -241,9 +239,10 @@ def display_coteriefile_viewer_page(request):
                 "file_url": file_url[1:],
                 "comments": document.coteriecomment_set.order_by("-post_time"),
                 "annotations": document.coterieannotation_set.order_by("page_index"),
-                "collected": collected
+                "collected": collected,
+                "coterie_page_url": request.GET["current_url"],
             }
-            return render(request, "file_viewer/pdf_file_viewer_page.html", context)
+            return render(request, "coterie_file_viewer/pdf_file_viewer_page.html", context)
 
         context = {
             "numPages": len(pages),
@@ -252,8 +251,9 @@ def display_coteriefile_viewer_page(request):
             "comments": document.coteriecomment_set.order_by("-post_time"),
             "annotations": document.coterieannotation_set.order_by("page_index"),
             "collected": collected,
+            "coterie_page_url": request.GET["current_url"],
         }
-        return render(request, "file_viewer/file_viewer_page.html", context)
+        return render(request, "coterie_file_viewer/file_viewer_page.html", context)
 
 
 def handle_coteriefile_upload(request):
@@ -271,13 +271,9 @@ def handle_coteriefile_upload(request):
 
         document = CoterieDocument(owner=coterie, unique_file=unique_file, title=request.POST["title"])
         document.save()  # save this document to the database
-
-    context = {
-        "current_user": get_user(request),
-        "coterie": coterie,
-        "page_type": "administrated_coterie_page",
-    }
-    return render(request, "user_dashboard/administrated_coterie_page.html", context)
+        
+    url_request_from = request.POST["current_url"]
+    return redirect(to=url_request_from)
 
 
 def handle_coteriefile_delete(request):
@@ -287,9 +283,5 @@ def handle_coteriefile_delete(request):
     if document.owner == coterie and get_user(request) in coterie.administrators.all():
         document.delete()
         
-    context = {
-        "current_user": get_user(request),
-        "coterie": coterie,
-        "page_type": "administrated_coterie_page",
-    }
-    return render(request, "user_dashboard/administrated_coterie_page.html", context)
+    url_request_from = request.POST["current_url"]
+    return redirect(to=url_request_from)

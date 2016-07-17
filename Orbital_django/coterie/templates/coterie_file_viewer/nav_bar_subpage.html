@@ -1,0 +1,61 @@
+<div id="navbar">
+    <a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_likeurl" target="_blank">赞</a>
+    <script  src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111107&style=2&showcount=1&width=130&height=30" charset="utf-8" defer="defer" ></script>
+    <script type="text/javascript">
+        (function() {
+            var p = {
+                url: location.href,
+                showcount: '0',/*是否显示分享总数,显示：'1'，不显示：'0' */
+                desc: '',/*默认分享理由(可选)*/
+                summary: '',/*分享摘要(可选)*/
+                title: '',/*分享标题(可选)*/
+                site: '',/*分享来源 如：腾讯网(可选)*/
+                pics: '', /*分享图片的路径(可选)*/
+                style: '102',
+                width: 145,
+                height: 30,
+            };
+            var s = [];
+            for (var i in p) {
+                s.push(i + '=' + encodeURIComponent(p[i]||''));
+            }
+            document.write(['<a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?',s.join('&'),'" target="_blank">分享</a>'].join(''));
+        })();
+    </script>
+    <script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
+
+    <a href="{{ coterie_page_url }}" style="float: left; margin-right: 28px">go back to group page</a>
+    <div id="scroll_page_into_view_div">
+        <input type="number"/>
+        <button type="button">go to this page</button>
+    </div>
+    <button type="button" id="show_annotation_frame_button">show</button>
+    <button type="button" id="hide_annotation_frame_button">hide</button>
+    <button type="button" id="comment_button" data-toggle="modal" data-target="#comment_modal">
+        comments
+    </button>
+    <div id="resize_buttons_div">
+        <button type="button" id="buttonForLarger">+</button>
+        <button type="button" id="buttonForSmaller">-</button>
+    </div>
+    <div id="annotation_color_buttons_div">
+        <button type="button" class="btn btn-lg" style="background-color: rgba(0,0,0,0.18)" id="default_color"></button> 
+        <button type="button" class="btn btn-lg" style="background-color: rgba(0,191,255,0.18)" id="blue_color"></button> 
+        <button type="button" class="btn btn-lg" style="background-color: rgba(127, 255, 0, 0.18)" id="green_color"></button> 
+        <button type="button" class="btn btn-lg" style="background-color: rgba(255, 0, 0, 0.18)" id="red_color"></button>
+    </div>
+    <b id="num_visit">#visit: {{ document.num_visit }}</b>
+    <b id="num_collect">#collect: {{ document.collectors.all|length}}</b>
+</div>
+<script>
+    $("#show_annotation_frame_button").on('click', function() {
+        $(".Annotation").each(function() {
+            $(this).slideDown(180);
+        });
+    });
+    $("#hide_annotation_frame_button").on('click', function() {
+        $(".Annotation").each(function() {
+            $(this).slideUp(180);
+        });
+    });
+</script>

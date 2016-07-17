@@ -14,19 +14,26 @@ class CoterieModelAdmin(admin.ModelAdmin):
 
 
 class CoterieDocumentModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "owner"]
+    list_display = ["id", "title", "unique_file", "owner"]
+    list_filter = ["id", "title", "unique_file", "owner"]
+    search_fields = ["id", "title", "unique_file", "owner"]
 
 
 class CoterieAnnotationModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "content", "annotator"]
+    list_display = ["id", "content", "document_this_annotation_belongs", "page_index",  "annotator", "num_like"]
+    list_filter = ["id", "content", "document_this_annotation_belongs", "annotator", "num_like"]
+    search_fields = ["id", "content", "document_this_annotation_belongs", "annotator", "num_like"]
 
 
 class CoterieAnnotationReplyModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "content", "replier"]
-
+    list_display = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply", "replier", "num_like"]
+    list_filter = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply", "replier", "num_like"]
+    search_fields = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply", "replier", "num_like"]
 
 class CoterieCommentModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "content", "commenter"]
+    list_display = ["id", "content", "document_this_comment_belongs", "commenter", "num_like"]
+    list_filter = ["id", "content", "document_this_comment_belongs", "commenter", "num_like"]
+    search_fields = ["id", "content", "document_this_comment_belongs", "commenter", "num_like"]
 
 
 admin.site.register(Coterie, CoterieModelAdmin)

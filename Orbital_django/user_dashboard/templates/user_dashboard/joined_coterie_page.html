@@ -90,6 +90,7 @@
                                                     {% csrf_token %}
                                                     <td>
                                                         <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
+                                                        <input name="current_url" value="{{ request.get_full_path }}" style="display: none;">
                                                         <button type="submit" name="document_id" value={{ document.id }} class="btn btn-info">Open</button>
                                                     </td>
                                                 </form>

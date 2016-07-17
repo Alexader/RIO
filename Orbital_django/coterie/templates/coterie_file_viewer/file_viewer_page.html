@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="utf-8">
+
+        <!--JQUERY CDN-->
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.3.min.js" type="text/javascript"></script>
+
+        <!--BOOTSTRAP CDN-->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+        <!--support marked down for comment-->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+
+        <!--jquery.ui-->
+        <script src="http://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css"/>
+
+        <!--layer-->
+        <script src="/static/layer/layer.js"></script>
+
+        <script src="/static/js/file_viewer_script.js"></script>
+        <link rel="stylesheet" href="/static/css/file_viewer.css">
+    </head>
+    
+    <body>
+        {% include "coterie_file_viewer/nav_bar_subpage.html" %}
+
+        <div id="wrapper">
+            <div id="file_viewer">
+                {% for page in pages %}
+                <div class="PageDiv">
+                    <img class="PageImg" src={{ page }}>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+
+            <div id="horizontal_draggable"></div>
+
+            <div id="annotation_update_div">
+                {% include "file_viewer/annotation_viewer_subpage.html" %}
+            </div>
+
+            <div class="modal fade" id="comment_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal_content">
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    sorted by
+                                    <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li>time</li>
+                                        <li>like</li>
+                                    </ul>
+                                </div>
+
+                                <button id="refresh_comment_button" type="button" class="btn btn-default">refresh comment</button>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div style="overflow: auto;">
+                                    <form id="comment_form">
+                                        <textarea name="comment_content" class="form-control" rows="2" style="resize: vertical"></textarea>
+                                        <!--i use ajax to submit instead of using submit button-->
+                                        <button id="post_comment_button" type="button" class="btn btn-info" name="document_id" value="{{ document.id }}" style="margin-top: 8px; float: right;" > post comment</button>
+                                    </form>
+                                    <div id="comment_update_div">
+                                    {% include "file_viewer/comment_viewer_subpage.html" %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        numPages = parseInt("{{ numPages }}");
+        
+        // set id for each PageDiv
+        var pageDivs = $(".PageDiv");
+        for (var i = 1; i <= numPages; i++)
+            $(pageDivs[i - 1]).attr("id", "page_div_" + i);
+                var pageDivs = $(".PageDiv");
+        
+        // set id for each PageImg
+        var pageImgs = $(".PageImg");
+        for (var i = 1; i <= numPages; i++)
+            $(pageImgs[i - 1]).attr("id", "page_img_" + i);
+
+        prepareScrollPageIntoView();
+        startListeningSelectionBoxCreation();
+
+        {% for annotation in annotations %}
+            var new_annotation = $("<div class='Annotation' top_percent='{{ annotation.top_percent }}' left_percent='{{ annotation.left_percent }}' height_percent='{{ annotation.height_percent }}' width_percent='{{ annotation.width_percent }}'></div>");
+            var pageIndex = "{{ annotation.page_index }}";
+            var frame_color = "{{ annotation.frame_color }}"
+            var pageDiv = $("#page_div_" + pageIndex);
+            pageDiv.append(new_annotation);
+            new_annotation.css({
+                "background": frame_color,
+                "position": "absolute",
+            });
+            new_annotation.attr("annotation_id", '{{ annotation.id }}');
+        {% endfor %}
+        $(".Annotation").each(function() {
+            var annotation = $(this);
+            var top_percent = parseFloat(annotation.attr("top_percent"));
+            var left_percent = parseFloat(annotation.attr("left_percent"));
+            var height_percent = parseFloat(annotation.attr("height_percent"));
+            var width_percent = parseFloat(annotation.attr("width_percent"));
+            var page = annotation.parent(".PageDiv").find(".PageImg");
+            imgLoad(page[0], function() {
+                annotation.css({
+                    "width": page.width() * width_percent + "px",
+                    "height": page.height() * height_percent + "px",
+                    "left": page.width() * left_percent + "px",
+                    "top": page.height() * top_percent + "px",
+                });
+            });
+        });
+    </script>
+</html>

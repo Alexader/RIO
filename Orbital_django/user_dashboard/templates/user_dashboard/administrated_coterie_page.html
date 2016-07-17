@@ -36,6 +36,7 @@
                                                     {% csrf_token %}
                                                     <input name="coterie_id" value={{ coterie.id }} style="display: none;">
                                                     <input name="applicant_id" value={{ user.id }} style="display: none;">
+                                                    <input name="current_url" value={{ request.get_full_path }} style="display: none;">
                                                     <td>
                                                         <button type="submit" class="btn btn-info" name="decision" value="accept">Allow</button>
                                                     </td>
@@ -131,14 +132,16 @@
                                                         {% csrf_token %}
                                                         <td>
                                                             <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
+                                                            <input name="current_url" value="{{ request.get_full_path }}" style="display: none;">
                                                             <button type="submit" name="document_id" value={{ document.id }} class="btn btn-info">Open</button>
                                                         </td>
                                                     </form>
                                                     <form id="file_delete_form" method="post" action="/coterie/handle_coteriefile_delete" style="display: inline-block;">
                                                         {% csrf_token %}
                                                         <td>
-                                                        <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
-                                                        <button type="submit" name="document_id" class="btn btn-info" value={{ document.id }}>delete</button>
+                                                            <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
+                                                            <input name="current_url" value="{{ request.get_full_path }}" style="display: none;">
+                                                            <button type="submit" name="document_id" class="btn btn-info" value={{ document.id }}>delete</button>
                                                         </td>
                                                     </form>
                                                 </tr>
@@ -163,6 +166,7 @@
                                         <div class="input-group">
                                             <input name="title" type="text" class="form-control input-sm" placeholder="title" required="required">
                                             <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
+                                            <input name="current_url" value="{{ request.get_full_path }}" style="display: none;">
                                             <span class="input-group-btn">
                                                 <button type="submit" type="button" class="btn btn-info" style="float: right; width: 121px;">Upload</button>
                                             </span>
