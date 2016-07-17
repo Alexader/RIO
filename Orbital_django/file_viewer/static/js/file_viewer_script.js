@@ -336,7 +336,7 @@ $(document).ready(function() {
         var wrapper = $("#wrapper");
         var fileViewer = $("#file_viewer");
         //设置wrapper的高度
-        wrapper.css("height", document.body.clientHeight - 24 - 2 + "px"); //jquery的css方法既可以设置css内容又可以获取css内容
+        wrapper.css("height", document.body.clientHeight - 28 + "px"); //jquery的css方法既可以设置css内容又可以获取css内容
         wrapper.css("width", document.body.clientWidth);
         //设置fileViewer的高度和宽度
         fileViewer.css("height", wrapper.height() + "px");
@@ -378,7 +378,7 @@ $(document).ready(function() {
     $(window).resize(function () {
         var wrapper = $("#wrapper");
         var fileViewer = $("#file_viewer");
-        wrapper.css("height", document.body.clientHeight - 24 - 2 + "px");
+        wrapper.css("height", document.body.clientHeight - 28 + "px");
         wrapper.css("width", document.body.clientWidth);
         fileViewer.css("height", wrapper.height() + "px");
         fileViewer.css("width", wrapper.width() * 0.6 + "px");
