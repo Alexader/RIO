@@ -3,6 +3,15 @@ html, body {
     padding: 0;
     margin: 0;
 }
+input {
+    border: 1px solid #5B5B5B;
+    background-color: #6c6c6c;
+    height: 28px;
+    color: white;
+}
+#wrapper {
+    width: 100%;
+}
 #file_viewer {
     overflow: auto;
     /*text-align: center;*/
@@ -13,13 +22,14 @@ html, body {
     float: left;
     border-style: solid;
     border-width: 1px;
+    border-top: none;
     overflow: auto;
 }
 #horizontal_draggable {
     float: left;
     width: 3px;
     cursor: col-resize;
-    background-color: #5f9f9f;
+    background-color: #4f4f4f;
 }
 #resize_buttons_div, 
 #comment_button, 
@@ -30,12 +40,13 @@ html, body {
 #num_visit,
 #num_collect,
 #scroll_page_into_view_div {
-    margin-right: 18px;
+    margin-left: 18px;
     float: right;
 }
 #navbar {
     height: 28px;
     width: 100%;
+    background-color:#3C3C3C; /*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 }
 .PageDiv, .page_div {
     position: relative; 
@@ -48,4 +59,74 @@ html, body {
 }
 .Annotation {
     border-radius: 8px;
+}
+
+@font-face {
+    font-family: 'Pe-icon-7-stroke';
+    src:url('../dashboard_assets/fonts/Pe-icon-7-stroke.eot?d7yf1v');
+    src:url('../dashboard_assets/fonts/Pe-icon-7-stroke.eot?#iefixd7yf1v') format('embedded-opentype'),
+        url('../dashboard_assets/fonts/Pe-icon-7-stroke.woff?d7yf1v') format('woff'),
+        url('../dashboard_assets/fonts/Pe-icon-7-stroke.ttf?d7yf1v') format('truetype'),
+        url('../dashboard_assets/fonts/Pe-icon-7-stroke.svg?d7yf1v#Pe-icon-7-stroke') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="pe-7s-"], [class*=" pe-7s-"] {
+    display: inline-block;
+    font-family: 'Pe-icon-7-stroke';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.pe-7s-less:before {
+    content: "\e644";
+}
+.pe-7s-plus:before {
+    content: "\e623";
+}
+.pe-7s-notebook:before {
+    content: "\e62b";
+}
+.pe-7s-star:before {
+    content: "\e611";
+}
+.pe-lg {
+  font-size: 18px;
+  line-height: 0.85em;
+  vertical-align: -25%;
+}
+[class^="pe-7s-"], [class*=" pe-7s-"] {
+  display: inline-block;
+}
+
+@charset "UTF-8";
+
+/* button*/
+.awesome{
+background: #222 url(/images/alert-overlay.png) repeat-x;
+display: inline-block;
+padding: 5px 9px 6px;
+color: white;
+text-decoration: none;
+font-weight: bold;
+line-height: 1;
+position: relative;
+cursor: pointer;
+border: none;
+}
+.awesome:hover{
+    color: white;
+}
+ 
+/* Colors ---------- */
+.blue.awesome {
+background-color: #4f4f4f;
 }

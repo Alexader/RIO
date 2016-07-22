@@ -1,0 +1,51 @@
+html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+#file_viewer {
+    overflow: auto;
+    /*text-align: center;*/
+    float: left;
+    background-color: #696969;
+} 
+#annotation_update_div {
+    float: left;
+    border-style: solid;
+    border-width: 1px;
+    overflow: auto;
+}
+#horizontal_draggable {
+    float: left;
+    width: 3px;
+    cursor: col-resize;
+    background-color: #5f9f9f;
+}
+#resize_buttons_div, 
+#comment_button, 
+#annotation_color_buttons_div, 
+#show_annotation_frame_button, 
+#hide_annotation_frame_button, 
+#collect_button,
+#num_visit,
+#num_collect,
+#scroll_page_into_view_div {
+    margin-right: 18px;
+    float: right;
+}
+#navbar {
+    height: 28px;
+    width: 100%;
+}
+.PageDiv, .page_div {
+    position: relative; 
+    border-style: solid; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+.PageImg, .PageCanvas {
+    position: absolute;
+}
+.Annotation {
+    border-radius: 8px;
+}

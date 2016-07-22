@@ -1,63 +1,46 @@
-<div id="navbar">
-    <a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_likeurl" target="_blank">赞</a>
-    <script  src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111107&style=2&showcount=1&width=130&height=30" charset="utf-8" defer="defer" ></script>
-    <script type="text/javascript">
-        (function() {
-            var p = {
-                url: location.href,
-                showcount: '0',/*是否显示分享总数,显示：'1'，不显示：'0' */
-                desc: '',/*默认分享理由(可选)*/
-                summary: '',/*分享摘要(可选)*/
-                title: '',/*分享标题(可选)*/
-                site: '',/*分享来源 如：腾讯网(可选)*/
-                pics: '', /*分享图片的路径(可选)*/
-                style: '102',
-                width: 145,
-                height: 30,
-            };
-            var s = [];
-            for (var i in p) {
-                s.push(i + '=' + encodeURIComponent(p[i]||''));
-            }
-            document.write(['<a version="1.0" class="qzOpenerDiv" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?',s.join('&'),'" target="_blank">分享</a>'].join(''));
-        })();
-    </script>
-    <script src="http://qzonestyle.gtimg.cn/qzone/app/qzlike/qzopensl.js#jsdate=20111201" charset="utf-8"></script>
 
-    <a href="/user_dashboard" style="float: left; margin-right: 28px">go back</a>
+<div id="navbar">
+    <a class="awesome blue" href="/user_dashboard" placeholder="Page" style="float: left; height: 28px;">Back</a>
     <div id="scroll_page_into_view_div">
-        <input type="number"/>
-        <button type="button">go to this page</button>
+        <input type="number"/ >
+        <button class="awesome blue">Go</button>
     </div>
-    <button type="button" id="show_annotation_frame_button">show</button>
-    <button type="button" id="hide_annotation_frame_button">hide</button>
-    <button type="button" id="comment_button" data-toggle="modal" data-target="#comment_modal">
-        comments
-    </button>
     <div id="resize_buttons_div">
-        <button type="button" id="buttonForLarger">+</button>
-        <button type="button" id="buttonForSmaller">-</button>
+        <button class="awesome blue" style="height: 28px;" type="button" id="buttonForLarger"><i class="pe-7s-plus pe-lg"></i></button>
+        <button class="awesome blue" style="height: 28px;" type="button" id="buttonForSmaller"><i class="pe-7s-less pe-lg"></i></button>
     </div>
-    <div id="annotation_color_buttons_div">
-        <button type="button" class="btn btn-lg" style="background-color: rgba(0,0,0,0.18)" id="default_color"></button> 
-        <button type="button" class="btn btn-lg" style="background-color: rgba(0,191,255,0.18)" id="blue_color"></button> 
-        <button type="button" class="btn btn-lg" style="background-color: rgba(127, 255, 0, 0.18)" id="green_color"></button> 
-        <button type="button" class="btn btn-lg" style="background-color: rgba(255, 0, 0, 0.18)" id="red_color"></button>
+    <button class="awesome blue" id="show_annotation_frame_button" style="height: 28px;">Show</button>
+    <button class="awesome blue" id="hide_annotation_frame_button" style="height: 28px;">Hide</button>
+    <button class="awesome blue" id="comment_button" data-toggle="modal" data-target="#comment_modal" style="height: 28px;">
+        Comments
+    </button>
+    <div class="dropdown" id="annotation_color_buttons_div">
+        <button class="awesome blue dropdown-toggle" style="height: 28px;" data-toggle="dropdown">Color
+            <b class="caret"></b>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" style="min-width: 80%">
+            <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(0,0,0,0.18); width:100%;" id="default_color;"></button></li> 
+            <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(0,191,255,0.18); width:100%;" id="blue_color"></button></li>
+            <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(127, 255, 0, 0.18); width:100%;" id="green_color"></button></li> 
+            <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(255, 0, 0, 0.18); width:100%;" id="red_color"></button></li>
+        </ul>
     </div>
     {% if collected %}
-    <button type="button" id="collect_button"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></button>
+        <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><span style="height: 28px;" class="pe-7s-notebook pe-lg" aria-hidden="true"></span></button>
     {% else %}  
-    <button type="button" id="collect_button"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
+        <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><span style="height: 28px;" class="pe-7s-star pe-lg" aria-hidden="true"></span></button>
     {% endif %}
-    <b id="num_visit">#visit: {{ document.num_visit }}</b>
-    <b id="num_collect">#collect: {{ document.collectors.all|length}}</b>
+    <b id="num_visit" style="float: right; color: white; padding-top: 4px;">#visit: {{ document.num_visit }}</b>
+    <b id="num_collect" style="float: right; color: white; padding-top: 4px;">#collect: {{ document.collectors.all|length }}</b>
 </div>
+
 <script>
     $("#collect_button").on("click", function(){
         var span = $(this).find("span");
-        if (span.hasClass("glyphicon-star-empty")) {
-            span.removeClass("glyphicon-star-empty"); 
-            span.addClass("glyphicon-star");
+        if (span.hasClass("pe-7s-star")) {
+            layer.msg('Collected');
+            span.removeClass("pe-7s-star"); 
+            span.addClass("pe-7s-notebook");
             $.ajax({
                 type: "POST",
                 url: "",
@@ -68,9 +51,10 @@
                 },
             })
         }
-        else if (span.hasClass("glyphicon-star")) {
-           span.removeClass("glyphicon-star");
-           span.addClass("glyphicon-star-empty");
+        else if (span.hasClass("pe-7s-notebook")) {
+            layer.msg('Uncollected');
+           span.removeClass("pe-7s-notebook");
+           span.addClass("pe-7s-star");
             $.ajax({
                 type: "POST",
                 url: "",
