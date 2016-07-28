@@ -36,6 +36,16 @@ $(document).ready(function() {
             });
         });
     });
+
+    // add indexes for table
+    $("tbody").each(function() {
+        var $tbody = $(this);
+        var length = $tbody.children("tr").length;     
+        for (var i = 0; i < length; i++) {
+            $($tbody.children("tr")[i]).children("td:first").text(i + 1);
+            console.log($tbody.children("tr")[i]);   
+        }
+    });
 });
 
 function getCookie(name) {
