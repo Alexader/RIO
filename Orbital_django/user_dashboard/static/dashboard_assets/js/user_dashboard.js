@@ -43,7 +43,6 @@ $(document).ready(function() {
         var length = $tbody.children("tr").length;     
         for (var i = 0; i < length; i++) {
             $($tbody.children("tr")[i]).children("td:first").text(i + 1);
-            console.log($tbody.children("tr")[i]);   
         }
     });
 });

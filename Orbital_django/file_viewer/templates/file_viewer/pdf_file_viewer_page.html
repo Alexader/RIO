@@ -214,8 +214,8 @@ function prepareAndRenderAll(scale) {
         
         // create the same number of canvases as pages
         // also 
-        // initialize the canvases' height and width according to the first page
-        pdfDoc.getPage(1).then(function(sample_page) {
+        // initialize the canvases' height and width according to the last page
+        pdfDoc.getPage(numPages).then(function(sample_page) {
             samplePage = sample_page;
             var appendPages = ""
             sampleHeight = sample_page.getViewport(scale).height;
