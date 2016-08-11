@@ -1,115 +1,290 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+	<title>Variorum</title>
+	<!-- for-mobile-apps -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+			function hideURLbar(){ window.scrollTo(0,1); } </script>
 
-    <!--BOOTSTRAP CDN-->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- //for-mobile-apps -->
+	<link href="/static/assets/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+	<link href="/static/assets/css/style_for_home.css" rel="stylesheet" type="text/css" media="all">
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
     <!--JQUERY CDN-->
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.3.min.js" type="text/javascript"></script>
-    
-    <style type="text/css">
-    nav {
-        background-color: #5CACEE;
-        padding-top: 0.8cm;
-        padding-bottom: 0.8cm;
-    }
-    nav label {
-        color: white;
-    }
-    img{
-        width:100%;
-    }
-    h1,h2{
-        color:black;
-        text-align: center;
-        vertical-align: center;
-    }
-    h3{
-        color: white;
-        text-align: center;
-    }
-    button {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 16px 56px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 18px;
-        margin: 4px 2px;
-        -webkit-transition-duration: 0.4s; /* Safari */
-        transition-duration: 0.4s;
-        cursor: pointer;
-    }
-    .button2 {
-        background-color: white; 
-        color: #008CB0; 
-        border: 2px solid #008CBA;
-    }
-    .button2:hover {
-        background-color: #008CBA;
-        color: white;
-    }
-    .button:after {
-        content: "";
-        background: #008CBA;
-        display: block;
-        position: absolute;
-        padding-top: 300%;
-        padding-left: 350%;
-        margin-left: -20px!important;
-        margin-top: -120%;
-        opacity: 0;
-        transition: all 0.8s
-    }
-    .button:active:after {
-        padding: 0;
-        margin: 0;
-        opacity: 1;
-        transition: 0s
-    }
-    </style>
-</head>
 
+    <!--layer-->
+	<script src="/static/layer/layer.js"></script>
+
+	<!-- fonts -->
+	<link href='http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.useso.com/css?family=Acme' rel='stylesheet' type='text/css'><!-- //fonts -->
+
+	<!-- start-smoth-scrolling -->
+	<script type="text/javascript" src="/static/assets/js/move-top.js"></script>
+	<script type="text/javascript" src="/static/assets/js/easing.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+	</script>
+	<!-- start-smoth-scrolling -->
+			<!--animate-->
+	<link href="/static/assets/css/animate.css" rel="stylesheet" type="text/css" media="all">
+	<script src="/static/assets/js/wow.min.js"></script>
+		<script>
+			 new WOW().init();
+		</script>
+	<!--//end-animate-->
+
+</head>
 <body>
-    <div class="container">
-        <nav class="navbar row">
-        <form action="/handle_search" mtehod="get" class="form-inline">
-            <input name="search_key" type="text" class="form-control input-sm" required="required">
-            <button type="submit" class="btn btn-sm btn-default">search</button>
-        </form>
-            <form action="/handle_log_in" method="post" class="form-inline col-md-5 col-md-offset-7">
-                {% csrf_token %}
-                <input name="email_address" type="email" class="form-control input-sm" placeholder="Email" required="required">
-                <input name="password" type="password" class="form-control input-sm" placeholder="Password" required="required">
-                <button type="submit" class="btn btn-sm btn-default">log in</button>
-            </form>
-        </nav>
-    </div>
-    <div id ="content">
-        <div margin-left="auto" margin-right="auto" text-align="center">
-            <h1>Project Name</h1>
-            <h2>An online platform for you to share</h2>
-            <h2>thoughts with the world.</h2>
-            <h2>Do not have an account yet?</h2>
-            <div class = "col-md-offset-5">
-                <a href="/sign_up"><button class="button2">Sign Up Now!</button></a>
-            </div>
-            <img src="http://2.bp.blogspot.com/-ML0xC1DZTxI/VjdZuWXsIsI/AAAAAAAAIlU/WhbrTec6Y08/s1600/OPenBook.jpg">
-        </div>
-    </div>
-    <div class="container">
-        <nav class = "navbar row">
-            <div class = "col-md-5 col-md-offset-7">
-            <h3 color="white">Copyright@onepatchman, 2016</h3>
-            </div>
-        </nav>
-    </div>
+	<div class="header wow fadeInDown animated" data-wow-delay=".5s">
+		<div class="container">
+			<div class="header-left grid">
+				<div class="grid__item color-1 wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
+					<h1><a href="/"><i></i><span>Variorum</span></a></h1>
+				</div>
+			</div>
+			<div class="header-right" style="float:right;">
+				<div class="search">
+					<form action="/handle_search" method="get">
+						<input type="search" name="search_key"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}" required="required">
+						<input type="submit" value=" ">
+					</form>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="banner">
+		<div class="ban-bot text-center">
+			<script src="/static/assets/js/responsiveslides.min.js"></script>
+			<script>
+				// You can also use "$(window).load(function() {"
+				$(function () {
+				 // Slideshow 4
+				$("#slider3").responsiveSlides({
+					auto: true,
+					pager: true,
+					nav: false,
+					speed: 500,
+					namespace: "callbacks",
+					before: function () {
+				$('.events').append("<li>before event fired.</li>");
+				},
+				after: function () {
+					$('.events').append("<li>after event fired.</li>");
+					}
+					});
+				});
+			</script>
+			<div  id="top" class="callbacks_container">
+				<ul class="rslides" id="slider3">
+					<li>
+						<div class="ban-info">
+							<h3>Store</h3>
+							<p>Store your files and pictures </p>
+							<a class="hvr-rectangle-out logInButton">Log In Now</a>
+							<a class="hvr-rectangle-out" href="/sign_up">Sign Up Now</a>
+						</div>		
+					</li>
+					<li>
+						<div class="ban-info">
+							<h3>Express</h3>
+							<p>Express your opinions with the whole world</p>
+							<a class="hvr-rectangle-out logInButton" style="cursor: pointer">Log In Now</a>
+							<a class="hvr-rectangle-out" href="/sign_up">Sign Up Now</a>
+						</div>		
+					</li>
+					<li>
+						<div class="ban-info">
+							<h3>Share</h3>
+							<p>Share your file and ideas with everyone</p>
+							<a class="hvr-rectangle-out logInButton" style="cursor: pointer">Log In Now</a>
+							<a class="hvr-rectangle-out" href="/sign_up">Sign Up Now</a>
+						</div>		
+					</li>			
+				</ul>
+				<script>
+					$(".logInButton").on("click", function(e){
+						var logIn = layer.open({
+							shift: 2,
+							type: 1,
+							title: "Log In",
+							shadeClose: true,
+							shade: 0.18,
+							skin: 'layui-layer-molv',
+							closeBtn: 0,
+							maxmin: false, //开启最大化最小化按钮
+							area: ['380px', '280px'],
+							content:    "<form action='/handle_log_in' method='post' class='col-md-10 col-md-offset-1' style='text-align: center'>\
+											{% csrf_token %}<hr>\
+											<input name='email_address' type='email' class='form-control input-sm' placeholder='Email' required='required'><hr>\
+											<input name='password' type='password' class='form-control input-sm' placeholder='Password' required='required'><hr>\
+											<button type='submit' style='' class='btn btn-info'>Log In</button>\
+										</form>",
+						}); 
+					});
+				</script>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	<div class="content-bott">
+		<div class="container">
+			<h3 class="title wow flipInX" >Our <span> Top Documents</span></h3>
+			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
+				<div class="services-left">
+					<img class="img-responsive"  style="height:100px;width:100px;" src="/static/assets/img/pic4.jpg" alt=" "/>
+				</div>
+				<div class="services-right">
+					<h4>DOC1</h4>
+					<button class="btn btn-info">Open</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
+				<div class="services-left">
+					<img class="img-responsive" style="height:100px;width:100px;" src="/static/assets/img/pic5.jpg" alt=" "/>
+				</div>
+				<div class="services-right">
+					<h4>DOC2</h4>
+					<button class="btn btn-info">Open</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
+				<div class="services-left">
+					<img class="img-responsive" style="height:100px;width:100px;" src="/static/assets/img/pic6.jpg" alt=" "/>
+				</div>
+				<div class="services-right">
+					<h4>DOC3</h4>
+					<button class="btn btn-info">Open</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
+				<div class="services-left">
+					<img class="img-responsive" style="height:100px;width:100px;" src="/static/assets/img/pic7.jpg" alt=" "/>
+				</div>
+				<div class="services-right">
+					<h4>DOC4</h4>
+					<button class="btn btn-info">Open</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
+				<div class="services-left">
+					<img class="img-responsive" style="height:100px;width:100px;" src="/static/assets/img/pic8.jpg" alt=" "/>
+				</div>
+				<div class="services-right">
+					<h4>DOC5</h4>
+					<button class="btn btn-info">Open</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
+				<div class="services-left">
+					<img class="img-responsive" src="/static/assets/img/pic9.jpg" alt=" "/>
+				</div>
+				<div class="services-right">
+					<h4>DOC6</h4>
+					<button class="btn btn-info">Open</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(window).load(function() {
+			$("#flexiselDemo1").flexisel({
+				visibleItems: 3,
+				animationSpeed: 1000,
+				autoPlay: true,
+				autoPlaySpeed: 3000,    		
+				pauseOnHover: true,
+				enableResponsiveBreakpoints: true,
+				responsiveBreakpoints: { 
+					portrait: { 
+						changePoint:480,
+						visibleItems: 1
+					}, 
+					landscape: { 
+						changePoint:640,
+						visibleItems: 2
+					},
+					tablet: { 
+						changePoint:991,
+						visibleItems: 2
+					}
+				}
+			});
+			
+		});
+	</script>
+	<script type="text/javascript" src="/static/assets/js/jquery.flexisel.js"></script>
+
+	<div class="contact-form ">
+		<div class="container">
+			<h3 class="title">Contact <span>Us</span></h3>
+			<div class="col-md-6 contact-right wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">				
+				<form action="#" method="post">
+					{% csrf_token %}
+					<input type="text" name="Name" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+					<input type="email" name="Email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+					<textarea name="Message..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+					<input type="submit" value="Submit" >
+				</form>
+			</div>
+			<div class="col-md-6 contact-left wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
+				<h2>Contact Information</h2>
+				<p>If you have some advices for us, please contact us here.We're always standing by and eager to help.</p>
+				<ul class="contact-list">
+					<li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="obitoonepatchman@gmail.com">obitoonepatchman@gmail.com</a></li>
+				</ul>
+				<ul class="icons-list footer-bottom">
+					<li><a href="#" class="use1"><span>Facebook</span></a></li>
+					<li><a href="#" class="use2"><span>Twitter</span></a></li>
+					<li><a href="#" class="use3"><span>Dribbble</span></a></li>
+					<li><a href="#" class="use4"><span>Pinterest</span></a></li>
+				</ul>
+			</div>						
+			<div class="clearfix"> </div>
+			<p class="copy-right text-center">Copyright &copy; 2016@<strong>OnePatchMan</strong> All rights reserved.</a></p>
+		</div>			
+	</div>
+
+	<!-- contact -->
+	<!-- smooth scrolling -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+		/*
+			var defaults = {
+			containerID: 'toTop', // fading element id
+			containerHoverID: 'toTopHover', // fading element hover id
+			scrollSpeed: 1200,
+			easingType: 'linear' 
+			};
+		*/								
+		$().UItoTop({ easingType: 'easeOutQuart' });
+		});
+	</script>
+	<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+	<!-- //smooth scrolling -->
+
 </body>
 </html>
+

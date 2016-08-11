@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap Multi Step Registration Form Template</title>
+        <title>Variorum Sign Up Page</title>
 
         {% load staticfiles %}
 
@@ -25,7 +24,7 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="/static/assets/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="/static/assets/css/form-elements.css">
-        <link rel="stylesheet" href="/static/assets/css/style.css">
+        <link rel="stylesheet" href="/static/assets/css/style_for_sign_up.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,13 +40,12 @@
         <nav class="navbar">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>logo and name of the project</h2>
+                    <h2>Variorum</h2>
                 </div>
                 <div class="col-md-6">
                     <ul class="nav nav-tabs nav-justified">
                         <li><a href="/">Home</a></li>
-                        <li><a href="">About</a></li>
-                        <li><a href="">Contact</a></li>
+                        <li><a href="/">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -63,43 +61,21 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index.html">Bootstrap Multi Step Registration Form Template</a>
-				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="top-navbar-1">
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<span class="li-text">
-								Put some text or
-							</span> 
-							<a href="#"><strong>links</strong></a> 
-							<span class="li-text">
-								here, or some icons: 
-							</span> 
-							<span class="li-social">
-								<a href="#"><i class="fa fa-facebook"></i></a> 
-								<a href="#"><i class="fa fa-twitter"></i></a> 
-								<a href="#"><i class="fa fa-envelope"></i></a> 
-								<a href="#"><i class="fa fa-skype"></i></a>
-							</span>
-						</li>
-					</ul>
+
 				</div>
 			</div>
 		</nav>
 
         <!-- Top content -->
         <div class="top-content">
-        	
             <div class="inner-bg">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
-                            <h1><strong>Bootstrap</strong> Multi Step Registration Form</h1>
+                            <h1><strong>Variorum</strong> 2-step Registration Form</h1>
                             <div class="description">
                             	<p>
-	                            	This is a free responsive multi-step registration form made with Bootstrap. 
-	                            	Download it on <a href="http://azmind.com"><strong>AZMIND</strong></a>, customize and use it as you like!
+	                            	This is a free responsive multi-step registration form for Orbital Users. 
                             	</p>
                             </div>
                         </div>
@@ -107,7 +83,6 @@
 
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
-                            
                         	<form role="form" action="/handle_sign_up" method="post" class="registration-form" target="for_submit_refresh">
                                 <div class="row">
                                     <iframe name="for_submit_refresh" style="height: 0px; border: 0px;"></iframe>
@@ -178,7 +153,7 @@
         </div>
 
         <footer class="footer">
-            <p>© copyright.</p>
+            <p>OnePatchMan©copyright.</p>
         </footer>
 
         <!-- Javascript -->

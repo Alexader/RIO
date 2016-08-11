@@ -1,14 +1,14 @@
 from django.http import HttpResponse
-from models import Coterie
+#from models import Coterie
 from home.models import User
-from django.contrib.auth import get_user
+#from django.contrib.auth import get_user
 from django.shortcuts import render, redirect
 from models import CoterieDocument
 import models
 
 
-from django.contrib.auth import get_user
-import os
+#from django.contrib.auth import get_user
+#import os
 import zipfile
 #from unrar import rarfile
 #from wand.image import Image
@@ -81,12 +81,9 @@ def handle_delete_coterie(request):
 
 
 
-
-
 def display_coteriefile_viewer_page(request):
 
     if request.method == "POST":
-
         if request.POST["operation"] == "like_comment":
             comment = models.CoterieComment.objects.get(id=int(request.POST["comment_id"]))
             comment.num_like += 1
@@ -172,7 +169,9 @@ def display_coteriefile_viewer_page(request):
 
     else:
         coterie = Coterie.objects.get(id=request.GET["coterie_id"])
-        if get_user(request) not in coterie.administrators.all() and get_user(request) not in coterie.members.all():
+        user = get_user(request)
+
+        if user not in coterie.administrators.all() and user not in coterie.members.all():
             return redirect("user_dashboard")
 
         document = models.CoterieDocument.objects.get(id = int(request.GET["document_id"]))
@@ -186,11 +185,6 @@ def display_coteriefile_viewer_page(request):
         img_folder_path = os.path.join(file_dirname, file_name)
 
         pages = []
-
-        user = get_user(request)
-        collected = False
-        if document in user.collected_document_set.all():
-            collected = True
 
         document.num_visit += 1
         document.save()
@@ -239,7 +233,6 @@ def display_coteriefile_viewer_page(request):
                 "file_url": file_url[1:],
                 "comments": document.coteriecomment_set.order_by("-post_time"),
                 "annotations": document.coterieannotation_set.order_by("page_index"),
-                "collected": collected,
                 "coterie_page_url": request.GET["current_url"],
             }
             return render(request, "coterie_file_viewer/pdf_file_viewer_page.html", context)
@@ -250,7 +243,6 @@ def display_coteriefile_viewer_page(request):
             "pages": pages,
             "comments": document.coteriecomment_set.order_by("-post_time"),
             "annotations": document.coterieannotation_set.order_by("page_index"),
-            "collected": collected,
             "coterie_page_url": request.GET["current_url"],
         }
         return render(request, "coterie_file_viewer/file_viewer_page.html", context)

@@ -177,9 +177,9 @@ function renderTaskList(taskList, finishList, scale) {
             var page_canvas_id = "page_canvas_" + num;
             var canvas = document.getElementById(page_canvas_id);
             var context = canvas.getContext('2d');
-            var viewport = page.getViewport(scale);
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+            var viewport = page.getViewport(scale * sampleWidth / page.getViewport(scale).width);
+            canvas.height = sampleHeight;
+            canvas.width = sampleWidth;
 
             var renderContext = {
                 canvasContext: context,

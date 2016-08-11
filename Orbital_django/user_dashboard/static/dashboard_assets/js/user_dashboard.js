@@ -14,13 +14,14 @@ $(document).ready(function() {
                 <form id="create_group_form" style="margin-left: auto; margin-right: auto; margin-top: 28px; width: 200px;">\
                     <input name="coterie_name" type="text" class="form-control" placeholder="name"><br>\
                     <textarea name="coterie_description" type="text" class="form-control" rows="2" placeholder="description"></textarea><br>\
-                    <button class="btn btn-success" type="button" style="float: right;">create</button>\
+                    <button class="btn btn-info" type="button" style="float: right;">create</button>\
                 </form>\
             '
         });
 
         $("#create_group_form").find("button").on("click", function() {
             var $form = $("#create_group_form");
+            $(this).css("disabled", "true");
             $.ajax({
                 type: "POST",
                 url: "/coterie/handle_create_coterie",
