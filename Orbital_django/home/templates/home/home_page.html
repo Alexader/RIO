@@ -94,7 +94,7 @@
 						<div class="ban-info">
 							<h3>Store</h3>
 							<p>Store your files and pictures </p>
-							<a class="hvr-rectangle-out logInButton">Log In Now</a>
+							<a class="hvr-rectangle-out logInButton" style="cursor: pointer">Log In Now</a>
 							<a class="hvr-rectangle-out" href="/sign_up">Sign Up Now</a>
 						</div>		
 					</li>
@@ -117,23 +117,30 @@
 				</ul>
 				<script>
 					$(".logInButton").on("click", function(e){
-						var logIn = layer.open({
-							shift: 2,
-							type: 1,
-							title: "Log In",
-							shadeClose: true,
-							shade: 0.18,
-							skin: 'layui-layer-molv',
-							closeBtn: 0,
-							maxmin: false, //开启最大化最小化按钮
-							area: ['380px', '280px'],
-							content:    "<form action='/handle_log_in' method='post' class='col-md-10 col-md-offset-1' style='text-align: center'>\
-											{% csrf_token %}<hr>\
-											<input name='email_address' type='email' class='form-control input-sm' placeholder='Email' required='required'><hr>\
-											<input name='password' type='password' class='form-control input-sm' placeholder='Password' required='required'><hr>\
-											<button type='submit' style='' class='btn btn-info'>Log In</button>\
-										</form>",
-						}); 
+						// check whether user is logged in, very useful
+						var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
+						if (is_authenticated) {
+							window.location.href = "/user_dashboard"; 
+						}
+						else {
+							var logIn = layer.open({
+								shift: 2,
+								type: 1,
+								title: "Log In",
+								shadeClose: true,
+								shade: 0.18,
+								skin: 'layui-layer-molv',
+								closeBtn: 0,
+								maxmin: false, //开启最大化最小化按钮
+								area: ['380px', '280px'],
+								content:    "<form action='/handle_log_in' method='post' class='col-md-10 col-md-offset-1' style='text-align: center'>\
+												{% csrf_token %}<hr>\
+												<input name='email_address' type='email' class='form-control input-sm' placeholder='Email' required='required'><hr>\
+												<input name='password' type='password' class='form-control input-sm' placeholder='Password' required='required'><hr>\
+												<button type='submit' class='btn btn-info'>Log In</button>\
+											</form>",
+							}); 
+						}
 					});
 				</script>
 			</div>
@@ -253,7 +260,7 @@
 				<h2>Contact Information</h2>
 				<p>If you have some advices for us, please contact us here.We're always standing by and eager to help.</p>
 				<ul class="contact-list">
-					<li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="obitoonepatchman@gmail.com">obitoonepatchman@gmail.com</a></li>
+					<li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:obitoonepatchman@gmail.com">obitoonepatchman@gmail.com</a></li>
 				</ul>
 				<ul class="icons-list footer-bottom">
 					<li><a href="#" class="use1"><span>Facebook</span></a></li>
