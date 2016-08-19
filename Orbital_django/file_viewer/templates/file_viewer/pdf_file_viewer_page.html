@@ -96,6 +96,7 @@ var rendering = false;
 var scaleFactor = 1.08;
 var sampleWidth;
 var sampleHeight;
+var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
 
 $("#buttonForLarger").on('click', function () {
     scale *= scaleFactor;

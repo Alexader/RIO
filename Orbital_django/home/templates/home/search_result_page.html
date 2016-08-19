@@ -181,51 +181,61 @@
 </ol>
 </body>
 <script>
+    var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
+
     $(document).ready(function() {
         $(".follow_user_button").on("click", function() {
-            var thisButton = $(this);
-            $.ajax({
-                type: "POST",
-                url: "/user_dashboard/handle_follow_user",
-                data: {
-                    csrfmiddlewaretoken: "{{ csrf_token }}",
-                    user_id: thisButton.val(),
-                },
-                success: function (data) {
-                    layer.msg('follow successfullly', {
-                        icon: 1,
-                        skin: 'layui-layer-molv', 
-                        shift: 1,
-                        area: ['auto', 'auto'],
-                        time: 800,
-                    })
-                    thisButton.attr("disabled", true);
-                    thisButton.text("already followed");
-                }
-            })
+            if (is_authenticated) {
+                var thisButton = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: "/user_dashboard/handle_follow_user",
+                    data: {
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                        user_id: thisButton.val(),
+                    },
+                    success: function (data) {
+                        layer.msg('follow successfullly', {
+                            icon: 1,
+                            skin: 'layui-layer-molv', 
+                            shift: 1,
+                            area: ['auto', 'auto'],
+                            time: 800,
+                        })
+                        thisButton.attr("disabled", true);
+                        thisButton.text("already followed");
+                    }
+                })
+            }
+            else
+                layer.msg('you need to log in to follow other users');
         })
 
         $(".apply_coterie_button").on("click", function() {
-            var thisButton = $(this);
-            $.ajax({
-                type: "POST",
-                url: "/coterie/handle_apply_coterie",
-                data: {
-                    csrfmiddlewaretoken: "{{ csrf_token }}",
-                    coterie_id: thisButton.val(),
-                },
-                success: function (data) {
-                    layer.msg('apply successfullly', {
-                        icon: 1,
-                        skin: 'layui-layer-molv', 
-                        shift: 1,
-                        area: ['auto', 'auto'],
-                        time: 800,
-                    })
-                    thisButton.attr("disabled", true);
-                    thisButton.text("already applied");
-                }    
-            })
+            if (is_authenticated) {
+                var thisButton = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: "/coterie/handle_apply_coterie",
+                    data: {
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                        coterie_id: thisButton.val(),
+                    },
+                    success: function (data) {
+                        layer.msg('apply successfullly', {
+                            icon: 1,
+                            skin: 'layui-layer-molv', 
+                            shift: 1,
+                            area: ['auto', 'auto'],
+                            time: 800,
+                        })
+                        thisButton.attr("disabled", true);
+                        thisButton.text("already applied");
+                    }    
+                })
+            }
+            else
+                layer.msg('you need to log in to join groups');            
         })
     });
 </script>

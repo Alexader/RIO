@@ -25,10 +25,12 @@
             <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(255, 0, 0, 0.18); width:100%;" id="red_color"></button></li>
         </ul>
     </div>
-    {% if collected %}
-        <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><span style="height: 28px;" class="pe-7s-notebook pe-lg" aria-hidden="true"></span></button>
-    {% else %}  
-        <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><span style="height: 28px;" class="pe-7s-star pe-lg" aria-hidden="true"></span></button>
+    {% if request.user.is_authenticated %}
+        {% if collected %}
+            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><span style="height: 28px;" class="pe-7s-notebook pe-lg" aria-hidden="true"></span></button>
+        {% else %}  
+            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><span style="height: 28px;" class="pe-7s-star pe-lg" aria-hidden="true"></span></button>
+        {% endif %}
     {% endif %}
     <b id="num_visit" style="float: right; color: white; padding-top: 4px;">#visit: {{ document.num_visit }}</b>
     <b id="num_collect" style="float: right; color: white; padding-top: 4px;">#collect: {{ document.collectors.all|length }}</b>

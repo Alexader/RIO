@@ -120,35 +120,38 @@ function startListeningSelectionBoxCreation() {
                 // this is to deal with the case when the user create more than one annotation windows.
                 var annotationWindowJqueryObject = $("div.layui-layer[times=" + annotationWindow + "]");
                 annotationWindowJqueryObject.find("#post_annotation_button").on("click", function () {
-                    $.ajax({
-                        type: "POST",
-                        url: "",
-                        data: {
-                            csrfmiddlewaretoken: getCookie('csrftoken'),
-                            operation: "annotate",
-                            annotation_content: annotationWindowJqueryObject. find("textarea[name='annotation_content']").val(),
-                            page_id: page.attr("id"),
-                            top_percent: top_percent,
-                            left_percent: left_percent,
-                            height_percent: height_percent,
-                            width_percent: width_percent,
-                            frame_color: annotationColor,
-                            document_id: $("button[name='document_id']").val(),
-                        },
-                        success: function (data) {
-                            // after uploading the annotation, 选择框将不再可以调整大小和拖动
-                            new_annotation.draggable("destroy").resizable("destroy");
-                            $("#annotation_update_div").html(data);
+                    if (is_authenticated) {
+                        $.ajax({
+                            type: "POST",
+                            url: "",
+                            data: {
+                                csrfmiddlewaretoken: getCookie('csrftoken'),
+                                operation: "annotate",
+                                annotation_content: annotationWindowJqueryObject. find("textarea[name='annotation_content']").val(),
+                                page_id: page.attr("id"),
+                                top_percent: top_percent,
+                                left_percent: left_percent,
+                                height_percent: height_percent,
+                                width_percent: width_percent,
+                                frame_color: annotationColor,
+                                document_id: $("button[name='document_id']").val(),
+                            },
+                            success: function (data) {
+                                // after uploading the annotation, 选择框将不再可以调整大小和拖动
+                                new_annotation.draggable("destroy").resizable("destroy");
+                                $("#annotation_update_div").html(data);
 
-                            new_annotation.attr("annotation_id", new_annotation_id)
+                                new_annotation.attr("annotation_id", new_annotation_id)
 
-        
-                            // after uploading the annotation, close the window
-                            layer.close(annotationWindow);
-                        },
-                    })
-                    // 在ajax上传的过程中，禁用上传annotation的按钮防止用户在ajax上传过程中（需要一小段时间）又重复点击了post_annotation_button
-                    annotationWindowJqueryObject.find("#post_annotation_button").attr("disabled", true);
+                                // after uploading the annotation, close the window
+                                layer.close(annotationWindow);
+                            },
+                        })
+                        // 在ajax上传的过程中，禁用上传annotation的按钮防止用户在ajax上传过程中（需要一小段时间）又重复点击了post_annotation_button
+                        annotationWindowJqueryObject.find("#post_annotation_button").attr("disabled", true);
+                    } 
+                    else
+                        layer.msg('you need to log in to post annotation');
                 });
                 
                 $(".PageImg, .PageCanvas, .Annotation").off("mousemove");
@@ -207,50 +210,58 @@ function prepareScrollPageIntoView() {
 
 function addCommentRelatedListener() {
     $(".likeCommentButton").on("click", function () {
-        $this = $(this);
-        var new_num = parseInt($this.next().text()) + 1;
-        $this.next().text(new_num.toString())                
-        $this.off("click");
-        $this.css("color", "#6495ED");
-        $this.on("click", function() {
-            layer.msg('already liked', {
-                icon: 6,
-                time: 800,
+        if (is_authenticated) {
+            $this = $(this);
+            var new_num = parseInt($this.next().text()) + 1;
+            $this.next().text(new_num.toString())                
+            $this.off("click");
+            $this.css("color", "#6495ED");
+            $this.on("click", function() {
+                layer.msg('already liked', {
+                    icon: 6,
+                    time: 800,
+                });
             });
-        });
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: {
-                csrfmiddlewaretoken: getCookie('csrftoken'),
-                operation: "like_comment",
-                comment_id: $this.attr("comment_id"),
-            },
-        });
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {
+                    csrfmiddlewaretoken: getCookie('csrftoken'),
+                    operation: "like_comment",
+                    comment_id: $this.attr("comment_id"),
+                },
+            });
+        }
+        else
+            layer.msg('you need to log in to like');
     });
     $(".reply_comment_button").on("click", function() {
         $(this).next(".reply_comment_form").slideToggle(180);
     })
     $(".post_comment_reply_button").on("click", function() {
-        var $thisButton = $(this);
-        var index = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: {
-                csrfmiddlewaretoken: getCookie('csrftoken'),
-                operation: "comment",
-                comment_content: $thisButton.prev("textarea[name='comment_content']").val(),
-                document_id: $("button[name='document_id']").val(),
-                reply_to_comment_id: $thisButton.val(),
-            },
-            success: function (data) {
-                $("#comment_update_div").html(data);
-                // 修改html内容后，有关的事件监听会被自动删除，因此需要重新添加事件监听
-                addCommentRelatedListener();
-                layer.close(index);
-            }
-        })
+        if (is_authenticated) {
+            var $thisButton = $(this);
+            var index = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {
+                    csrfmiddlewaretoken: getCookie('csrftoken'),
+                    operation: "comment",
+                    comment_content: $thisButton.prev("textarea[name='comment_content']").val(),
+                    document_id: $("button[name='document_id']").val(),
+                    reply_to_comment_id: $thisButton.val(),
+                },
+                success: function (data) {
+                    $("#comment_update_div").html(data);
+                    // 修改html内容后，有关的事件监听会被自动删除，因此需要重新添加事件监听
+                    addCommentRelatedListener();
+                    layer.close(index);
+                }
+            })
+        }
+        else
+            layer.msg('you need to log in to reply'); 
     })
 }
 
@@ -310,25 +321,29 @@ $(document).ready(function() {
     });
 
     $("#post_comment_button").click(function () {
-        $thisButton = $(this);
-        var index = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: {
-                csrfmiddlewaretoken: getCookie('csrftoken'),
-                operation: "comment",
-                comment_content: $("textarea[name='comment_content']").val(),
-                document_id: $("button[name='document_id']").val(),
-            },
-            success: function (data) {
-                $("#comment_update_div").html(data);
-                // 修改html内容后，有关的事件监听会被自动删除，因此需要重新添加事件监听
-                addCommentRelatedListener();
-                $("textarea[name='comment_content']").val("");
-                layer.close(index);
-            }
-        })
+        if (is_authenticated) {
+            $thisButton = $(this);
+            var index = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {
+                    csrfmiddlewaretoken: getCookie('csrftoken'),
+                    operation: "comment",
+                    comment_content: $("textarea[name='comment_content']").val(),
+                    document_id: $("button[name='document_id']").val(),
+                },
+                success: function (data) {
+                    $("#comment_update_div").html(data);
+                    // 修改html内容后，有关的事件监听会被自动删除，因此需要重新添加事件监听
+                    addCommentRelatedListener();
+                    $("textarea[name='comment_content']").val("");
+                    layer.close(index);
+                }
+            })
+        }
+        else
+            layer.msg('you need to log in to post comment');
     });
     addCommentRelatedListener();
 

@@ -43,68 +43,80 @@ $(document).ready(function() {
     new_annotation_id = '{{ new_annotation_id }}'
 
     $(".post_annotation_reply_button").on("click", function() {
-        var thisButton = $(this);
-        var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: {
-                csrfmiddlewaretoken: getCookie('csrftoken'),
-                operation: "reply_annotation",
-                annotation_reply_content: thisButton.prev("textarea[name='annotation_reply_content']").val(),
-                reply_to_annotation_id: thisButton.val(),
-                document_id: $("button[name='document_id']").val(),
-            },
-            success: function (data) {
-                $("#annotation_update_div").html(data);
-                layer.close(index);
-            }
-        })
+        if (is_authenticated) {
+            var thisButton = $(this);
+            var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {
+                    csrfmiddlewaretoken: getCookie('csrftoken'),
+                    operation: "reply_annotation",
+                    annotation_reply_content: thisButton.prev("textarea[name='annotation_reply_content']").val(),
+                    reply_to_annotation_id: thisButton.val(),
+                    document_id: $("button[name='document_id']").val(),
+                },
+                success: function (data) {
+                    $("#annotation_update_div").html(data);
+                    layer.close(index);
+                }
+            })
+        }
+        else
+            layer.msg('you need to log in to reply');
     })
     $(".post_reply_reply_button").on("click", function() {
-        var thisButton = $(this);
-        var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: {
-                csrfmiddlewaretoken: getCookie('csrftoken'),
-                operation: "reply_annotation",
-                annotation_reply_content: thisButton.prev("textarea[name='reply_reply_content']").val(),
-                reply_to_annotation_id: thisButton.parents(".AnnotationBlock").find(".post_annotation_reply_button").val(),
-                reply_to_annotation_reply_id: thisButton.val(),
-                document_id: $("button[name='document_id']").val(),
-            },
-            success: function (data) {
-                $("#annotation_update_div").html(data);
-                layer.close(index);
-            }
-        })
+        if (is_authenticated) {
+            var thisButton = $(this);
+            var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {
+                    csrfmiddlewaretoken: getCookie('csrftoken'),
+                    operation: "reply_annotation",
+                    annotation_reply_content: thisButton.prev("textarea[name='reply_reply_content']").val(),
+                    reply_to_annotation_id: thisButton.parents(".AnnotationBlock").find(".post_annotation_reply_button").val(),
+                    reply_to_annotation_reply_id: thisButton.val(),
+                    document_id: $("button[name='document_id']").val(),
+                },
+                success: function (data) {
+                    $("#annotation_update_div").html(data);
+                    layer.close(index);
+                }
+            })
+        }
+        else
+            layer.msg('you need to log in to reply');
     })
     $(".reply_annotation_button").on("click", function() {
         $(this).next("form").slideToggle(180);
     })
     $(".likeAnnotationButton").on("click", function () {
-        $this = $(this);
-        var new_num = parseInt($this.next().text()) + 1;
-        $this.next().text(new_num.toString());
-        $this.off("click");
-        $this.css("color", "#6495ED");
-        $this.on("click", function() {
-            layer.msg('already liked', {
-                icon: 6,
-                time: 800,
+        if (is_authenticated) {
+            $this = $(this);
+            var new_num = parseInt($this.next().text()) + 1;
+            $this.next().text(new_num.toString());
+            $this.off("click");
+            $this.css("color", "#6495ED");
+            $this.on("click", function() {
+                layer.msg('already liked', {
+                    icon: 6,
+                    time: 800,
+                });
             });
-        });
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: {
-                csrfmiddlewaretoken: getCookie('csrftoken'),
-                operation: "like_annotation",
-                annotation_id: $this.attr("annotation_id"),
-            },
-        })
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {
+                    csrfmiddlewaretoken: getCookie('csrftoken'),
+                    operation: "like_annotation",
+                    annotation_id: $this.attr("annotation_id"),
+                },
+            })
+        }
+        else
+            layer.msg('you need to log in to like');        
     });
     $(".AnnotationBlock").on("mouseover", function() {
         var annotation_id = $(this).attr("annotation_id");

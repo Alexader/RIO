@@ -90,6 +90,7 @@
     </body>
     <script>
         numPages = parseInt("{{ numPages }}");
+        var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
         
         // set id for each PageDiv
         var pageDivs = $(".PageDiv");

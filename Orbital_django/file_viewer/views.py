@@ -123,7 +123,7 @@ def display_file_viewer_page(request):
 
         user = get_user(request)
         collected = False
-        if document in user.collected_document_set.all():
+        if user.is_authenticated() and document in user.collected_document_set.all():
             collected = True
 
         document.num_visit += 1
