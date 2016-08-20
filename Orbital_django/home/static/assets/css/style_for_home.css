@@ -844,14 +844,17 @@ color:#0cbbc8;
 	border-top:1px solid #dedede;
 	border-bottom:1px solid #dedede;
 }
+.services-left img {
+  width: 100%;
+}
 .services-left {
     float: left;
-    width: 22%;
+    width: 34%;
     box-shadow: 0px 0px 15px 0px #A7A7A7;
 }
 .services-right{
-float:right;
-width: 73%;
+float: right;
+width: 61%;
 }
 .services-right h4{
 margin:0px 0 0 0;
