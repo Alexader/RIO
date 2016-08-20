@@ -1235,7 +1235,7 @@ background: url(../images/themes1.png) no-repeat -0px -0px;
 /*-- //treatments --*/
 /*--contact--*/
 .contact-form {
-	padding:100px 0;
+	padding:80px 0 60px 0;
     background: #252222;
 }
 .contact-form h3 span{

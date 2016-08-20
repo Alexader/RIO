@@ -151,66 +151,21 @@
 	<div class="content-bott">
 		<div class="container">
 			<h3 class="title wow flipInX" >Our <span> Top Documents</span></h3>
+			{% for document in popular_documents_with_cover %}
 			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
 				<div class="services-left">
-					<img class="img-responsive"  style="height:100px;width:100px;" src="/static/assets/img/pic4.jpg" alt=" "/>
+					<img class="img-responsive"  style="height:100px;width:100px;" src="{{ document.1 }}" alt=" "/>
 				</div>
 				<div class="services-right">
-					<h4>DOC1</h4>
-					<button class="btn btn-info">Open</button>
+					<h4>{{ document.0.title }}</h4>
+					<form method="get" action="/file_viewer/">
+                        {% csrf_token %}
+                        <button class="btn btn-info" type="submit" name="document_id" value="{{ document.0.id }}">Open</button>
+                    </form>
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
-				<div class="services-left">
-					<img class="img-responsive" style="height:100px;width:100px;" src="/static/assets/img/pic5.jpg" alt=" "/>
-				</div>
-				<div class="services-right">
-					<h4>DOC2</h4>
-					<button class="btn btn-info">Open</button>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
-				<div class="services-left">
-					<img class="img-responsive" style="height:100px;width:100px;" src="/static/assets/img/pic6.jpg" alt=" "/>
-				</div>
-				<div class="services-right">
-					<h4>DOC3</h4>
-					<button class="btn btn-info">Open</button>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
-				<div class="services-left">
-					<img class="img-responsive" style="height:100px;width:100px;" src="/static/assets/img/pic7.jpg" alt=" "/>
-				</div>
-				<div class="services-right">
-					<h4>DOC4</h4>
-					<button class="btn btn-info">Open</button>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
-				<div class="services-left">
-					<img class="img-responsive" style="height:100px;width:100px;" src="/static/assets/img/pic8.jpg" alt=" "/>
-				</div>
-				<div class="services-right">
-					<h4>DOC5</h4>
-					<button class="btn btn-info">Open</button>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="col-md-4 services-grid wow zoomIn" data-wow-duration="2s" data-wow-delay="0.5s">
-				<div class="services-left">
-					<img class="img-responsive" src="/static/assets/img/pic9.jpg" alt=" "/>
-				</div>
-				<div class="services-right">
-					<h4>DOC6</h4>
-					<button class="btn btn-info">Open</button>
-				</div>
-				<div class="clearfix"></div>
-			</div>
+			{% endfor %}
 			<div class="clearfix"></div>
 		</div>
 	</div>
@@ -270,7 +225,7 @@
 				</ul>
 			</div>						
 			<div class="clearfix"> </div>
-			<p class="copy-right text-center">Copyright &copy; 2016@<strong>OnePatchMan</strong> All rights reserved.</a></p>
+			<p class="copy-right text-center">Copyright &copy; 2016@<strong>OnePatchMan</strong> All rights reserved.</p>
 		</div>			
 	</div>
 
