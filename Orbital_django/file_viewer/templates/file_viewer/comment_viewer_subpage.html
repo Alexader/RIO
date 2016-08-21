@@ -14,8 +14,9 @@
         {{ comment.commenter.nickname }} | {{ comment.post_time }}
         <button class="reply_comment_button btn btn-link">reply</button>
         <form class="reply_comment_form" style="display: none">
+            <hr>
             <textarea name="comment_content" class="form-control" rows="2" style="resize: vertical"></textarea>
-            <button type="button" class="post_comment_reply_button btn btn-sm btn-info" name="comment_id" value="{{ comment.id }}" style="margin-top: 8px; float: right;" > reply</button>
+            <button type="button" class="post_comment_reply_button btn btn-sm btn-info" name="comment_id" value="{{ comment.id }}" style="margin-top: 8px; float: right;">reply</button>
         </form>
     </footer>
 </blockquote>

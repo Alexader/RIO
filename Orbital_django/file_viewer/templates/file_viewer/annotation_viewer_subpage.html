@@ -10,6 +10,7 @@
         {{ annotation.annotator.nickname }} | {{ annotation.post_time }}
         <button class="reply_annotation_button btn btn-link">reply</button>
         <form style="display: none">
+            <hr>
             <textarea name="annotation_reply_content" class="form-control" rows="2" style="resize: vertical"></textarea>
             <button type="button" class="post_annotation_reply_button btn btn-sm btn-info" name="annotation_id" value="{{ annotation.id }}" style="margin-top: 8px; float: right;" > reply</button>
         </form>
@@ -29,6 +30,7 @@
                 {{ annotation_reply.replier.nickname }} | {{ annotation_reply.post_time }}
                 <button class="reply_annotation_button btn btn-link">reply</button>
                 <form style="display: none">
+                    <hr>
                     <textarea name="reply_reply_content" class="form-control" rows="2" style="resize: vertical"></textarea>
                     <button type="button" class="post_reply_reply_button btn btn-sm btn-info" name="reply_to_annotation_reply_id" value="{{ annotation_reply.id }}" style="margin-top: 8px; float: right;" > reply</button>
                 </form>
