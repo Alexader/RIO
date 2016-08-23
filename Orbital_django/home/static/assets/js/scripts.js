@@ -35,44 +35,42 @@ jQuery(document).ready(function() {
     // first step's next step
     $('.registration-form .btn-next').on("click", function() {
     	var parentRegistrationForm = $(this).parents('.registration-form');
-    	var nextStep = false;
-
-        var loadingLayer = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
-        var messageLayer = layer.msg('we are sending the verification code to your email address, this will take a while.', {
-            title: "message",
-            icon: 6,
-            skin: 'layui-layer-molv', 
-            shift: 1,
-            offset: '0px',
-            area: ['auto', 'auto'],
-            time: 0,
-        })
-
+       
         parentRegistrationForm.find("iframe").on("load", function() {
             layer.close(loadingLayer);
             layer.close(messageLayer);
             layer.msg('email successfullly sent, please check', {icon: 1, offset: 1.8, time: 3800, shift: 4});
             
-            nextStep = true;
-    
-        	parentRegistrationForm.find('input[type="text"], input[type="password"], input[type="email"]').each(function() {
-        		if( $(this).val() == "" ) {
-        			$(this).addClass('input-error');
-        			nextStep = false;
-        		}
-        		else {
-        			$(this).removeClass('input-error');
-        		}
-        	});
+            email_address = parentRegistrationForm.find('input[type="email"]').val();
 
-        	if(nextStep) {
-                email_address = parentRegistrationForm.find('input[type="email"]').val();
+            parentRegistrationForm.children('fieldset').fadeOut(400, function() {
+                parentRegistrationForm.next().children("fieldset").fadeIn();
+            });
+        });
 
-        		parentRegistrationForm.children('fieldset').fadeOut(400, function() {
-    	    		parentRegistrationForm.next().children("fieldset").fadeIn();
-    	    	});
-        	}
-    	});
+        var nextStep = true;
+        parentRegistrationForm.find('input[type="text"], input[type="password"], input[type="email"]').each(function() {
+            if( $(this).val() == "" ) {
+                $(this).addClass('input-error');
+                nextStep = false;
+            }
+            else {
+                $(this).removeClass('input-error');
+            }
+        });
+
+        if(nextStep) {
+            var loadingLayer = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
+            var messageLayer = layer.msg('we are sending the verification code to your email address, this will take a while.', {
+                title: "message",
+                icon: 6,
+                skin: 'layui-layer-molv', 
+                shift: 1,
+                offset: '0px',
+                area: ['auto', 'auto'],
+                time: 0,
+            });
+        }  
     });
 
     // second step
