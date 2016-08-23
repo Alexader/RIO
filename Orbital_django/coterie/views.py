@@ -96,6 +96,22 @@ def display_coteriefile_viewer_page(request):
             annotation.save()
             return HttpResponse()
 
+        elif request.POST["operation"] == "delete_annotation":
+            annotation = models.CoterieAnnotation.objects.get(id=int(request.POST["annotation_id"]))
+            annotation.delete()
+            return HttpResponse()
+
+        elif request.POST["operation"] == "delete_annotation_reply":
+            document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
+            reply_annotation = models.CoterieAnnotationReply.objects.get(id=int(request.POST["reply_id"]))
+            reply_annotation.delete()
+            context = {
+                "document": document,
+                "annotations": document.coterieannotation_set.order_by("page_index"),
+            }
+
+            return render(request, "coterie_file_viewer/annotation_viewer_subpage.html", context)
+
         elif request.POST["operation"] == "refresh":
             document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
 

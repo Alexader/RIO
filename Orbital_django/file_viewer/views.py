@@ -17,6 +17,22 @@ def display_file_viewer_page(request):
             comment.save()
             return HttpResponse()
 
+        elif request.POST["operation"] == "delete_annotation":
+            annotation = models.Annotation.objects.get(id=int(request.POST["annotation_id"]))
+            annotation.delete()
+            return HttpResponse()
+
+        elif request.POST["operation"] == "delete_annotation_reply":
+            document = models.Document.objects.get(id=int(request.POST["document_id"]))
+            reply_annotation = models.AnnotationReply.objects.get(id=int(request.POST["reply_id"]))
+            reply_annotation.delete()
+            context = {
+                "document": document,
+                "annotations": document.annotation_set.order_by("page_index"),
+            }
+
+            return render(request, "file_viewer/annotation_viewer_subpage.html", context)
+
         elif request.POST["operation"] == "like_annotation":
             annotation = models.Annotation.objects.get(id=int(request.POST["annotation_id"]))
             annotation.num_like += 1

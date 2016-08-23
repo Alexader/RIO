@@ -20,6 +20,12 @@ def display_home_page(request):
     for i in range(len(popular_documents)):
         popular_documents_with_cover.append((popular_documents[i], "/static/assets/img/cover" + str(i) + ".jpg"))
     
+    # popular_document_ids = [1,2,3,4,5,6]
+    # popular_documents_with_cover = []
+    # for i in range(6):
+    #     popular_documents_with_cover.append((Document.objects.get(id=popular_document_id[i]), 
+    #                                         "/static/assets/img/cover" + str(i) + ".jpg"))
+
     context = {
         'popular_documents_with_cover': popular_documents_with_cover,
     }
