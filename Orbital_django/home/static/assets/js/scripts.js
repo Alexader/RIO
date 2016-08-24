@@ -1,4 +1,6 @@
 var email_address;
+var loadingLayer;
+var messageLayer;
 
 jQuery(document).ready(function() {
 
@@ -21,15 +23,32 @@ jQuery(document).ready(function() {
     
     // submit
     $('.registration-form').on('submit', function(e) {
+        var next = true;
         $(this).find('input[type="text"], input[type="password"], input[type="email"]').each(function() {
             if( $(this).val() == "" ) {
                 e.preventDefault();
                 $(this).addClass('input-error');
+                next = false;
             }
-            else {
+            else
                 $(this).removeClass('input-error');
-            }
         });
+
+        // first step submit
+        if (next) {
+            if ($(this).attr("target") == "for_submit_refresh") {
+                loadingLayer = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
+                messageLayer = layer.msg('we are sending the verification code to your email address, this will take a while.', {
+                    title: "message",
+                    icon: 6,
+                    skin: 'layui-layer-molv', 
+                    shift: 1,
+                    offset: '0px',
+                    area: ['auto', 'auto'],
+                    time: 0,
+                });
+            }
+        }
     });
 
     // first step's next step
@@ -47,30 +66,6 @@ jQuery(document).ready(function() {
                 parentRegistrationForm.next().children("fieldset").fadeIn();
             });
         });
-
-        var nextStep = true;
-        parentRegistrationForm.find('input[type="text"], input[type="password"], input[type="email"]').each(function() {
-            if( $(this).val() == "" ) {
-                $(this).addClass('input-error');
-                nextStep = false;
-            }
-            else {
-                $(this).removeClass('input-error');
-            }
-        });
-
-        if(nextStep) {
-            var loadingLayer = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
-            var messageLayer = layer.msg('we are sending the verification code to your email address, this will take a while.', {
-                title: "message",
-                icon: 6,
-                skin: 'layui-layer-molv', 
-                shift: 1,
-                offset: '0px',
-                area: ['auto', 'auto'],
-                time: 0,
-            });
-        }  
     });
 
     // second step
