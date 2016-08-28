@@ -1,6 +1,7 @@
 
 <div id="navbar">
     <a class="awesome blue" href="/user_dashboard" placeholder="Page" style="float: left; height: 28px;">Back</a>
+    <h4 style="display: inline-block; color:white; margin: 5px 0 0 8%;"><i>{{ document.title }}</i></h4>
     <div id="scroll_page_into_view_div">
         <input type="number"/ >
         <button class="awesome blue">Go</button>
@@ -21,8 +22,8 @@
         <ul class="dropdown-menu dropdown-menu-right" style="min-width: 80%">
             <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(0,0,0,0.18); width:100%;" id="default_color;"></button></li> 
             <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(0,191,255,0.18); width:100%;" id="blue_color"></button></li>
-            <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(127, 255, 0, 0.18); width:100%;" id="green_color"></button></li> 
-            <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(255, 0, 0, 0.18); width:100%;" id="red_color"></button></li>
+            <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(127,255,0,0.18); width:100%;" id="green_color"></button></li> 
+            <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(255,0,0,0.18); width:100%;" id="red_color"></button></li>
         </ul>
     </div>
     {% if request.user.is_authenticated %}

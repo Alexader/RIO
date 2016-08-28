@@ -93,7 +93,7 @@ class Annotation(models.Model):
     width_percent = models.FloatField()
     top_percent = models.FloatField()
     left_percent = models.FloatField()
-    frame_color = models.CharField(max_length=18)
+    frame_color = models.CharField(max_length=32)
     
     num_like = models.IntegerField(default=0)
 
