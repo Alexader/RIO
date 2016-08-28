@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 EMAIL_HOST = "smtp.gmail.com" # "smtp-mail.outlook.com"
 EMAIL_HOST_USER = "obitoonepatchman@gmail.com" # "obitoonepatchman@outlook.com"
-EMAIL_HOST_PASSWORD = "orbitalonepatchman" # "orbital2016"
+EMAIL_HOST_PASSWORD = "variorumorbitalonepatchman" # "orbital2016"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
