@@ -1,14 +1,15 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <div id="navbar">
-    <a class="awesome blue" href="/user_dashboard" placeholder="Page" style="float: left; height: 28px;">Back</a>
+    <a class="awesome blue" href="/user_dashboard" placeholder="Page" style="float: left; height: 28px;"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></a>
     <h4 style="display: inline-block; color:white; margin: 5px 0 0 8%;"><i>{{ document.title }}</i></h4>
     <div id="scroll_page_into_view_div">
         <input type="number"/ >
         <button class="awesome blue">Go</button>
     </div>
     <div id="resize_buttons_div">
-        <button class="awesome blue" style="height: 28px;" type="button" id="buttonForLarger"><i class="pe-7s-plus pe-lg"></i></button>
-        <button class="awesome blue" style="height: 28px;" type="button" id="buttonForSmaller"><i class="pe-7s-less pe-lg"></i></button>
+        <button class="awesome blue" style="height: 28px;" type="button" id="buttonForLarger"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <button class="awesome blue" style="height: 28px;" type="button" id="buttonForSmaller"><i class="fa fa-minus" aria-hidden="true"></i></button>
     </div>
     <button class="awesome blue" id="show_annotation_frame_button" style="height: 28px;">Show</button>
     <button class="awesome blue" id="hide_annotation_frame_button" style="height: 28px;">Hide</button>
@@ -28,22 +29,26 @@
     </div>
     {% if request.user.is_authenticated %}
         {% if collected %}
-            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><span style="height: 28px;" class="pe-7s-notebook pe-lg" aria-hidden="true"></span></button>
+            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><i class="fa fa-bookmark" aria-hidden="true"></i></button>
         {% else %}  
-            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><span style="height: 28px;" class="pe-7s-star pe-lg" aria-hidden="true"></span></button>
+            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><i class="fa fa-bookmark-o" aria-hidden="true"></i></button>
         {% endif %}
     {% endif %}
+    <form id="download" method="get" action="/file_viewer/download" style="display: inline-block;">
+        {% csrf_token %}
+        <button type="submit" class="awesome blue" style="height: 28px" name="document_id" value={{ document.id }}><i class="fa fa-cloud-download" aria-hidden="true"></i></button>
+    </form>
     <b id="num_visit" style="float: right; color: white; padding-top: 4px;">#visit: {{ document.num_visit }}</b>
     <b id="num_collect" style="float: right; color: white; padding-top: 4px;">#collect: {{ document.collectors.all|length }}</b>
 </div>
 
 <script>
     $("#collect_button").on("click", function(){
-        var span = $(this).find("span");
-        if (span.hasClass("pe-7s-star")) {
+        var span = $(this).find(".fa");
+        if (span.hasClass("fa-bookmark-o")) {
             layer.msg('Collected');
-            span.removeClass("pe-7s-star"); 
-            span.addClass("pe-7s-notebook");
+            span.removeClass("fa-bookmark-o"); 
+            span.addClass("fa-bookmark");
             $.ajax({
                 type: "POST",
                 url: "",
@@ -54,10 +59,10 @@
                 },
             })
         }
-        else if (span.hasClass("pe-7s-notebook")) {
+        else if (span.hasClass("fa-bookmark")) {
             layer.msg('Uncollected');
-           span.removeClass("pe-7s-notebook");
-           span.addClass("pe-7s-star");
+           span.removeClass("fa-bookmark");
+           span.addClass("fa-bookmark-o");
             $.ajax({
                 type: "POST",
                 url: "",

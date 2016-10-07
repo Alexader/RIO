@@ -8,6 +8,16 @@ import zipfile
 import models
 
 
+def server_file(request):
+    document = models.Document.objects.get(id = int(request.GET["document_id"]))
+    file = document.unique_file
+    file_position = file.file_field.storage.path(file.file_field)
+    content = open(file_position, 'rb')
+    response = HttpResponse(content, content_type='application/pdf')
+    response['Content-Disposition'] = "attachment; filename=%s.pdf" % (document.title)
+    return response
+
+
 def display_file_viewer_page(request):
 
     if request.method == "POST":

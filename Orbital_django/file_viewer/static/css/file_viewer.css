@@ -31,6 +31,7 @@ input {
     cursor: col-resize;
     background-color: #4f4f4f;
 }
+#download,
 #resize_buttons_div, 
 #comment_button, 
 #annotation_color_buttons_div, 
