@@ -9,6 +9,7 @@ import random
 from home.models import User
 from file_viewer.models import Document
 from coterie.models import Coterie
+import urllib2
 
 
 def display_home_page(request):
@@ -50,6 +51,21 @@ def handle_log_in(request):
         return HttpResponse("<h1>email address or password is wrong</h1>")
 
 
+def handle_nus_log_in(request):
+    token = request.GET['token']
+    email = urllib2.urlopen("https://ivle.nus.edu.sg/api/Lapi.svc/UserEmail_Get?APIKey=Z6Q2MnpaPX8sDSOfHTAnN&Token=" + token).read()[1:-1]
+    if not User.objects.filter(email_address = email).exists():
+        nickname = urllib2.urlopen("https://ivle.nus.edu.sg/api/Lapi.svc/UserName_Get?APIKey=Z6Q2MnpaPX8sDSOfHTAnN&Token=" + token).read()[1:-1]
+        new_user = models.User()
+        new_user.set_nickname(nickname)
+        new_user.set_email_address(email)
+        new_user.save()
+    user = User.objects.get(email_address = email)
+    user.backend = 'django.contrib.auth.backends.ModelBackend'
+    login(request, user)
+    return redirect("user_dashboard")
+
+
 # temp_user_information_dic is a python dictionary
 # the key is the email address
 # the value is a 2-item list
@@ -64,7 +80,7 @@ def handle_sign_up(request):
     global temp_user_information_dic
 
     if post_result_dic.__contains__("username"):
-        new_user = models.User()
+        new_user = User()
         new_user.set_nickname(post_result_dic["username"])
     
         if post_result_dic.__contains__("email_address"):

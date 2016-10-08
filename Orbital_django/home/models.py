@@ -49,7 +49,7 @@ def upload_to(instance, filename):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    nickname = models.CharField(max_length=254, unique=True)
+    nickname = models.CharField(max_length=254)
 
     email_address = models.EmailField(max_length=254, unique=True)
 
@@ -78,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_staff = models.BooleanField(
         _('staff status'),
-        default=True,
+        default=False,
         help_text=_('Designates whether the user can log into this admin site.'),
     )
 
