@@ -54,16 +54,18 @@ def handle_log_in(request):
 def handle_nus_log_in(request):
     token = request.GET['token']
     email = urllib2.urlopen("https://ivle.nus.edu.sg/api/Lapi.svc/UserEmail_Get?APIKey=Z6Q2MnpaPX8sDSOfHTAnN&Token=" + token).read()[1:-1]
-    if not User.objects.filter(email_address = email).exists():
-        nickname = urllib2.urlopen("https://ivle.nus.edu.sg/api/Lapi.svc/UserName_Get?APIKey=Z6Q2MnpaPX8sDSOfHTAnN&Token=" + token).read()[1:-1]
-        new_user = models.User()
-        new_user.set_nickname(nickname)
-        new_user.set_email_address(email)
-        new_user.save()
-    user = User.objects.get(email_address = email)
-    user.backend = 'django.contrib.auth.backends.ModelBackend'
-    login(request, user)
-    return redirect("user_dashboard")
+    if email != "":
+        if not User.objects.filter(email_address = email).exists():
+            nickname = urllib2.urlopen("https://ivle.nus.edu.sg/api/Lapi.svc/UserName_Get?APIKey=Z6Q2MnpaPX8sDSOfHTAnN&Token=" + token).read()[1:-1]
+            new_user = models.User()
+            new_user.set_nickname(nickname)
+            new_user.set_email_address(email)
+            new_user.save()
+        user = User.objects.get(email_address = email)
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, user)
+        return redirect("user_dashboard")
+    return HttpResponse("<h1>NUSNET ID incorrect</h1>")
 
 
 # temp_user_information_dic is a python dictionary
