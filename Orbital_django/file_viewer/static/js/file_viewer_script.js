@@ -48,7 +48,7 @@ function startListeningSelectionBoxCreation() {
     // 可以在已经完成的annotation selection frame上新建一个selection frame
     $(".PageDiv, .page_div").on("mousedown", function(e) {
         // 如果是新建尚未上传的annotation，则不能在其selection frame上新建一个selection frame，因为点击这个事件要用来给这个尚未上传的annotation的frame做drag或者resize
-        if ($(e.target).hasClass('ui-draggable'))
+        if ($(e.target).hasClass('ui-draggable') || $(e.target).hasClass('ui-resizable-handle'))
             return ;
         var page = $(this).find(".PageImg, .PageCanvas");
         var mouse_absolut_x = e.pageX;
