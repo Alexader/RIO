@@ -159,13 +159,13 @@ $(document).ready(function() {
     $(".AnnotationBlock").on("mouseover", function() {
         var annotation_id = $(this).attr("annotation_id");
         var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
-        $(this).css("background", Annotation.css("background"));
+        $(this).css("background-color", Annotation.css("background-color"));
         Annotation.css("border", "1px solid #0F0F0F");
     });
     $(".AnnotationBlock").on("mouseout", function() {
         var annotation_id = $(this).attr("annotation_id");
         var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
-        $(this).css("background", "white");
+        $(this).css("background-color", "white");
         Annotation.css("border", "none");
     });
     $(".AnnotationBlock").on("click", function() {
