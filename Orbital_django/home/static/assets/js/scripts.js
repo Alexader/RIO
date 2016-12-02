@@ -98,7 +98,7 @@ jQuery(document).ready(function() {
         });
     });
 
-    // when leave sign_up_page, send information to the server to delete the information for this signing up
+    // when leave sign_up_page, send information to the server to delete the temporary information for this signing up
     $(window).on("unload", function(){
         $.ajax({
             type: "POST",
@@ -140,6 +140,7 @@ jQuery(document).ready(function() {
     
 });
 
+// this is the helper function for getting csrf_token
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {

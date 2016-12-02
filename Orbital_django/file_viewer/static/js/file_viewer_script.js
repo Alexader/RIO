@@ -47,7 +47,8 @@ function startListeningSelectionBoxCreation() {
 
     // 可以在已经完成的annotation selection frame上新建一个selection frame
     $(".PageDiv, .page_div").on("mousedown", function(e) {
-        // 如果是新建尚未上传的annotation，则不能在其selection frame上新建一个selection frame，因为点击这个事件要用来给这个尚未上传的annotation的frame做drag或者resize
+        // 如果是新建尚未上传的annotation，则不能在其selection frame上新建一个selection frame，
+        // 因为点击这个事件要用来给这个尚未上传的annotation的frame做drag或者resize
         if ($(e.target).hasClass('ui-draggable') || $(e.target).hasClass('ui-resizable-handle'))
             return ;
         var page = $(this).find(".PageImg, .PageCanvas");
@@ -104,14 +105,14 @@ function startListeningSelectionBoxCreation() {
                     title: "Post Annotation",
                     shadeClose: true,
                     shade: false,
-                    maxmin: true, //开启最大化最小化按钮
+                    maxmin: true,  //开启最大化最小化按钮
                     area: ['380px', '280px'],
                     content:    '<form id="annotation_form">\
                                     <textarea name="annotation_content" class="form-control" rows="8" style="resize: vertical"></textarea>\
                                     <!--i use ajax to submit instead of using submit button-->\
                                     <button id="post_annotation_button" type="button" class="btn btn-info" name="document_id" value="{{ document.id }}"\ style="margin-top: 8px; float: right;">post annotation</button>\
                                 </form>',
-                    cancel: function() { //窗口被关闭的回调函数：当窗口被关闭，annotation选定框也一并删除
+                    cancel: function() {  //窗口被关闭的回调函数：当窗口被关闭，annotation选定框也一并删除
                         new_annotation.remove();
                     }
                 }); 
@@ -147,7 +148,8 @@ function startListeningSelectionBoxCreation() {
                                 layer.close(annotationWindow);
                             },
                         })
-                        // 在ajax上传的过程中，禁用上传annotation的按钮防止用户在ajax上传过程中（需要一小段时间）又重复点击了post_annotation_button
+                        // 在ajax上传的过程中，禁用上传annotation的按钮
+                        // 以防止用户在ajax上传过程中（需要一小段时间）又重复点击了post_annotation_button
                         annotationWindowJqueryObject.find("#post_annotation_button").attr("disabled", true);
                     } 
                     else
@@ -323,7 +325,7 @@ $(document).ready(function() {
     $("#post_comment_button").click(function () {
         if (is_authenticated) {
             $thisButton = $(this);
-            var index = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
+            var index = layer.load(0, {shade: 0.18});  //0代表加载的风格，支持0-2
             $.ajax({
                 type: "POST",
                 url: "",
@@ -350,13 +352,13 @@ $(document).ready(function() {
     $(document).ready(function () {
         var wrapper = $("#wrapper");
         var fileViewer = $("#file_viewer");
-        //设置wrapper的高度
-        wrapper.css("height", document.body.clientHeight - 28 + "px"); //jquery的css方法既可以设置css内容又可以获取css内容
+        // 设置wrapper的高度
+        wrapper.css("height", document.body.clientHeight - 28 + "px");  //jquery的css方法既可以设置css内容又可以获取css内容
         wrapper.css("width", document.body.clientWidth);
-        //设置fileViewer的高度和宽度
+        // 设置fileViewer的高度和宽度
         fileViewer.css("height", wrapper.height() + "px");
-        fileViewer.css("width", parseInt(wrapper.css("width")) * 0.6 + "px"); //jquery的css方法获得的是字符串，用js的parseInt获取数值
-        //设置annotation_update_div的高度和宽度
+        fileViewer.css("width", parseInt(wrapper.css("width")) * 0.6 + "px");  //jquery的css方法获得的是字符串，用js的parseInt获取数值
+        // 设置annotation_update_div的高度和宽度
         $("#annotation_update_div").css("height", wrapper.height() + "px");
         $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
 
@@ -373,7 +375,7 @@ $(document).ready(function() {
                 console.log(fileViewer.width())
             }
         });
-        //设置文档的大小
+        // 设置文档的大小
         $(".PageImg").css("width", fileViewer.width() - 24 + "px");
         $(".PageDiv").each(function() {
             var div = $(this);
@@ -401,7 +403,7 @@ $(document).ready(function() {
         $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
 
         $("#horizontal_draggable").css("height", wrapper.height() + "px");
-        //设置文档的大小
+        // 设置文档的大小
         var originalWidth = parseFloat($(".PageImg").css("width"));
 
         $(".PageImg").css("width", fileViewer.width() - 24 + "px");
