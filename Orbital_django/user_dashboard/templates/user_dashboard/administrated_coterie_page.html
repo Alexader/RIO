@@ -128,22 +128,23 @@
                                                 <tr>
                                                     <td>1</td>
                                                     <td>{{ document.title }}</td>
-                                                    <form method="get" action="/coterie/display_coteriefile_viewer_page" style="display: inline-block; font-family: arial; color: white">
-                                                        {% csrf_token %}
-                                                        <td>
+                                                    <td>
+                                                        <form method="get" action="/coterie/display_coteriefile_viewer_page" style="display: inline-block; font-family: arial; color: white">
+                                                            {% csrf_token %}
                                                             <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
                                                             <input name="current_url" value="{{ request.get_full_path }}" style="display: none;">
                                                             <button type="submit" name="document_id" value={{ document.id }} class="btn btn-info">Open</button>
-                                                        </td>
-                                                    </form>
-                                                    <form id="file_delete_form" method="post" action="/coterie/handle_coteriefile_delete" style="display: inline-block;">
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form class="file_delete_form" method="post" action="/coterie/handle_coteriefile_delete" style="display: inline-block;">
                                                         {% csrf_token %}
-                                                        <td>
                                                             <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
                                                             <input name="current_url" value="{{ request.get_full_path }}" style="display: none;">
-                                                            <button type="submit" name="document_id" class="btn btn-info" value={{ document.id }}>delete</button>
-                                                        </td>
-                                                    </form>
+                                                            <input name="document_id" value={{ document.id }} style="display: none">
+                                                            <button type="button" class="btn btn-info">delete</button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>

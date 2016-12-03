@@ -28,18 +28,19 @@
                                                 <tr>
                                                     <td>1</td>
                                                     <td>{{ document.title }}</td>
-                                                    <form method="get" action="/file_viewer/" style="display: inline-block; font-family: arial; color: white">
+                                                    <td>
+                                                        <form method="get" action="/file_viewer/" style="display: inline-block; font-family: arial; color: white">
                                                         {% csrf_token %}
-                                                        <td>
                                                             <button type="submit" name="document_id" value={{ document.id }} class="btn btn-info">Open</button>
-                                                        </td>
-                                                    </form>
-                                                    <form id="file_delete_form" method="post" action="/user_dashboard/handle_delete" style="display: inline-block;">
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form class="file_delete_form" method="post" action="/user_dashboard/handle_delete" style="display: inline-block;">
                                                         {% csrf_token %}
-                                                        <td>
-                                                        <button type="submit" name="document_id" class="btn btn-info" value={{ document.id }}>delete</button>
-                                                        </td>
-                                                    </form>
+                                                            <input name="document_id" value={{ document.id }} style="display: none">
+                                                            <button type="button" class="btn btn-info">delete</button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>

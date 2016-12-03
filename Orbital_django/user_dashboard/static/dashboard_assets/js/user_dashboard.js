@@ -46,6 +46,22 @@ $(document).ready(function() {
             $($tbody.children("tr")[i]).children("td:first").text(i + 1);
         }
     });
+
+    // confirmation after clicking delete
+    $(".file_delete_form").find("button").on("click", function() {
+        var this_button = $(this);
+        layer.confirm('confirm delete?', 
+            {
+                btn: ['yes'], //按钮
+                title: false,
+                shadeClose: true, //开启遮罩关闭
+            }, 
+            function() {
+                layer.msg('delete successfully', {icon: 1});
+                this_button.parents(".file_delete_form").submit();
+            }
+        );
+    });
 });
 
 function getCookie(name) {

@@ -6,14 +6,12 @@ from django.shortcuts import render, redirect
 from models import CoterieDocument
 import models
 
-
 #from django.contrib.auth import get_user
 #import os
 import zipfile
 #from unrar import rarfile
 #from wand.image import Image
 from file_viewer import models as file_viewer_models
-
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
@@ -23,9 +21,6 @@ from coterie.models import Coterie
 import re
 import os
 from hashlib import md5
-
-
-
 
 
 def handle_create_coterie(request):
@@ -285,11 +280,15 @@ def handle_coteriefile_upload(request):
 
 
 def handle_coteriefile_delete(request):
-    document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
-    coterie = Coterie.objects.get(id=request.POST["coterie_id"])
+    try:
+        document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
+        coterie = Coterie.objects.get(id=request.POST["coterie_id"])
 
-    if document.owner == coterie and get_user(request) in coterie.administrators.all():
-        document.delete()
-        
-    url_request_from = request.POST["current_url"]
-    return redirect(to=url_request_from)
+        if document.owner == coterie and get_user(request) in coterie.administrators.all():
+            document.delete()
+            
+        url_request_from = request.POST["current_url"]
+        return redirect(to=url_request_from)
+    except ObjectDoesNotExist:
+        url_request_from = request.POST["current_url"]
+        return redirect(to=url_request_from)

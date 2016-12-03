@@ -36,10 +36,13 @@ def handle_file_upload(request):
 
 
 def handle_delete(request):
-    document = models.Document.objects.get(id=int(request.POST["document_id"]))
-    if document.owner == get_user(request):  # only the owner can delete the file. the collector cannot
-        document.delete()
-    return redirect("user_dashboard")
+    try:
+        document = models.Document.objects.get(id=int(request.POST["document_id"]))
+        if document.owner == get_user(request):  # only the owner can delete the file. the collector cannot
+            document.delete()
+        return redirect("user_dashboard")
+    except ObjectDoesNotExist:
+        return redirect("user_dashboard")
 
 
 def handle_uncollect(request):
