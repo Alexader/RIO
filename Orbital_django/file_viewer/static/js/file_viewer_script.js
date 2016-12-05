@@ -54,8 +54,8 @@ function startListeningSelectionBoxCreation() {
             return ;
         
         // 一次只允许创建一个annotation; 把旧创建，未上传的annotation删除
-        $(".layui-layer").remove();
-        $(".ui-draggable").remove();
+        layer.closeAll(); 
+        $(".ui-draggable").remove();  // detach() 会保留所有绑定的事件、附加的数据，而remove()不会
 
         var page = $(this).find(".PageImg, .PageCanvas");
         var mouse_absolut_x = e.pageX;
@@ -112,12 +112,14 @@ function startListeningSelectionBoxCreation() {
                     shadeClose: true,
                     shade: false,
                     maxmin: true,  //开启最大化最小化按钮
-                    area: ['380px', '280px'],
+                    zIndex: 800,
+                    fixed: false,
                     content:    '<form id="annotation_form">\
                                     <textarea name="annotation_content" class="form-control" rows="8" style="resize: vertical"></textarea>\
                                     <!--i use ajax to submit instead of using submit button-->\
                                     <button id="post_annotation_button" type="button" class="btn btn-info" name="document_id" value="{{ document.id }}"\ style="margin-top: 8px; float: right;">post annotation</button>\
-                                </form>',
+                                </form>\
+                                <script>tinymce.init({ selector:"textarea" });</script>',
                     cancel: function() {  //窗口被关闭的回调函数：当窗口被关闭，annotation选定框也一并删除
                         new_annotation.remove();
                     }
@@ -127,6 +129,7 @@ function startListeningSelectionBoxCreation() {
                 var annotationWindowJqueryObject = $(".layui-layer[times=" + annotationWindow + "]");
                 annotationWindowJqueryObject.find("#post_annotation_button").on("click", function () {
                     if (is_authenticated) {
+                        tinyMCE.triggerSave();  // http://www.sifangke.com/2012/04/ajax-submit-tinymce-content/
                         $.ajax({
                             type: "POST",
                             url: "",
@@ -146,6 +149,7 @@ function startListeningSelectionBoxCreation() {
                                 // after uploading the annotation, 选择框将不再可以调整大小和拖动
                                 new_annotation.draggable("destroy").resizable("destroy");
                                 $("#annotation_update_div").html(data);
+                                tinymce.init({ selector:'textarea' });
 
                                 new_annotation.attr("annotation_id", new_annotation_id)
 
@@ -234,6 +238,7 @@ function prepareScrollPageIntoView() {
 }
 
 function addCommentRelatedListener() {
+    tinymce.init({ selector:'textarea' });
     $(".likeCommentButton").on("click", function () {
         if (is_authenticated) {
             $this = $(this);
@@ -265,6 +270,7 @@ function addCommentRelatedListener() {
     })
     $(".post_comment_reply_button").on("click", function() {
         if (is_authenticated) {
+            tinyMCE.triggerSave();  // http://www.sifangke.com/2012/04/ajax-submit-tinymce-content/
             var $thisButton = $(this);
             var index = layer.load(0, {shade: 0.18}); //0代表加载的风格，支持0-2
             $.ajax({
@@ -291,7 +297,7 @@ function addCommentRelatedListener() {
 }
 
 $(document).ready(function() {
-
+    tinymce.init({ selector:'textarea' });
     $("#refresh_comment_button").on('click', function () {
         $.ajax({
             type: "POST",
@@ -317,6 +323,7 @@ $(document).ready(function() {
 
     $("#post_comment_button").click(function () {
         if (is_authenticated) {
+            tinyMCE.triggerSave();  // http://www.sifangke.com/2012/04/ajax-submit-tinymce-content/
             $thisButton = $(this);
             var index = layer.load(0, {shade: 0.18});  //0代表加载的风格，支持0-2
             $.ajax({

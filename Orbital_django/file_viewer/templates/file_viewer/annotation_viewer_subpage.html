@@ -82,6 +82,7 @@ $(document).ready(function() {
     });
     $(".post_annotation_reply_button").on("click", function() {
         if (is_authenticated) {
+            tinyMCE.triggerSave();  // http://www.sifangke.com/2012/04/ajax-submit-tinymce-content/
             var thisButton = $(this);
             var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
             $.ajax({
@@ -96,6 +97,7 @@ $(document).ready(function() {
                 },
                 success: function (data) {
                     $("#annotation_update_div").html(data);
+                    tinymce.init({ selector:'textarea' });
                     layer.close(index);
                 }
             })
@@ -105,6 +107,7 @@ $(document).ready(function() {
     })
     $(".post_reply_reply_button").on("click", function() {
         if (is_authenticated) {
+            tinyMCE.triggerSave();  // http://www.sifangke.com/2012/04/ajax-submit-tinymce-content/
             var thisButton = $(this);
             var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
             $.ajax({
@@ -120,6 +123,7 @@ $(document).ready(function() {
                 },
                 success: function (data) {
                     $("#annotation_update_div").html(data);
+                    tinymce.init({ selector:'textarea' });
                     layer.close(index);
                 }
             })
