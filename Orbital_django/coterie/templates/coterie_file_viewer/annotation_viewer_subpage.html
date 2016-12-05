@@ -48,6 +48,7 @@
 
 <script>
 $(document).ready(function() {
+    tinymceInit();
     new_annotation_id = '{{ new_annotation_id }}';
     $(".delete_annotation_button").on("click", function() {
         $.ajax({
@@ -83,6 +84,7 @@ $(document).ready(function() {
     $(".post_annotation_reply_button").on("click", function() {
         var thisButton = $(this);
         var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
+        tinyMCE.triggerSave();
         $.ajax({
             type: "POST",
             url: "",
@@ -101,6 +103,7 @@ $(document).ready(function() {
     })
     $(".post_reply_reply_button").on("click", function() {
         var thisButton = $(this);
+        tinyMCE.triggerSave();
         var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
         $.ajax({
             type: "POST",
@@ -147,13 +150,13 @@ $(document).ready(function() {
     $(".AnnotationBlock").on("mouseover", function() {
         var annotation_id = $(this).attr("annotation_id");
         var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
-        $(this).css("background", Annotation.css("background"));
+       $(this).css("background-color", Annotation.css("background-color"));
         Annotation.css("border", "1px solid #0F0F0F");
     });
     $(".AnnotationBlock").on("mouseout", function() {
         var annotation_id = $(this).attr("annotation_id");
         var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
-        $(this).css("background", "white");
+        $(this).css("background-color", "white");
         Annotation.css("border", "none");
     });
     $(".AnnotationBlock").on("click", function() {

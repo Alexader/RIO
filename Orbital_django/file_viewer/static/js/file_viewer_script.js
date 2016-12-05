@@ -18,9 +18,25 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function markdown() {
-    $(".content-markdown").each(function() {
-        $(this).html(marked($(this).text()));
+// function markdown() {
+//     $(".content-markdown").each(function() {
+//         $(this).html(marked($(this).text()));
+//     });
+// }
+function tinymceInit() {
+    tinymce.init({ 
+        menubar: false,
+        selector:"textarea",
+        forced_root_block: false,
+        plugins: [
+        'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+        'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+        'save table contextmenu directionality emoticons template paste textcolor'
+        ],
+        toolbar: [
+            'undo redo | styleselect | bold italic | link image emoticons',
+            'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor'
+        ],
     });
 }
 
@@ -119,7 +135,7 @@ function startListeningSelectionBoxCreation() {
                                     <!--i use ajax to submit instead of using submit button-->\
                                     <button id="post_annotation_button" type="button" class="btn btn-info" name="document_id" value="{{ document.id }}"\ style="margin-top: 8px; float: right;">post annotation</button>\
                                 </form>\
-                                <script>tinymce.init({ selector:"textarea" });</script>',
+                                <script>tinymceInit();</script>',
                     cancel: function() {  //窗口被关闭的回调函数：当窗口被关闭，annotation选定框也一并删除
                         new_annotation.remove();
                     }
@@ -149,7 +165,7 @@ function startListeningSelectionBoxCreation() {
                                 // after uploading the annotation, 选择框将不再可以调整大小和拖动
                                 new_annotation.draggable("destroy").resizable("destroy");
                                 $("#annotation_update_div").html(data);
-                                tinymce.init({ selector:'textarea' });
+                                tinymceInit();
 
                                 new_annotation.attr("annotation_id", new_annotation_id)
 
@@ -238,7 +254,7 @@ function prepareScrollPageIntoView() {
 }
 
 function addCommentRelatedListener() {
-    tinymce.init({ selector:'textarea' });
+    tinymceInit();
     $(".likeCommentButton").on("click", function () {
         if (is_authenticated) {
             $this = $(this);
@@ -297,7 +313,7 @@ function addCommentRelatedListener() {
 }
 
 $(document).ready(function() {
-    tinymce.init({ selector:'textarea' });
+    tinymceInit();
     $("#refresh_comment_button").on('click', function () {
         $.ajax({
             type: "POST",
@@ -309,6 +325,7 @@ $(document).ready(function() {
             },
             success: function (data) {
                 $("#comment_update_div").html(data);
+                addCommentRelatedListener();
             },
         })
     });

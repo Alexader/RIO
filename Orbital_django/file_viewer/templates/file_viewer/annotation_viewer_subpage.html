@@ -97,7 +97,7 @@ $(document).ready(function() {
                 },
                 success: function (data) {
                     $("#annotation_update_div").html(data);
-                    tinymce.init({ selector:'textarea' });
+                    tinymceInit();
                     layer.close(index);
                 }
             })
@@ -123,7 +123,7 @@ $(document).ready(function() {
                 },
                 success: function (data) {
                     $("#annotation_update_div").html(data);
-                    tinymce.init({ selector:'textarea' });
+                    tinymceInit();
                     layer.close(index);
                 }
             })
