@@ -99,7 +99,7 @@ var sampleWidth;
 var sampleHeight;
 var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
 
-$("#buttonForLarger").on('click', function () {
+function pdfScale(scaleFactor) {
     scale *= scaleFactor;
     
     if (taskList.length > 0) {
@@ -133,41 +133,12 @@ $("#buttonForLarger").on('click', function () {
 
     var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight
     $("#file_viewer").scrollTop(parseFloat($("#file_viewer").scrollTop()) * factor);
+}
+$("#buttonForLarger").on('click', function () {
+    pdfScale(scaleFactor);
 });
 $("#buttonForSmaller").on('click', function () {
-    scale /= scaleFactor;
-    
-    if (taskList.length > 0) {
-        while (taskList.length > 1) 
-            taskList.pop();
-        taskList.push([taskList[0][0], "PENDING", null])
-    }
-
-    for(var i = 0; i < finishList.length; i++) {
-        var id = "page_canvas_" + finishList[i];
-        var pre = document.getElementById(id);
-        pre.width = 0; 
-        pre.height = 0; 
-        taskList.push([finishList[i], "PENDING", null]);
-    }
-
-    finishList = [];
-    if(!rendering)
-        renderTaskList(taskList, finishList, scale);
-    
-    var oldScrollHeight = $("#file_viewer")[0].scrollHeight;
-    
-    sampleWidth /= scaleFactor;
-    sampleHeight /= scaleFactor;
-    $(".page_div").each(function() {
-        var div = $(this);
-        div.css("width", sampleWidth + 6 + "px");
-        div.css("height", sampleHeight + 6 + "px");              
-    });
-    resizeAnnotations(1 / scaleFactor);
-
-    var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight
-    $("#file_viewer").scrollTop(parseFloat($("#file_viewer").scrollTop()) * factor);
+    pdfScale(1/scaleFactor);
 });
 
 function renderTaskList(taskList, finishList, scale) {

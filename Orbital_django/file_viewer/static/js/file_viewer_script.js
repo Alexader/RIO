@@ -1,5 +1,6 @@
 var numPages = 0;
 var new_annotation_id;
+scaleFactor = 1.08;
 
 function getCookie(name) {
     var cookieValue = null;
@@ -51,6 +52,11 @@ function startListeningSelectionBoxCreation() {
         // 因为点击这个事件要用来给这个尚未上传的annotation的frame做drag或者resize
         if ($(e.target).hasClass('ui-draggable') || $(e.target).hasClass('ui-resizable-handle'))
             return ;
+        
+        // 一次只允许创建一个annotation; 把旧创建，未上传的annotation删除
+        $(".layui-layer").remove();
+        $(".ui-draggable").remove();
+
         var page = $(this).find(".PageImg, .PageCanvas");
         var mouse_absolut_x = e.pageX;
         var mouse_absolut_y = e.pageY;
@@ -118,8 +124,7 @@ function startListeningSelectionBoxCreation() {
                 }); 
 
                 // annotationWindowJqueryObject will return the jquery object of the annotation window
-                // this is to deal with the case when the user create more than one annotation windows.
-                var annotationWindowJqueryObject = $("div.layui-layer[times=" + annotationWindow + "]");
+                var annotationWindowJqueryObject = $(".layui-layer[times=" + annotationWindow + "]");
                 annotationWindowJqueryObject.find("#post_annotation_button").on("click", function () {
                     if (is_authenticated) {
                         $.ajax({
@@ -170,7 +175,6 @@ function startListeningSelectionBoxCreation() {
             }
             e.stopPropagation();
         });
-
         e.stopPropagation();
     });
 }
@@ -182,6 +186,25 @@ function resizeAnnotations(scaleFactor) {
         $(this).css("width", parseFloat($(this).css("width")) * scaleFactor + "px");
         $(this).css("height", parseFloat($(this).css("height")) * scaleFactor + "px");
     });
+}
+
+// called after clicking scale button (buttonForLarger/buttonForSmaller)
+function scale(scaleFactor) {
+    if ($("canvas").length == 0) {
+        var oldScrollHeight = $("#file_viewer")[0].scrollHeight;
+        
+        $('.PageImg').css("width", parseFloat($('.PageImg').css("width")) * scaleFactor + "px");
+        $(".PageDiv").each(function() {
+            var div = $(this);
+            var img = div.children(".PageImg");
+            div.css("width", img.width() + 6 + "px");
+            div.css("height", img.height() + 6 + "px");              
+        });
+        resizeAnnotations(scaleFactor);
+
+        var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight
+        $("#file_viewer").scrollTop(parseFloat($("#file_viewer").scrollTop()) * factor);
+    }   
 }
 
 /**
@@ -267,8 +290,6 @@ function addCommentRelatedListener() {
     })
 }
 
-scaleFactor = 1.08;
-
 $(document).ready(function() {
 
     $("#refresh_comment_button").on('click', function () {
@@ -288,38 +309,10 @@ $(document).ready(function() {
 
     // img resize
     $("#buttonForLarger").on('click', function () {
-        if ($("canvas").length == 0) {
-            var oldScrollHeight = $("#file_viewer")[0].scrollHeight;
-            
-            $('.PageImg').css("width", parseFloat($('.PageImg').css("width")) * scaleFactor + "px");
-            $(".PageDiv").each(function() {
-                var div = $(this);
-                var img = div.children(".PageImg");
-                div.css("width", img.width() + 6 + "px");
-                div.css("height", img.height() + 6 + "px");              
-            });
-            resizeAnnotations(scaleFactor);
-
-            var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight
-            $("#file_viewer").scrollTop(parseFloat($("#file_viewer").scrollTop()) * factor);
-        }
+        scale(scaleFactor);
     });
     $("#buttonForSmaller").on('click', function () {
-        if ($("canvas").length == 0) {
-            var oldScrollHeight = $("#file_viewer")[0].scrollHeight;
-          
-            $(".PageImg").css("width", parseFloat($('.PageImg').css("width")) / scaleFactor + "px");
-            $(".PageDiv").each(function() {
-                var div = $(this);
-                var img = div.children(".PageImg");
-                div.css("width", img.width() + 6 + "px");
-                div.css("height", img.height() + 6 + "px");               
-            });
-            resizeAnnotations(1 / scaleFactor);
-
-            var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight
-            $("#file_viewer").scrollTop(parseFloat($("#file_viewer").scrollTop()) * factor);
-        }
+        scale(1/scaleFactor);
     });
 
     $("#post_comment_button").click(function () {
@@ -347,51 +340,7 @@ $(document).ready(function() {
         else
             layer.msg('you need to log in to post comment');
     });
-    addCommentRelatedListener();
-
-    $(document).ready(function () {
-        var wrapper = $("#wrapper");
-        var fileViewer = $("#file_viewer");
-        // 设置wrapper的高度
-        wrapper.css("height", document.body.clientHeight - 28 + "px");  //jquery的css方法既可以设置css内容又可以获取css内容
-        wrapper.css("width", document.body.clientWidth);
-        // 设置fileViewer的高度和宽度
-        fileViewer.css("height", wrapper.height() + "px");
-        fileViewer.css("width", parseInt(wrapper.css("width")) * 0.6 + "px");  //jquery的css方法获得的是字符串，用js的parseInt获取数值
-        // 设置annotation_update_div的高度和宽度
-        $("#annotation_update_div").css("height", wrapper.height() + "px");
-        $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
-
-        $("#horizontal_draggable").css("height", wrapper.height() + "px");
-        $("#horizontal_draggable").draggable({ 
-            axis: "x", 
-            containment: "#containment-wrapper", 
-            revert: true,
-            revertDuration: 0,
-            stop: function( event, ui ) {
-                var left = ui.offset["left"];
-                fileViewer.css("width", left + "px");
-                $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
-                console.log(fileViewer.width())
-            }
-        });
-        // 设置文档的大小
-        $(".PageImg").css("width", fileViewer.width() - 24 + "px");
-        $(".PageDiv").each(function() {
-            var div = $(this);
-            var img = div.children(".PageImg");
-            imgLoad(img[0], function() {
-                div.css("width", img.width() + 6 + "px");
-                div.css("height", img.height() + 6 + "px");
-            });
-            /* this is not correct when images are gotten from cache rather than loaded from url
-               "complete" is true when the image is shown
-               "load" is triggered when the image is loaded from url
-            img.load(function() {
-                div.css("height", img.height() + 6 + "px");
-            });*/
-        });
-    });
+    
     $(window).resize(function () {
         var wrapper = $("#wrapper");
         var fileViewer = $("#file_viewer");
@@ -400,7 +349,7 @@ $(document).ready(function() {
         fileViewer.css("height", wrapper.height() + "px");
         fileViewer.css("width", wrapper.width() * 0.6 + "px");
         $("#annotation_update_div").css("height", wrapper.height() + "px");
-        $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
+        $("#annotation_update_div").css("width", wrapper.width() - 3.8 - fileViewer.width() + "px");
 
         $("#horizontal_draggable").css("height", wrapper.height() + "px");
         // 设置文档的大小
@@ -420,5 +369,49 @@ $(document).ready(function() {
         var newWidth = parseFloat($(".PageImg").css("width"));
         var scaleFactor = newWidth / originalWidth;
         resizeAnnotations(scaleFactor)
+    });
+    
+    addCommentRelatedListener();
+
+    var wrapper = $("#wrapper");
+    var fileViewer = $("#file_viewer");
+    // 设置wrapper的高度
+    wrapper.css("height", document.body.clientHeight - 28 + "px");  //jquery的css方法既可以设置css内容又可以获取css内容
+    wrapper.css("width", document.body.clientWidth);
+    // 设置fileViewer的高度和宽度
+    fileViewer.css("height", wrapper.height() + "px");
+    fileViewer.css("width", parseInt(wrapper.css("width")) * 0.6 + "px");  //jquery的css方法获得的是字符串，用js的parseInt获取数值
+    // 设置annotation_update_div的高度和宽度
+    $("#annotation_update_div").css("height", wrapper.height() + "px");
+    $("#annotation_update_div").css("width", wrapper.width() - 3.8 - fileViewer.width() + "px");
+
+    $("#horizontal_draggable").css("height", wrapper.height() + "px");
+    $("#horizontal_draggable").draggable({ 
+        axis: "x", 
+        containment: "#containment-wrapper", 
+        revert: true,
+        revertDuration: 0,
+        stop: function( event, ui ) {
+            var left = ui.offset["left"];
+            fileViewer.css("width", left + "px");
+            $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
+            console.log(fileViewer.width())
+        }
+    });
+    // 设置文档的大小
+    $(".PageImg").css("width", fileViewer.width() - 24 + "px");
+    $(".PageDiv").each(function() {
+        var div = $(this);
+        var img = div.children(".PageImg");
+        imgLoad(img[0], function() {
+            div.css("width", img.width() + 6 + "px");
+            div.css("height", img.height() + 6 + "px");
+        });
+        /* this is not correct when images are gotten from cache rather than loaded from url
+            "complete" is true when the image is shown
+            "load" is triggered when the image is loaded from url
+        img.load(function() {
+            div.css("height", img.height() + 6 + "px");
+        });*/
     });
 });

@@ -1,7 +1,7 @@
 {% for annotation in annotations %}
 <hr>
 <blockquote class="AnnotationBlock" annotation_id="{{ annotation.id }}">
-    <!--annotation-->
+    <!-- annotation -->
     <div class="content-markdown" style="font-size: 80%; font-family: Microsoft Yahei;"> {{ annotation.content|safe|linebreaks }} </div>
     <span style="cursor: pointer;" annotation_id="{{ annotation.id }}" class="likeAnnotationButton glyphicon glyphicon-thumbs-up"></span>
     <bold id="num_like">{{ annotation.num_like }}</bold>
@@ -19,11 +19,11 @@
         </form>
     </footer>
 
-    <!--annotation replies-->
+    <!-- annotation replies -->
     {% for annotation_reply in annotation.annotationreply_set.all|dictsort:"post_time" %}
         <blockquote class="AnnotationReplyBlock" annotation_id="{{ annotation_reply.id }}">
             <footer style="float: right;">
-            {% if annotation_reply.reply_to_annotation_reply.replier %}
+            {% if annotation_reply.reply_to_annotation_reply.replier %}  <!-- if reply to reply -->
                 @ {{ annotation_reply.reply_to_annotation_reply.replier.nickname }} ({{ annotation_reply.reply_to_annotation_reply.replier.email_address }})
             {% endif %}
             </footer><br>
