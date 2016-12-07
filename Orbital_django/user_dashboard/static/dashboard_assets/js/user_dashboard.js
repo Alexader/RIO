@@ -1,5 +1,32 @@
 'use strict';
 
+function add_edit_doc_title_listener() {
+    // change document name
+    $(".edit_doc_title_button").on("click", function() {
+        var $td = $(this).parents("td");
+        var orig_doc_title = $td.find("span").text();
+        $td.html("<input type='text'></input><i class='fa fa-check-circle' style='cursor: pointer' aria-hidden='true'></i>");
+        $td.find("input").val(orig_doc_title);
+        $td.find("i").on("click", function() {
+            var new_doc_title = $td.find("input").val();
+            $.ajax({
+                type: "POST",
+                url: "/file_viewer/edit_doc_title",
+                data: {
+                    csrfmiddlewaretoken: getCookie('csrftoken'),
+                    document_id: $td.parents("tr").find("input[name='document_id']").val(),
+                    new_doc_title: new_doc_title,
+                },
+                success: function () {
+                    $td.html('<span>' + new_doc_title + '</span>\
+                            <i class="fa fa-pencil-square edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>');
+                    add_edit_doc_title_listener();
+                },
+            });
+        });
+    });
+}
+
 $(document).ready(function() {
     $(".pe-7s-plus").on("click", function() {
         var create_group_form_layer = layer.open({
@@ -62,6 +89,8 @@ $(document).ready(function() {
             }
         );
     });
+
+    add_edit_doc_title_listener();
 });
 
 function getCookie(name) {

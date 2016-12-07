@@ -12,6 +12,9 @@
     <footer>
         <img class="img-rounded" src="{{ comment.commenter.portrait_url }}" height="38" width="38">
         {{ comment.commenter.nickname }} | {{ comment.post_time }}
+        {% if comment.commenter == request.user %}
+            <button class="delete_comment_button btn btn-link" value="{{ comment.id }}">delete</button>
+        {% endif %}
         <button class="reply_comment_button btn btn-link">reply</button>
         <form class="reply_comment_form" style="display: none">
             <hr>

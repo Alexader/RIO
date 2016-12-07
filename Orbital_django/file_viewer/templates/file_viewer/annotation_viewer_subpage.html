@@ -76,6 +76,7 @@ $(document).ready(function() {
             },
             success: function (data) {
                 $("#annotation_update_div").html(data);
+                tinymceInit();
                 layer.close(index);
             }
         })

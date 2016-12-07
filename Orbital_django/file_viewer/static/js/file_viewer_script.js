@@ -281,6 +281,26 @@ function addCommentRelatedListener() {
         else
             layer.msg('you need to log in to like');
     });
+    $(".delete_comment_button").on("click", function() {
+        if (is_authenticated) {
+            var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: {
+                    csrfmiddlewaretoken: getCookie('csrftoken'),
+                    operation: "delete_comment",
+                    comment_id: this.value,
+                    document_id: $("button[name='document_id']").val(),
+                },
+                success: function (data) {
+                    $("#comment_update_div").html(data);
+                    addCommentRelatedListener();
+                    layer.close(index);
+                }
+            })
+        }
+    });
     $(".reply_comment_button").on("click", function() {
         $(this).next(".reply_comment_form").slideToggle(180);
     })
