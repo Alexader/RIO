@@ -76,6 +76,14 @@ def handle_delete_coterie(request):
 
 
 
+def edit_coteriedoc_title(request):
+    document = models.CoterieDocument.objects.get(id = int(request.POST["document_id"]))
+    new_doc_title = request.POST["new_doc_title"]
+    document.title = new_doc_title
+    document.save()
+    return HttpResponse()
+
+
 def display_coteriefile_viewer_page(request):
 
     if request.method == "POST":

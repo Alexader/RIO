@@ -21,5 +21,7 @@ urlpatterns = [
     url(r'^handle_coteriefile_delete', views.handle_coteriefile_delete, name="handle_coteriefile_delete"),
 
     url(r'^display_coteriefile_viewer_page', views.display_coteriefile_viewer_page, name="display_coteriefile_viewer_page"),
+    
+    url(r'^edit_coteriedoc_title', views.edit_coteriedoc_title),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

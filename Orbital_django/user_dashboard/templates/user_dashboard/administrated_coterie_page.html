@@ -127,7 +127,10 @@
                                                 {% for document in coterie.coteriedocument_set.all %}
                                                 <tr>
                                                     <td>1</td>
-                                                    <td>{{ document.title }}</td>
+                                                    <td>
+                                                        <span>{{ document.title }}</span>
+                                                        <i class="fa fa-pencil-square edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>
+                                                    </td>
                                                     <td>
                                                         <form method="get" action="/coterie/display_coteriefile_viewer_page" style="display: inline-block; font-family: arial; color: white">
                                                             {% csrf_token %}
@@ -191,3 +194,8 @@
 	        </div>
 	    </div>
 {% endblock %}
+{% block extra_script %}
+    <script>
+        var user_dashboard_page_type = "administrated_coterie_page";
+    </script>
+{% endblock %} 
