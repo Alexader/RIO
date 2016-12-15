@@ -1,11 +1,11 @@
 {% for comment in comments %}
 <hr>
 <blockquote>
-    <footer style="float: right;">
     {% if comment.reply_to_comment.commenter %}
-        reply to {{ comment.reply_to_comment.commenter.nickname }} ({{ comment.reply_to_comment.commenter.email_address }})
+    <h5 style="float: right;">
+        <i class="fa fa-share" aria-hidden="true"></i>&nbsp&nbsp&nbspreply to <b>{{ comment.reply_to_comment.commenter.nickname }}:</b>
+    </h5><br>
     {% endif %}
-    </footer><br>
     <div class="content-markdown" style="font-size: 80%; font-family: Microsoft Yahei;"> {{ comment.content|safe|linebreaks }} </div>
     <span style="cursor: pointer;" comment_id="{{ comment.id }}" class="likeCommentButton glyphicon glyphicon-thumbs-up"></span>
     <bold id="num_like">{{ comment.num_like }}</bold>

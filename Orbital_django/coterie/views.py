@@ -49,7 +49,7 @@ def handle_join_coterie(request):
         if request.POST["decision"] == "accept":
             coterie.members.add(applicant)
         elif request.POST["decision"] == "refuse":
-            pass;
+            pass
         coterie.save()
         url_request_from = request.POST["current_url"]
         return redirect(url_request_from)

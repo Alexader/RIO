@@ -25,7 +25,7 @@ SECRET_KEY = 'x_@hrbr1i_-y+2e$c8swo7=4i12&60qep8)t4w4i6us%iu^kj+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 EMAIL_HOST = "smtp.gmail.com" # "smtp-mail.outlook.com"
 EMAIL_HOST_USER = "obitoonepatchman@gmail.com" # "obitoonepatchman@outlook.com"
@@ -122,7 +122,7 @@ SESSION_FILE_PATH = os.path.join(BASE_DIR, 'temp_session')
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -133,9 +133,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

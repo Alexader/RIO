@@ -37,7 +37,14 @@ function tinymceInit() {
             'undo redo | styleselect | bold italic | link image emoticons',
             'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor'
         ],
+        paste_as_text: true,
     });
+    $(document).on('focusin', function(e) {
+        // this is to solve the issue of being unable to edit link and image link in bootstrap model
+        if ($(e.target).closest(".mce-window").length) {
+            e.stopImmediatePropagation();
+    }
+});
 }
 
 /**

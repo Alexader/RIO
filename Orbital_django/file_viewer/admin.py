@@ -16,19 +16,19 @@ class UniqueFileModelAdmin(admin.ModelAdmin):
 
 
 class CommentModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "content", "document_this_comment_belongs", "commenter", "num_like"]
+    list_display = ["id", "content", "document_this_comment_belongs", "commenter", "num_like", "post_time"]
     list_filter = ["id", "content", "document_this_comment_belongs", "commenter", "num_like"]
     search_fields = ["id", "content", "document_this_comment_belongs", "commenter__nickname", "num_like"]
 
 
 class AnnotationModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "content", "document_this_annotation_belongs", "page_index",  "annotator", "num_like"]
+    list_display = ["id", "content", "document_this_annotation_belongs", "page_index",  "annotator", "num_like", "post_time"]
     list_filter = ["id", "content", "document_this_annotation_belongs", "annotator", "num_like"]
     search_fields = ["id", "content", "document_this_annotation_belongs__title", "annotator__nickname", "num_like"]
 
 
 class AnnotationReplyModelAdmin(admin.ModelAdmin):
-    list_display = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply", "replier", "num_like"]
+    list_display = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply", "replier", "num_like", "post_time"]
     list_filter = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply", "replier", "num_like"]
     search_fields = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply__content", "replier__nickname", "num_like"]
 

@@ -46,8 +46,8 @@ def display_file_viewer_page(request):
         
         elif request.POST["operation"] == "delete_comment":
             document = models.Document.objects.get(id=int(request.POST["document_id"]))
-            annotation = models.Comment.objects.get(id=int(request.POST["comment_id"]))
-            annotation.delete()
+            comment = models.Comment.objects.get(id=int(request.POST["comment_id"]))
+            comment.delete()
             context = {
                 "document": document,
                 "comments": document.comment_set.order_by("-post_time"),

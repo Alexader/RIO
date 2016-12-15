@@ -73,9 +73,8 @@ def handle_unfollow_user(request):
 
 @login_required(login_url='/')
 def display_user_dashboard(request):
-    current_user = get_user(request)
     context = {
-        "current_user": current_user,
+        "current_user": get_user(request),
         "page_type": "documents_page",
     }
     return render(request, "user_dashboard/documents_page.html", context)
@@ -83,9 +82,8 @@ def display_user_dashboard(request):
 
 @login_required(login_url='/')
 def display_friends_page(request):
-    current_user = get_user(request)
     context = {
-        "current_user": current_user,
+        "current_user": get_user(request),
         "page_type": "friends_page",
     }
     return render(request, "user_dashboard/friends_page.html", context)
@@ -93,16 +91,12 @@ def display_friends_page(request):
 
 @login_required(login_url='/')
 def display_group_page(request):
-    current_user = get_user(request)
-    coterie = Coterie.objects.get(id=request.GET["coterie_id"])
     type = request.GET["coterie_type"]
-
     context = {
-        "current_user": current_user,
-        "coterie": coterie,
+        "current_user": get_user(request),
+        "coterie": Coterie.objects.get(id=request.GET["coterie_id"]),
         "page_type": type +"_" + "coterie_page",
     }
-    
     if type == "administrated":
         return render(request, "user_dashboard/administrated_coterie_page.html", context)
     elif type == "joined":
@@ -111,11 +105,9 @@ def display_group_page(request):
 		
 @login_required(login_url='/')
 def display_friend_page(request):
-    current_user = get_user(request)
-    friend = User.objects.get(id=request.GET["friend_id"])
     context = {
-        "current_user": current_user,
-        "friend": friend,
+        "current_user": get_user(request),
+        "friend": User.objects.get(id=request.GET["friend_id"]),
         "page_type": "friend_page",
     }
     return render(request, "user_dashboard/friend_page.html", context)

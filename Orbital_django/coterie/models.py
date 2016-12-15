@@ -15,7 +15,7 @@ class Coterie(models.Model):
     description = models.TextField(blank=True)
     administrators = models.ManyToManyField(User, related_name="administrated_coterie_set")
     members = models.ManyToManyField(User, related_name="joined_coterie_set", blank=True)
-    applicants =  models.ManyToManyField(User, related_name="appied_coterie_set", blank=True)
+    applicants = models.ManyToManyField(User, related_name="appied_coterie_set", blank=True)
 
     def __unicode__(self):
         return self.name

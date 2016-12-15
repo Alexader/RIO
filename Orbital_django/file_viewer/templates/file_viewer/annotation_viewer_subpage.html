@@ -22,11 +22,11 @@
     <!-- annotation replies -->
     {% for annotation_reply in annotation.annotationreply_set.all|dictsort:"post_time" %}
         <blockquote class="AnnotationReplyBlock" annotation_id="{{ annotation_reply.id }}">
-            <footer style="float: right;">
             {% if annotation_reply.reply_to_annotation_reply.replier %}  <!-- if reply to reply -->
-                @ {{ annotation_reply.reply_to_annotation_reply.replier.nickname }} ({{ annotation_reply.reply_to_annotation_reply.replier.email_address }})
+            <h5 style="float: right;">
+                <i class="fa fa-share" aria-hidden="true"></i>&nbsp&nbsp&nbspreply to <b>{{ annotation_reply.reply_to_annotation_reply.replier.nickname }}:</b>
+            </h5><br>
             {% endif %}
-            </footer><br>
             <div class="content-markdown" style="font-size: 80%; font-family: Microsoft Yahei;"> {{ annotation_reply.content|safe|linebreaks }} </div>
             <footer>
                 <img class="img-rounded" src="{{ annotation_reply.replier.portrait_url }}" height="28" width="28">
