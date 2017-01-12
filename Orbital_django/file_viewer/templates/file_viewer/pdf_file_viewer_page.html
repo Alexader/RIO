@@ -113,7 +113,7 @@ var rendering = false;
 var scaleFactor = 1.08;
 var sampleWidth;
 var sampleHeight;
-var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
+var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};  // whether the visitor is a logged-in user
 
 function pdfScale(scaleFactor) {
     scale *= scaleFactor;
@@ -195,7 +195,10 @@ function prepareAndRenderAll(scale) {
     var url = "{{ file_url }}";
     PDFJS.workerSrc = '/static/pdfjs/pdf.worker.js';
 
+    var documentLoadingIcon = layer.load(1, {shade: false, offset: '48%'});
     PDFJS.getDocument(url).then(function(pdf) {
+        layer.close(documentLoadingIcon)
+
         pdfDoc = pdf;
         
         numPages = pdfDoc.numPages;

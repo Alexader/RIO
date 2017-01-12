@@ -112,31 +112,26 @@ def display_coteriefile_viewer_page(request):
                 "document": document,
                 "annotations": document.coterieannotation_set.order_by("page_index"),
             }
-
             return render(request, "coterie_file_viewer/annotation_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "refresh":
             document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
-
             context = {
                 "document": document,
                 "comments": document.coteriecomment_set.order_by("-post_time"),
             }
-
             return render(request, "coterie_file_viewer/comment_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "comment":
             document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
-            comment = models.CoterieComment()
-            comment.content = request.POST["comment_content"]
-            comment.commenter = get_user(request)
-            comment.document_this_comment_belongs = document
-
-            if request.POST.has_key("reply_to_comment_id"):
-                comment.reply_to_comment = models.CoterieComment.objects.get(id=int(request.POST["reply_to_comment_id"]))
-
-            comment.save()
-
+            if request.POST["comment_content"] != "":
+                comment = models.CoterieComment()
+                comment.content = request.POST["comment_content"]
+                comment.commenter = get_user(request)
+                comment.document_this_comment_belongs = document
+                if request.POST.has_key("reply_to_comment_id"):
+                    comment.reply_to_comment = models.CoterieComment.objects.get(id=int(request.POST["reply_to_comment_id"]))
+                comment.save()
             context = {
                 "document": document,
                 "comments": document.coteriecomment_set.order_by("-post_time"),
@@ -167,17 +162,18 @@ def display_coteriefile_viewer_page(request):
             return render(request, "coterie_file_viewer/annotation_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "reply_annotation":
-            annotation_reply = models.CoterieAnnotationReply()
-            annotation = models.CoterieAnnotation.objects.get(id=int(request.POST["reply_to_annotation_id"]))
             document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
-            annotation_reply.content = request.POST["annotation_reply_content"]
-            annotation_reply.replier = get_user(request)
-            annotation_reply.reply_to_annotation = annotation
+            if request.POST["annotation_reply_content"] != "":
+                annotation_reply = models.CoterieAnnotationReply()
+                annotation = models.CoterieAnnotation.objects.get(id=int(request.POST["reply_to_annotation_id"]))
+                annotation_reply.content = request.POST["annotation_reply_content"]
+                annotation_reply.replier = get_user(request)
+                annotation_reply.reply_to_annotation = annotation
 
-            if request.POST.has_key("reply_to_annotation_reply_id"):
-                annotation_reply.reply_to_annotation_reply = models.CoterieAnnotationReply.objects.get(id=int(request.POST["reply_to_annotation_reply_id"]))
-                
-            annotation_reply.save()
+                if request.POST.has_key("reply_to_annotation_reply_id"):
+                    annotation_reply.reply_to_annotation_reply = models.CoterieAnnotationReply.objects.get(id=int(request.POST["reply_to_annotation_reply_id"]))
+                    
+                annotation_reply.save()
 
             context = {
                 "document": document,

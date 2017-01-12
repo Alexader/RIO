@@ -65,6 +65,7 @@ class Document(models.Model):
 
 @receiver(models.signals.post_delete, sender=Document)
 def may_delete_unique_file(sender, instance, **kwargs):
+    # if a UniqueFile is not referenced by any Document or CoterieDocument, delete this UniqueFile
     unique_file = instance.unique_file
     if len(unique_file.document_set.all()) + len(unique_file.coteriedocument_set.all()) == 0:
         unique_file.delete()

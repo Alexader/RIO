@@ -90,13 +90,14 @@ def display_file_viewer_page(request):
 
         elif request.POST["operation"] == "comment":
             document = models.Document.objects.get(id=int(request.POST["document_id"]))
-            comment = models.Comment()
-            comment.content = request.POST["comment_content"]
-            comment.commenter = get_user(request)
-            comment.document_this_comment_belongs = document
-            if request.POST.has_key("reply_to_comment_id"):
-                comment.reply_to_comment = models.Comment.objects.get(id=int(request.POST["reply_to_comment_id"]))
-            comment.save()
+            if request.POST["comment_content"] != "":    
+                comment = models.Comment()
+                comment.content = request.POST["comment_content"]
+                comment.commenter = get_user(request)
+                comment.document_this_comment_belongs = document
+                if request.POST.has_key("reply_to_comment_id"):
+                    comment.reply_to_comment = models.Comment.objects.get(id=int(request.POST["reply_to_comment_id"]))
+                comment.save()
             context = {
                 "document": document,
                 "comments": document.comment_set.order_by("-post_time"),
@@ -124,15 +125,16 @@ def display_file_viewer_page(request):
             return render(request, "file_viewer/annotation_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "reply_annotation":
-            annotation_reply = models.AnnotationReply()
-            annotation = models.Annotation.objects.get(id=int(request.POST["reply_to_annotation_id"]))
             document = models.Document.objects.get(id=int(request.POST["document_id"]))
-            annotation_reply.content = request.POST["annotation_reply_content"]
-            annotation_reply.replier = get_user(request)
-            annotation_reply.reply_to_annotation = annotation
-            if request.POST.has_key("reply_to_annotation_reply_id"):
-                annotation_reply.reply_to_annotation_reply = models.AnnotationReply.objects.get(id=int(request.POST["reply_to_annotation_reply_id"]))
-            annotation_reply.save()
+            if request.POST["annotation_reply_content"] != "":
+                annotation_reply = models.AnnotationReply()
+                annotation = models.Annotation.objects.get(id=int(request.POST["reply_to_annotation_id"]))    
+                annotation_reply.content = request.POST["annotation_reply_content"]
+                annotation_reply.replier = get_user(request)
+                annotation_reply.reply_to_annotation = annotation
+                if request.POST.has_key("reply_to_annotation_reply_id"):
+                    annotation_reply.reply_to_annotation_reply = models.AnnotationReply.objects.get(id=int(request.POST["reply_to_annotation_reply_id"]))
+                annotation_reply.save()
             context = {
                 "document": document,
                 "annotations": document.annotation_set.order_by("page_index"),

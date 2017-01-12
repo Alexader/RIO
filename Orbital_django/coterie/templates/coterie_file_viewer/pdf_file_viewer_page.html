@@ -195,7 +195,10 @@ function prepareAndRenderAll(scale) {
     var url = "{{ file_url }}";
     PDFJS.workerSrc = '/static/pdfjs/pdf.worker.js';
 
+    var documentLoadingIcon = layer.load(1, {shade: false, offset: '48%'});
     PDFJS.getDocument(url).then(function(pdf) {
+        layer.close(documentLoadingIcon)
+        
         pdfDoc = pdf;
         
         numPages = pdfDoc.numPages;
