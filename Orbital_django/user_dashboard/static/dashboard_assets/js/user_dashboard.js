@@ -97,6 +97,21 @@ $(document).ready(function() {
             }
         );
     });
+    // confirmation after clicking remove member
+    $(".member_remove_form").find("button").on("click", function() {
+        var this_button = $(this);
+        layer.confirm('confirm remove this member?', 
+            {
+                btn: ['yes'], //按钮
+                title: false,
+                shadeClose: true, //开启遮罩关闭
+            }, 
+            function() {
+                layer.msg('remove successfully', {icon: 1});
+                this_button.parents(".member_remove_form").submit();
+            }
+        );
+    });
 
     add_edit_doc_title_listener();
 });

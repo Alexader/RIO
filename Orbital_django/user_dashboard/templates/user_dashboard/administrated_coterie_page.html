@@ -23,7 +23,7 @@
                                             <th></th>
                                         	<th>Name</th>
                                         	<th>Email</th>
-                                        	<th></th>
+                                        	<th>Action</th>
                                         </thead>
                                         <tbody>
                                             {% for user in coterie.applicants.all %} 
@@ -55,7 +55,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="header">
-                                    <h4 class="title">Administrator<p style="display: inline;" class="category">  ——Here is a list of administrator</p></h4>
+                                    <h4 class="title">Administrators<p style="display: inline;" class="category">  ——Here is a list of administrator</p></h4>
                                 </div>
                                 <div class="content table-responsive table-full-width">
                                     <table class="table table-hover table-striped">
@@ -92,14 +92,24 @@
                                             <th></th>
                                             <th>Member Name</th>
                                             <th>Email</th>
+                                            <th>  </th>
                                         </thead>
                                         <tbody>
                                             {% for user in coterie.members.all %} 
                                             <tr>
-                                            <td>1</td>
-                                            <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
-                                            <td>{{ user.nickname }}</td>
-                                            <td>{{ user.email_address }}</td>
+                                                <td>1</td>
+                                                <td><img style="width:40px; height:40px;" class="img-circle" src="{{ user.portrait_url }}"></td>
+                                                <td>{{ user.nickname }}</td>
+                                                <td>{{ user.email_address }}</td>
+                                                <td>
+                                                    <form class="member_remove_form" method="post" action="/coterie/handle_remove_member" style="display: inline-block; font-family: arial; color: white">
+                                                        {% csrf_token %}
+                                                        <input name="coterie_id" value={{ coterie.id }} style="display: none;">
+                                                        <input name="user_id" value={{ user.id }} style="display: none;">
+                                                        <input name="current_url" value={{ request.get_full_path }} style="display: none;">
+                                                        <button type="button" class="btn btn-info">Remove</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>

@@ -74,6 +74,17 @@ def handle_delete_coterie(request):
     return redirect("user_dashboard")
 
 
+def handle_remove_member(request):
+    coterie = Coterie.objects.get(id=request.POST["coterie_id"])
+    user = get_user(request)
+    member = User.objects.get(id=request.POST["user_id"])
+    if user in coterie.administrators.all() and memeber not in coterie.administrators.all():
+        coterie.members.remove(member)
+        coterie.save()
+    url_request_from = request.POST["current_url"]
+    return redirect(url_request_from)
+
+
 
 
 def edit_coteriedoc_title(request):
