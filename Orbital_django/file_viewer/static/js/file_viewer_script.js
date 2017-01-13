@@ -309,7 +309,16 @@ function addCommentRelatedListener() {
         }
     });
     $(".reply_comment_button").on("click", function() {
-        $(this).next(".reply_comment_form").slideToggle(180);
+        $(this).next(".reply_comment_form").slideToggle({duration: 180, start: function() {
+            if ($(this).is(":hidden")) {
+                // tinyMCE.activeEditor.setContent("")
+            }
+            else {
+                $(".reply_comment_form").not($(this)).slideUp(180)
+                // for (editor in tinyMCE.editors)
+                //     tinyMCE.editors[editor].setContent("")
+            }
+        }});
     })
     $(".post_comment_reply_button").on("click", function() {
         if (is_authenticated) {
@@ -368,8 +377,8 @@ $(document).ready(function() {
     $("#post_comment_button").click(function () {
         if (is_authenticated) {
             tinyMCE.triggerSave();  // http://www.sifangke.com/2012/04/ajax-submit-tinymce-content/
-            $thisButton = $(this);
             var index = layer.load(0, {shade: 0.18});  //0代表加载的风格，支持0-2
+            var activeEditor = tinyMCE.activeEditor
             $.ajax({
                 type: "POST",
                 url: "",
@@ -381,9 +390,8 @@ $(document).ready(function() {
                 },
                 success: function (data) {
                     $("#comment_update_div").html(data);
-                    // 修改html内容后，有关的事件监听会被自动删除，因此需要重新添加事件监听
-                    addCommentRelatedListener();
-                    $("textarea[name='comment_content']").val("");
+                    addCommentRelatedListener();  // 修改html内容后，有关的事件监听会被自动删除，因此需要重新添加事件监听
+                    activeEditor.setContent("")  // $("textarea[name='comment_content']").val("");
                     layer.close(index);
                 }
             })

@@ -123,7 +123,16 @@ $(document).ready(function() {
         })
     })
     $(".reply_annotation_button").on("click", function() {
-        $(this).parent("footer").children("form").slideToggle(180);
+        $(this).parent("footer").children("form").slideToggle({duration: 180, start: function() {
+            if ($(this).is(":hidden")) {
+                // tinyMCE.activeEditor.setContent("")
+            }
+            else {
+                $(".reply_annotation_button").parent("footer").children("form").not($(this)).slideUp(180)
+                // for (editor in tinyMCE.editors)
+                //     tinyMCE.editors[editor].setContent("")
+            }
+        }});
     })
     $(".likeAnnotationButton").on("click", function () {
         $this = $(this);

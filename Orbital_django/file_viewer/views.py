@@ -27,7 +27,6 @@ def edit_doc_title(request):
 
 
 def display_file_viewer_page(request):
-
     if request.method == "POST":
         if request.POST["operation"] == "delete_annotation":
             annotation = models.Annotation.objects.get(id=int(request.POST["annotation_id"]))
@@ -43,7 +42,7 @@ def display_file_viewer_page(request):
                 "annotations": document.annotation_set.order_by("page_index"),
             }
             return render(request, "file_viewer/annotation_viewer_subpage.html", context)
-        
+
         elif request.POST["operation"] == "delete_comment":
             document = models.Document.objects.get(id=int(request.POST["document_id"]))
             comment = models.Comment.objects.get(id=int(request.POST["comment_id"]))

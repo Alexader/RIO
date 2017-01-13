@@ -96,21 +96,8 @@ def edit_coteriedoc_title(request):
 
 
 def display_coteriefile_viewer_page(request):
-
     if request.method == "POST":
-        if request.POST["operation"] == "like_comment":
-            comment = models.CoterieComment.objects.get(id=int(request.POST["comment_id"]))
-            comment.num_like += 1
-            comment.save()
-            return HttpResponse()
-
-        elif request.POST["operation"] == "like_annotation":
-            annotation = models.CoterieAnnotation.objects.get(id=int(request.POST["annotation_id"]))
-            annotation.num_like += 1
-            annotation.save()
-            return HttpResponse()
-
-        elif request.POST["operation"] == "delete_annotation":
+        if request.POST["operation"] == "delete_annotation":
             annotation = models.CoterieAnnotation.objects.get(id=int(request.POST["annotation_id"]))
             annotation.delete()
             return HttpResponse()
@@ -124,6 +111,28 @@ def display_coteriefile_viewer_page(request):
                 "annotations": document.coterieannotation_set.order_by("page_index"),
             }
             return render(request, "coterie_file_viewer/annotation_viewer_subpage.html", context)
+
+        elif request.POST["operation"] == "delete_comment":
+            document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
+            comment = models.CoterieComment.objects.get(id=int(request.POST["comment_id"]))
+            comment.delete()
+            context = {
+                "document": document,
+                "comments": document.coteriecomment_set.order_by("-post_time"),
+            }
+            return render(request, "file_viewer/comment_viewer_subpage.html", context)
+
+        elif request.POST["operation"] == "like_comment":
+            comment = models.CoterieComment.objects.get(id=int(request.POST["comment_id"]))
+            comment.num_like += 1
+            comment.save()
+            return HttpResponse()
+
+        elif request.POST["operation"] == "like_annotation":
+            annotation = models.CoterieAnnotation.objects.get(id=int(request.POST["annotation_id"]))
+            annotation.num_like += 1
+            annotation.save()
+            return HttpResponse()
 
         elif request.POST["operation"] == "refresh":
             document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
