@@ -168,11 +168,12 @@ $(document).ready(function() {
         $(this).css("background-color", "white");
         Annotation.css("border", "none");
     });
-    $(".AnnotationBlock").on("click", function() {
+    $(".AnnotationBlock").on("click", function() {  // scroll to the corresponding Anotation when clicking a certain AnnotationBlock
         var annotation_id = $(this).attr("annotation_id");
         var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
-        var pageDiv = Annotation.parents(".PageDiv, .page_div");
-        scrollPageDivIntoView(pageDiv);
+        var fileViewer = $("#file_viewer");
+        var down = Annotation.offset().top - fileViewer.offset().top + fileViewer.scrollTop() - window.innerHeight * 0.38 + Annotation.height() / 2;
+        fileViewer.animate({scrollTop: parseInt(down)}, 240);
     });
 });
 </script>
