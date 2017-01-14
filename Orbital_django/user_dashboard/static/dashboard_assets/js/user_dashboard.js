@@ -29,7 +29,7 @@ function add_edit_doc_title_listener() {
                 });
             }
             $td.html('<span>' + new_doc_title + '</span>\
-                      <i class="fa fa-pencil-square edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>');
+                      <i class="fa fa-pencil-square-o edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>');
             add_edit_doc_title_listener();
         });
     });
