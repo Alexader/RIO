@@ -486,7 +486,7 @@ body > .navbar-collapse[data-color="purple"]:after {
 }
 
 .btn {
-  border-width: 2px;
+  border-width: 1px;
   background-color: transparent;
   font-weight: 400;
   opacity: 0.8;

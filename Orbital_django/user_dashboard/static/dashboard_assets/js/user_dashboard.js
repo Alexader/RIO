@@ -5,10 +5,13 @@ function add_edit_doc_title_listener() {
     $(".edit_doc_title_button").on("click", function() {
         var $td = $(this).parents("td");
         var orig_doc_title = $td.find("span").text();
-        $td.html("<input type='text'></input><i class='fa fa-check-circle' style='cursor: pointer' aria-hidden='true'></i>");
+        $td.html("<input type='text'></input>&nbsp<i class='fa fa-check-circle' style='cursor: pointer' aria-hidden='true'></i>");
         if (user_dashboard_page_type == "administrated_coterie_page")
-            $td.find("input").css("width", "80px");
+            $td.find("input").css("width", String($td.width() - $td.find("i").width() - 80) + "px");
+        else
+            $td.find("input").css("width", String($td.width() - $td.find("i").width() - 28) + "px");
         $td.find("input").val(orig_doc_title);
+
         $td.find("i").on("click", function() {
             var new_doc_title = $td.find("input").val();
             if (new_doc_title != orig_doc_title) {
@@ -28,8 +31,7 @@ function add_edit_doc_title_listener() {
                     },
                 });
             }
-            $td.html('<span>' + new_doc_title + '</span>\
-                      <i class="fa fa-pencil-square-o edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>');
+            $td.html('<i class="fa fa-pencil-square-o edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>&nbsp' + '<span>' + new_doc_title + '</span>');
             add_edit_doc_title_listener();
         });
     });
