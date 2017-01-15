@@ -2,43 +2,53 @@
 <hr>
 <blockquote class="AnnotationBlock" annotation_id="{{ annotation.id }}">
     <!--annotation-->
-    <div class="content-markdown" style="font-size: 80%; font-family: Microsoft Yahei;"> {{ annotation.content|safe|linebreaks }} </div>
-    <span style="cursor: pointer;" annotation_id="{{ annotation.id }}" class="likeAnnotationButton glyphicon glyphicon-thumbs-up"></span>
-    <bold id="num_like">{{ annotation.num_like }}</bold>
+    <div class="content-markdown" style="padding-bottom: 8px; font-size: 80%; font-family: Microsoft Yahei;"> {{ annotation.content|safe|linebreaks }} </div>
     <footer>
         <img class="img-rounded" src="{{ annotation.annotator.portrait_url }}" height="38" width="38">
-        {{ annotation.annotator.nickname }} | {{ annotation.post_time }}
-        <button class="reply_annotation_button btn btn-link">reply</button>
-        {% if annotation.annotator == request.user %}
-            <button class="delete_annotation_button btn btn-link" value="{{ annotation.id }}">delete</button>
-        {% endif %}
+        {{ annotation.annotator.nickname }} | {{ annotation.post_time.date|date:"Y. M. d" }}
+        <div style="float: right;">
+            <button class="ReplyAnnotationButton btn" style="border: none; background: none"><i class="fa fa-reply" aria-hidden="true"></i>&nbspreply</button>
+            {% if annotation.annotator == request.user %}
+                <button style="border: none; background: none" class="DeleteAnnotationButton btn" value="{{ annotation.id }}"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbspdelete</button>
+            {% endif %}
+            <div class="btn">
+                <span style="cursor: pointer;" annotation_id="{{ annotation.id }}" class="LikeAnnotationButton glyphicon glyphicon-thumbs-up"></span>
+                <bold id="num_like">{{ annotation.num_like }}</bold>
+            </div>
+        </div>
         <form style="display: none">
-            <hr>
+            <br>
             <textarea name="annotation_reply_content" class="form-control" rows="2" style="resize: vertical"></textarea>
-            <button type="button" class="post_annotation_reply_button btn btn-sm btn-info" name="annotation_id" value="{{ annotation.id }}" style="margin-top: 8px; float: right;" > reply</button>
+            <button type="button" class="PostAnnotationReplyButton btn btn-sm btn-info" name="annotation_id" value="{{ annotation.id }}" style="margin-top: 8px; float: right;"> reply</button>
         </form>
     </footer>
-
+<br>
     <!--annotation replies-->
     {% for annotation_reply in annotation.coterieannotationreply_set.all|dictsort:"post_time" %}
         <blockquote class="AnnotationReplyBlock" annotation_id="{{ annotation_reply.id }}">
             {% if annotation_reply.reply_to_annotation_reply.replier %}  <!-- if reply to reply -->
-            <h5 style="float: right;">
-                <i class="fa fa-share" aria-hidden="true"></i>&nbsp&nbsp&nbspreply to <b>{{ annotation_reply.reply_to_annotation_reply.replier.nickname }}:</b>
-            </h5><br>
+            <span style="font-size: 66%; float: left;">
+                <i class="fa fa-share" aria-hidden="true"></i>&nbsp&nbsp&nbspreply to <i><b>{{ annotation_reply.reply_to_annotation_reply.replier.nickname }}</b></i>:
+            </span><br>
             {% endif %}
-            <div class="content-markdown" style="font-size: 80%; font-family: Microsoft Yahei;"> {{ annotation_reply.content|safe|linebreaks }} </div>
+            <div class="content-markdown" style="padding-bottom: 8px; font-size: 80%; font-family: Microsoft Yahei;"> {{ annotation_reply.content|safe|linebreaks }} </div>
             <footer>
                 <img class="img-rounded" src="{{ annotation_reply.replier.portrait_url }}" height="28" width="28">
-                {{ annotation_reply.replier.nickname }} | {{ annotation_reply.post_time }}
-                <button class="reply_annotation_button btn btn-link">reply</button>
-                {% if annotation_reply.replier == request.user %}
-                    <button class="delete_annotation_reply_button btn btn-link" value="{{ annotation_reply.id }}">delete</button>
-                {% endif %}
+                {{ annotation_reply.replier.nickname }} | {{ annotation_reply.post_time.date|date:"Y. M. d" }}
+                <div style="float: right;">
+                    <button class="ReplyAnnotationButton btn" style="border: none; background: none; padding: 0 4px"><i class="fa fa-reply" aria-hidden="true"></i>&nbspreply</button>
+                    {% if annotation_reply.replier == request.user %}
+                        <button class="DeleteAnnotationReplyButton btn" style="border: none; background: none; padding: 0 4px" value="{{ annotation_reply.id }}"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbspdelete</button>
+                    {% endif %}
+                    <div class="btn" style="padding: 0 4px">
+                        <span style="cursor: pointer;" annotation_reply_id="{{ annotation_reply.id }}" class="LikeAnnotationReplyButton glyphicon glyphicon-thumbs-up"></span>
+                        <bold id="num_like">{{ annotation_reply.num_like }}</bold>
+                    </div>
+                </div>   
                 <form style="display: none">
-                    <hr>
+                    <br>
                     <textarea name="reply_reply_content" class="form-control" rows="2" style="resize: vertical"></textarea>
-                    <button type="button" class="post_reply_reply_button btn btn-sm btn-info" name="reply_to_annotation_reply_id" value="{{ annotation_reply.id }}" style="margin-top: 8px; float: right;" > reply</button>
+                    <button type="button" class="PostReplyReplyButton btn btn-sm btn-info" name="reply_to_annotation_reply_id" value="{{ annotation_reply.id }}" style="margin-top: 8px; float: right;" >reply</button>
                 </form>
             </footer>
         </blockquote>
@@ -50,7 +60,7 @@
 $(document).ready(function() {
     tinymceInit();
     new_annotation_id = '{{ new_annotation_id }}';
-    $(".delete_annotation_button").on("click", function() {
+    $(".DeleteAnnotationButton").on("click", function() {
         $.ajax({
             type: "POST",
             url: "",
@@ -64,7 +74,7 @@ $(document).ready(function() {
             }
         })
     });
-    $(".delete_annotation_reply_button").on("click", function() {
+    $(".DeleteAnnotationReplyButton").on("click", function() {
         var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
         $.ajax({
             type: "POST",
@@ -81,7 +91,7 @@ $(document).ready(function() {
             }
         })
     });
-    $(".post_annotation_reply_button").on("click", function() {
+    $(".PostAnnotationReplyButton").on("click", function() {
         var thisButton = $(this);
         var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
         tinyMCE.triggerSave();
@@ -101,7 +111,7 @@ $(document).ready(function() {
             }
         })
     })
-    $(".post_reply_reply_button").on("click", function() {
+    $(".PostReplyReplyButton").on("click", function() {
         var thisButton = $(this);
         tinyMCE.triggerSave();
         var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
@@ -112,7 +122,7 @@ $(document).ready(function() {
                 csrfmiddlewaretoken: getCookie('csrftoken'),
                 operation: "reply_annotation",
                 annotation_reply_content: thisButton.prev("textarea[name='reply_reply_content']").val(),
-                reply_to_annotation_id: thisButton.parents(".AnnotationBlock").find(".post_annotation_reply_button").val(),
+                reply_to_annotation_id: thisButton.parents(".AnnotationBlock").find(".PostAnnotationReplyButton").val(),
                 reply_to_annotation_reply_id: thisButton.val(),
                 document_id: $("button[name='document_id']").val(),
             },
@@ -122,29 +132,26 @@ $(document).ready(function() {
             }
         })
     })
-    $(".reply_annotation_button").on("click", function() {
-        $(this).parent("footer").children("form").slideToggle({duration: 180, start: function() {
+    $(".ReplyAnnotationButton").on("click", function() {
+        $(this).parents("footer").children("form").slideToggle({duration: 180, start: function() {
             if ($(this).is(":hidden")) {
                 // tinyMCE.activeEditor.setContent("")
             }
             else {
-                $(".reply_annotation_button").parent("footer").children("form").not($(this)).slideUp(180)
+                $(".ReplyAnnotationButton").parents("footer").children("form").not($(this)).slideUp(180)
                 // for (editor in tinyMCE.editors)
                 //     tinyMCE.editors[editor].setContent("")
             }
         }});
     })
-    $(".likeAnnotationButton").on("click", function () {
+    $(".LikeAnnotationButton").on("click", function () {
         $this = $(this);
         var new_num = parseInt($this.next().text()) + 1;
         $this.next().text(new_num.toString());
         $this.off("click");
         $this.css("color", "#6495ED");
         $this.on("click", function() {
-            layer.msg('already liked', {
-                icon: 6,
-                time: 800,
-            });
+            layer.msg('already liked', { icon: 6, time: 800, });
         });
         $.ajax({
             type: "POST",
@@ -156,10 +163,29 @@ $(document).ready(function() {
             },
         })
     });
+    $(".LikeAnnotationReplyButton").on("click", function () {
+        $this = $(this);
+        var new_num = parseInt($this.next().text()) + 1;
+        $this.next().text(new_num.toString());
+        $this.off("click");
+        $this.css("color", "#6495ED");
+        $this.on("click", function() {
+            layer.msg('already liked', { icon: 6, time: 800, });
+        });
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: {
+                csrfmiddlewaretoken: getCookie('csrftoken'),
+                operation: "like_annotation_reply",
+                annotation_reply_id: $this.attr("annotation_reply_id"),
+            },
+        })
+    });
     $(".AnnotationBlock").on("mouseover", function() {
         var annotation_id = $(this).attr("annotation_id");
         var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
-       $(this).css("background-color", Annotation.css("background-color"));
+        $(this).css("background-color", Annotation.css("background-color"));
         Annotation.css("border", "1px solid #0F0F0F");
     });
     $(".AnnotationBlock").on("mouseout", function() {

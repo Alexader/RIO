@@ -12,10 +12,10 @@
     <button class="awesome blue" id="show_annotation_frame_button" style="height: 28px;">Show</button>
     <button class="awesome blue" id="hide_annotation_frame_button" style="height: 28px;">Hide</button>
     <button class="awesome blue" id="comment_button" data-toggle="modal" data-target="#comment_modal" style="height: 28px;">
-        Comments
+        <i class="fa fa-comments" aria-hidden="true"></i>&nbspComments
     </button>
     <div class="dropdown" id="annotation_color_buttons_div">
-        <button class="awesome blue dropdown-toggle" style="height: 28px;" data-toggle="dropdown">Color
+        <button class="awesome blue dropdown-toggle" style="height: 28px;" data-toggle="dropdown"><i class="fa fa-paint-brush" aria-hidden="true"></i>&nbspColor
             <b class="caret"></b>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" style="min-width: 80%">
@@ -25,7 +25,11 @@
             <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(255, 0, 0, 0.18); width:100%;" id="red_color"></button></li>
         </ul>
     </div>
-    <b id="num_visit" style="float: right; color: white; padding-top: 4px;">#visit: {{ document.num_visit }}</b>
+    <form id="download" method="get" action="/coterie/handle_download_coteriedocument" style="display: inline-block;">
+        {% csrf_token %}
+        <button type="submit" class="awesome blue" style="height: 28px" name="document_id" value={{ document.id }}><i class="fa fa-cloud-download" aria-hidden="true"></i>&nbspdownload</button>
+    </form>
+    <b id="num_visit" style="float: right; color: white; padding-top: 4px;">{{ document.num_visit }} visits</b>
 </div>
 
 <script> 

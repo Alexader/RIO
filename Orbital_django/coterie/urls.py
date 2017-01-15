@@ -26,4 +26,6 @@ urlpatterns = [
     
     url(r'^edit_coteriedoc_title', views.edit_coteriedoc_title),
 
+    url(r'^handle_download_coteriedocument', views.serve_coteriefile),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

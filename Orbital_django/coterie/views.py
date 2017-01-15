@@ -95,6 +95,16 @@ def edit_coteriedoc_title(request):
     return HttpResponse()
 
 
+def serve_coteriefile(request):
+    document = models.CoterieDocument.objects.get(id = int(request.GET["document_id"]))
+    file = document.unique_file
+    file_position = file.file_field.storage.path(file.file_field)
+    content = open(file_position, 'rb')
+    response = HttpResponse(content, content_type='application/pdf')
+    response['Content-Disposition'] = "attachment; filename=%s.pdf" % (document.title)
+    return response
+
+
 def display_coteriefile_viewer_page(request):
     if request.method == "POST":
         if request.POST["operation"] == "delete_annotation":
@@ -132,6 +142,12 @@ def display_coteriefile_viewer_page(request):
             annotation = models.CoterieAnnotation.objects.get(id=int(request.POST["annotation_id"]))
             annotation.num_like += 1
             annotation.save()
+            return HttpResponse()
+
+        elif request.POST["operation"] == "like_annotation_reply":
+            annotation_reply = models.CoterieAnnotationReply.objects.get(id=int(request.POST["annotation_reply_id"]))
+            annotation_reply.num_like += 1
+            annotation_reply.save()
             return HttpResponse()
 
         elif request.POST["operation"] == "refresh":

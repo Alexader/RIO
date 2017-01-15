@@ -309,7 +309,7 @@ function addCommentRelatedListener() {
         }
     });
     $(".reply_comment_button").on("click", function() {
-        $(this).next(".reply_comment_form").slideToggle({duration: 180, start: function() {
+        $(this).parents("blockquote").find(".reply_comment_form").slideToggle({duration: 180, start: function() {
             if ($(this).is(":hidden")) {
                 // tinyMCE.activeEditor.setContent("")
             }

@@ -12,10 +12,10 @@
     <button class="awesome blue" id="show_annotation_frame_button" style="height: 28px;">Show</button>
     <button class="awesome blue" id="hide_annotation_frame_button" style="height: 28px;">Hide</button>
     <button class="awesome blue" id="comment_button" data-toggle="modal" data-target="#comment_modal" style="height: 28px;">
-        Comments
+        <i class="fa fa-comments" aria-hidden="true"></i>&nbspComments
     </button>
     <div class="dropdown" id="annotation_color_buttons_div">
-        <button class="awesome blue dropdown-toggle" style="height: 28px;" data-toggle="dropdown">Color
+        <button class="awesome blue dropdown-toggle" style="height: 28px;" data-toggle="dropdown"><i class="fa fa-paint-brush" aria-hidden="true"></i>&nbspColor
             <b class="caret"></b>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" style="min-width: 80%">
@@ -25,28 +25,28 @@
             <li><button type="button" class="btn btn-lg" style="border-radius: 0px; background-color: rgba(255,0,0,0.18); width:100%;" id="red_color"></button></li>
         </ul>
     </div>
-    {% if request.user.is_authenticated %}
-        {% if collected %}
-            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><i class="fa fa-bookmark" aria-hidden="true"></i></button>
-        {% else %}  
-            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><i class="fa fa-bookmark-o" aria-hidden="true"></i></button>
-        {% endif %}
-    {% endif %}
     <form id="download" method="get" action="/file_viewer/download" style="display: inline-block;">
         {% csrf_token %}
-        <button type="submit" class="awesome blue" style="height: 28px" name="document_id" value={{ document.id }}><i class="fa fa-cloud-download" aria-hidden="true"></i></button>
+        <button type="submit" class="awesome blue" style="height: 28px" name="document_id" value={{ document.id }}><i class="fa fa-cloud-download" aria-hidden="true"></i>&nbspdownload</button>
     </form>
-    <b id="num_visit" style="float: right; color: white; padding-top: 4px;">#visit: {{ document.num_visit }}</b>
-    <b id="num_collect" style="float: right; color: white; padding-top: 4px;">#collect: {{ document.collectors.all|length }}</b>
+    {% if request.user.is_authenticated %}
+        {% if collected %}
+            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><i class="fa fa-star" aria-hidden="true"></i></button>
+        {% else %}  
+            <button class="awesome blue" style="height: 28px;" type="button" id="collect_button"><i class="fa fa-star-o" aria-hidden="true"></i></button>
+        {% endif %}
+    {% endif %}
+    <b id="num_visit" style="float: right; color: white; padding-top: 4px;">visit: {{ document.num_visit }}</b>
+    <b id="num_collect" style="float: right; color: white; padding-top: 4px;">collect: {{ document.collectors.all|length }}</b>
 </div>
 
 <script>
     $("#collect_button").on("click", function(){
         var span = $(this).find(".fa");
-        if (span.hasClass("fa-bookmark-o")) {
+        if (span.hasClass("fa-star-o")) {
             layer.msg('Collected');
-            span.removeClass("fa-bookmark-o"); 
-            span.addClass("fa-bookmark");
+            span.removeClass("fa-star-o"); 
+            span.addClass("fa-star");
             $.ajax({
                 type: "POST",
                 url: "",
@@ -57,10 +57,10 @@
                 },
             })
         }
-        else if (span.hasClass("fa-bookmark")) {
+        else if (span.hasClass("fa-star")) {
             layer.msg('Uncollected');
-           span.removeClass("fa-bookmark");
-           span.addClass("fa-bookmark-o");
+           span.removeClass("fa-star");
+           span.addClass("fa-star-o");
             $.ajax({
                 type: "POST",
                 url: "",

@@ -8,7 +8,7 @@ import zipfile
 import models
 
 
-def server_file(request):
+def serve_file(request):
     document = models.Document.objects.get(id = int(request.GET["document_id"]))
     file = document.unique_file
     file_position = file.file_field.storage.path(file.file_field)
@@ -57,6 +57,12 @@ def display_file_viewer_page(request):
             annotation = models.Annotation.objects.get(id=int(request.POST["annotation_id"]))
             annotation.num_like += 1
             annotation.save()
+            return HttpResponse()
+
+        elif request.POST["operation"] == "like_annotation_reply":
+            annotation_reply = models.AnnotationReply.objects.get(id=int(request.POST["annotation_reply_id"]))
+            annotation_reply.num_like += 1
+            annotation_reply.save()
             return HttpResponse()
 
         elif request.POST["operation"] == "like_comment":
