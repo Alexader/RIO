@@ -3,7 +3,7 @@
 {% block title %}Group: {{ coterie.name }} (admin){% endblock %}
 
 {% block location %}
-    <span class="navbar-brand">Group: {{ coterie.name }} <span style="color: #1DC7EA">(admin)</span></span>
+    <span class="navbar-brand" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 408px" title="{{coterie.id}}: {{coterie.name}}">Group&nbsp<span style="color: #1DC7EA">(admin)</span>: {{ coterie.name }}</span>
 {% endblock %}
 
 {% block content %}     

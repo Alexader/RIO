@@ -119,18 +119,16 @@ ga('send', 'pageview');
                             <i style="cursor: pointer; width: 1px; float: right;" class="pe-7s-plus"></i>
                         </p>
 
-                        {% if page_type == "administrated_coterie_page" or page_type == "joined_coterie_page" %}
                         <ul id="group_list" class="dropdown-toggle" data-toggle="dropdown">
-                        {% else %}
-                        <ul id="group_list" class="dropdown-toggle" data-toggle="dropdown" style="display: none;">
-                        {% endif %}
+                        <!--<ul id="group_list" class="dropdown-toggle" data-toggle="dropdown" style="display: none;">-->
                             {% for coterie in current_user.administrated_coterie_set.all %}
                                 <form style="display: none;" method="get" action="/user_dashboard/group_page">
                                     <input name="coterie_id" value="{{ coterie.id }}">
                                     <input name="coterie_type" value="administrated">
                                 </form>
-                                <li class="group_page_button" style="cursor: pointer;">
-                                    ({{ coterie.id }}) {{ coterie.name }} (admin)
+                                <li class="group_page_button" style="cursor: pointer; margin-top: 18px">
+                                    {{ coterie.name }}<br>
+                                    <b>ID: {{ coterie.id }}</b>&nbsp| as&nbsp<b>admin</b><br>
                                 </li>
                             {% endfor %}
 
@@ -140,7 +138,8 @@ ga('send', 'pageview');
                                     <input name="coterie_type" value="joined">
                                 </form>
                                 <li class="group_page_button" style="cursor: pointer;">
-                                    ({{ coterie.id }}) {{ coterie.name }} (member)
+                                    {{ coterie.name }}<br>
+                                    <b>ID: {{ coterie.id }}</b>&nbsp| as&nbsp<b>member</b><br>
                                 </li>
                             {% endfor %}
                             <script>
@@ -193,16 +192,15 @@ ga('send', 'pageview');
                             <img style="width:40px;height:40px;position:relative;padding:5px，4px;margin:7px;" class="img-circle" class="avatar border-gray" src="{{ current_user.portrait_url }}" alt="..."/>
                         </li>
                         <li><a>{{ current_user.nickname }}</a></li>
-                        <li>
-                            <a href="/user_dashboard/change_portrait">change portrait</a>
-                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 Options
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-
+                                <li>
+                                    <a href="/user_dashboard/change_portrait">change portrait</a>
+                                </li>
                                 {% if page_type == "joined_coterie_page" %}
                                     <li>
                                         <form method="post" action="/coterie/handle_quit_coterie" style="display: none;">
