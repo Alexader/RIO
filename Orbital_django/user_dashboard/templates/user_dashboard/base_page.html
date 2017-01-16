@@ -169,25 +169,22 @@ ga('send', 'pageview');
                     {% block location %}{% endblock %}
                 </div>
                 <div class="collapse navbar-collapse">       
-                    <ul class="nav navbar-nav navbar-left">
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <form action="/handle_search" method="get" class="form-inline" style="display: inline">
                                 <input name="search_key" type="text" class="form-control input-sm" required="required">
                                 <button type="submit" style="display: none"></button>
                             </form>
-                            <a style="display: inline-block; cursor: pointer;"><i class="fa fa-search"></i></a>
+                            <a style="display: inline-block; cursor: pointer; padding-left: 8px; margin-right: 28px"><i class="fa fa-search"></i></a>
                             <script>
                                 $(document).ready(function() {
                                     $(".fa-search").on("click", function() {
-                                        var form = $(this).parent().prev("form");
+                                        var form = $(this).parents("li").find("form");
                                         form.submit();
                                     })
                                 });
                             </script>
                         </li> 
-                    </ul>
-                    
-                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <img style="width:40px;height:40px;position:relative;padding:5px，4px;margin:7px;" class="img-circle" class="avatar border-gray" src="{{ current_user.portrait_url }}" alt="..."/>
                         </li>

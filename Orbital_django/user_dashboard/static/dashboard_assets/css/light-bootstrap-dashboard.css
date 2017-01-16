@@ -1376,7 +1376,7 @@ body > .navbar-collapse[data-color="purple"]:after {
   font-size: 20px;
 }
 .navbar .navbar-nav > li > a {
-  padding: 10px 15px;
+  padding: 8px 15px;
   margin: 10px 3px;
   position: relative;
 }
