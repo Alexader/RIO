@@ -299,7 +299,7 @@ function startListeningScroll() {
 
 function drawAllExistingAnnotationFrame() {
     {% for annotation in annotations %}
-        var new_annotation = $("<div class='Annotation'></div>");
+        var new_annotation = $("<div class='Annotation animated zoomIn'></div>");
         var top_percent = parseFloat("{{ annotation.top_percent }}");
         var left_percent = parseFloat("{{ annotation.left_percent }}");
         var height_percent = parseFloat("{{ annotation.height_percent }}");
