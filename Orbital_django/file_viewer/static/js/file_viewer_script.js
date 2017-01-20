@@ -351,8 +351,16 @@ function addCommentRelatedListener() {
 $(document).ready(function() {
     tinymceInit();
     // add animation using animate.css
-    $("#navbar").addClass("animated fadeInDown")
-    $("#annotation_update_div").find("blockquote").addClass("animated fadeInRight")
+    $.fn.extend({
+        animateOnce: function (animationName) {
+            var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+            this.addClass('animated ' + animationName).one(animationEnd, function() {
+                $(this).removeClass('animated ' + animationName);
+            });
+        }
+    });
+    $("#navbar").animateOnce("fadeInDown")
+    $("#annotation_update_div").find("blockquote").animateOnce("fadeInRight")
     $("#refresh_comment_button").on('click', function () {
         $.ajax({
             type: "POST",
