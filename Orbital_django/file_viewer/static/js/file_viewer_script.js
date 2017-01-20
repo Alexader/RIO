@@ -65,7 +65,7 @@ function imgLoad(img, callback) {
 function startListeningSelectionBoxCreation() {
     var annotationColor = "rgba(0,0,0,0.18)";
 
-    $("#annotation_color_buttons_div").find("button").on("click", function() {
+    $("#annotation_color_buttons_div").find(".ColorSelectorButton").on("click", function() {
         annotationColor = $(this).css("background-color");
     });
 
