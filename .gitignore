@@ -63,3 +63,16 @@ target/
 
 
 **/.idea/workspace.xml
+
+
+#################### added my Roy #########################
+.idea/
+*.sqlite3
+Orbital_django/temp_session/
+
+
+
+
+
+
+

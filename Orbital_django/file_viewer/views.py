@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import os
 import zipfile
-#from unrar import rarfile
-#from wand.image import Image
+# from unrar import rarfile
+# from wand.image import Image
 import models
 
 
@@ -100,7 +100,7 @@ def display_file_viewer_page(request):
                 comment.content = request.POST["comment_content"]
                 comment.commenter = get_user(request)
                 comment.document_this_comment_belongs = document
-                if request.POST.has_key("reply_to_comment_id"):
+                if "reply_to_comment_id" in request.POST:
                     comment.reply_to_comment = models.Comment.objects.get(id=int(request.POST["reply_to_comment_id"]))
                 comment.save()
             context = {
@@ -147,7 +147,7 @@ def display_file_viewer_page(request):
             return render(request, "file_viewer/annotation_viewer_subpage.html", context)
 
     else:
-        document = models.Document.objects.get(id = int(request.GET["document_id"]))
+        document = models.Document.objects.get(id=int(request.GET["document_id"]))
         file = document.unique_file
 
         file_position = file.file_field.storage.path(file.file_field)
