@@ -107,7 +107,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 @receiver(models.signals.pre_delete, sender=User)
 # "sender" and "**kwargs" are required though they are of no use here, do not delete them
 def delete_local_portrait(sender, instance, **kwargs):
-    # delete the local image files for this user's portrait
+    """
+    delete the local image files for this user's portrait
+    """
     if instance.portrait and hasattr(instance.portrait, 'url'):
         portrait = instance.portrait
         img_local_location = portrait.storage.path(portrait)

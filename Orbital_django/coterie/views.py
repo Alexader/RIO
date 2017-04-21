@@ -1,16 +1,16 @@
 from django.http import HttpResponse
-#from models import Coterie
+# from models import Coterie
 from home.models import User
-#from django.contrib.auth import get_user
+# from django.contrib.auth import get_user
 from django.shortcuts import render, redirect
 from models import CoterieDocument
 import models
 
-#from django.contrib.auth import get_user
-#import os
+# from django.contrib.auth import get_user
+# import os
 import zipfile
-#from unrar import rarfile
-#from wand.image import Image
+# from unrar import rarfile
+# from wand.image import Image
 from file_viewer import models as file_viewer_models
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -41,7 +41,7 @@ def handle_apply_coterie(request):
     return redirect("user_dashboard")
 
 
-def handle_join_coterie(request):  
+def handle_join_coterie(request):
     coterie = Coterie.objects.get(id=request.POST["coterie_id"])
     if get_user(request) in coterie.administrators.all():
         applicant = User.objects.get(id=request.POST["applicant_id"])
@@ -53,7 +53,7 @@ def handle_join_coterie(request):
         coterie.save()
         url_request_from = request.POST["current_url"]
         return redirect(url_request_from)
-    else: 
+    else:
         return HttpResponse("<h1>Sorry, you are not an administrator</h1>")
 
 
@@ -85,10 +85,8 @@ def handle_remove_member(request):
     return redirect(url_request_from)
 
 
-
-
 def edit_coteriedoc_title(request):
-    document = models.CoterieDocument.objects.get(id = int(request.POST["document_id"]))
+    document = models.CoterieDocument.objects.get(id=int(request.POST["document_id"]))
     new_doc_title = request.POST["new_doc_title"]
     document.title = new_doc_title
     document.save()
@@ -96,7 +94,7 @@ def edit_coteriedoc_title(request):
 
 
 def serve_coteriefile(request):
-    document = models.CoterieDocument.objects.get(id = int(request.GET["document_id"]))
+    document = models.CoterieDocument.objects.get(id=int(request.GET["document_id"]))
     file = document.unique_file
     file_position = file.file_field.storage.path(file.file_field)
     content = open(file_position, 'rb')
@@ -166,7 +164,8 @@ def display_coteriefile_viewer_page(request):
                 comment.commenter = get_user(request)
                 comment.document_this_comment_belongs = document
                 if request.POST.has_key("reply_to_comment_id"):
-                    comment.reply_to_comment = models.CoterieComment.objects.get(id=int(request.POST["reply_to_comment_id"]))
+                    comment.reply_to_comment = models.CoterieComment.objects.get(
+                        id=int(request.POST["reply_to_comment_id"]))
                 comment.save()
             context = {
                 "document": document,
@@ -207,8 +206,9 @@ def display_coteriefile_viewer_page(request):
                 annotation_reply.reply_to_annotation = annotation
 
                 if request.POST.has_key("reply_to_annotation_reply_id"):
-                    annotation_reply.reply_to_annotation_reply = models.CoterieAnnotationReply.objects.get(id=int(request.POST["reply_to_annotation_reply_id"]))
-                    
+                    annotation_reply.reply_to_annotation_reply = models.CoterieAnnotationReply.objects.get(
+                        id=int(request.POST["reply_to_annotation_reply_id"]))
+
                 annotation_reply.save()
 
             context = {
@@ -225,7 +225,7 @@ def display_coteriefile_viewer_page(request):
         if user not in coterie.administrators.all() and user not in coterie.members.all():
             return redirect("user_dashboard")
 
-        document = models.CoterieDocument.objects.get(id = int(request.GET["document_id"]))
+        document = models.CoterieDocument.objects.get(id=int(request.GET["document_id"]))
         file = document.unique_file
 
         file_position = file.file_field.storage.path(file.file_field)
@@ -239,7 +239,7 @@ def display_coteriefile_viewer_page(request):
 
         document.num_visit += 1
         document.save()
-        
+
         if extension == "zip":
             zip_file = zipfile.ZipFile(file_position, "r")
             zip_alphabatical_list = sorted(zip_file.namelist())
@@ -251,12 +251,14 @@ def display_coteriefile_viewer_page(request):
                     zip_file.extract(page_name, img_folder_path)
                     os.rename(os.path.join(img_folder_path, page_name),
                               os.path.join(img_folder_path, str(i) + "." + page_name.split(".")[-1]))
-                    pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." + page_name.split(".")[-1]])
+                    pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." +
+                                  page_name.split(".")[-1]])
                     i += 1
             else:
                 i = 0
                 for page_name in zip_alphabatical_list:
-                    pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." + page_name.split(".")[-1]])
+                    pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." +
+                                  page_name.split(".")[-1]])
                     i += 1
 
         elif extension == "rar":
@@ -270,12 +272,14 @@ def display_coteriefile_viewer_page(request):
                     rar_file.extract(page_name, img_folder_path)
                     os.rename(os.path.join(img_folder_path, page_name),
                               os.path.join(img_folder_path, str(i) + "." + page_name.split(".")[-1]))
-                    pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." + page_name.split(".")[-1]])
+                    pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." +
+                                  page_name.split(".")[-1]])
                     i += 1
             else:
                 i = 0
                 for page_name in rar_alphabatical_list:
-                    pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." + page_name.split(".")[-1]])
+                    pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." +
+                                  page_name.split(".")[-1]])
                     i += 1
 
         elif extension == "pdf":
@@ -306,7 +310,7 @@ def handle_coteriefile_upload(request):
         file_upload = request.FILES["file_upload"]  # this is an UploadedFile object
         this_file_md5 = md5(file_upload.read()).hexdigest()
 
-        try: 
+        try:
             unique_file = models.UniqueFile.objects.get(md5=this_file_md5)
         except ObjectDoesNotExist:
             unique_file = models.UniqueFile(file_field=file_upload, md5=this_file_md5)
@@ -314,7 +318,7 @@ def handle_coteriefile_upload(request):
 
         document = CoterieDocument(owner=coterie, unique_file=unique_file, title=request.POST["title"])
         document.save()  # save this document to the database
-        
+
     url_request_from = request.POST["current_url"]
     return redirect(to=url_request_from)
 
@@ -326,7 +330,7 @@ def handle_coteriefile_delete(request):
 
         if document.owner == coterie and get_user(request) in coterie.administrators.all():
             document.delete()
-            
+
         url_request_from = request.POST["current_url"]
         return redirect(to=url_request_from)
     except ObjectDoesNotExist:

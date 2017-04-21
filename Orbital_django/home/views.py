@@ -76,6 +76,7 @@ def handle_nus_log_in(request):
 #   the 2 nd item is the verification code for this user
 temp_user_information_dic = {}
 
+
 def handle_sign_up(request):
     post_result_dic = request.POST
     global temp_user_information_dic

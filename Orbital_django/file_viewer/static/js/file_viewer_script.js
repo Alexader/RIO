@@ -206,6 +206,7 @@ function startListeningSelectionBoxCreation() {
     });
 }
 
+
 function resizeAnnotations(scaleFactor) {
     $(".Annotation").each(function() {
         $(this).css("top", parseFloat($(this).css("top")) * scaleFactor + "px");
@@ -214,6 +215,7 @@ function resizeAnnotations(scaleFactor) {
         $(this).css("height", parseFloat($(this).css("height")) * scaleFactor + "px");
     });
 }
+
 
 // called after clicking scale button (buttonForLarger/buttonForSmaller)
 function scale(scaleFactor) {
@@ -246,7 +248,7 @@ function scrollPageDivIntoView(pageDiv) {
     // animatedly scroll, 240 means the scrolling process take 240ms long
     fileViewer.animate({scrollTop: parseInt(down)}, 240);
 }
-  
+
 function prepareScrollPageIntoView() {
     var input = $("#scroll_page_into_view_div").children("input");
     var button = $("#scroll_page_into_view_div").children("button");

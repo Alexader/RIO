@@ -29,8 +29,7 @@ jQuery(document).ready(function() {
                 e.preventDefault();
                 $(this).addClass('input-error');
                 next = false;
-            }
-            else
+            } else
                 $(this).removeClass('input-error');
         });
 
@@ -74,8 +73,7 @@ jQuery(document).ready(function() {
         parentRegistrationForm.find('input[type="text"], input[type="password"], input[type="email"]').each(function() {
             if( $(this).val() == "" ) {
                 $(this).addClass('input-error');
-            }
-            else {
+            } else {
                 $(this).removeClass('input-error');
                 $.ajax({
                     type: "POST",
@@ -87,9 +85,8 @@ jQuery(document).ready(function() {
                     },
                     success: function (data) {
                         if (data == "wrong") {
-                            document.getElementById("message2").innerHTML="<font color='red'>verification code is incorrect</font>";
-                        }
-                        else {
+                            document.getElementById("message2").innerHTML = "<font color='red'>verification code is incorrect</font>";
+                        } else {
                             window.location.href = "/";  // return to home page
                         }
                     },

@@ -43,7 +43,9 @@ class CoterieComment(models.Model):
     commenter = models.ForeignKey(User)
     document_this_comment_belongs = models.ForeignKey(CoterieDocument)
     content = models.TextField()
-    reply_to_comment = models.ForeignKey("CoterieComment", related_name="reply_set", null=True, blank=True)
+    reply_to_comment = models.ForeignKey("CoterieComment",
+                                         related_name="reply_set",
+                                         null=True, blank=True)
     num_like = models.IntegerField(default=0)
 
     def __unicode__(self):
@@ -73,7 +75,9 @@ class CoterieAnnotationReply(models.Model):
     post_time = models.DateTimeField(auto_now=False, auto_now_add=True)
     replier = models.ForeignKey(User)
     reply_to_annotation = models.ForeignKey(CoterieAnnotation)
-    reply_to_annotation_reply = models.ForeignKey("CoterieAnnotationReply", related_name="reply_set", null=True, blank=True)
+    reply_to_annotation_reply = models.ForeignKey("CoterieAnnotationReply",
+                                                  related_name="reply_set",
+                                                  null=True, blank=True)
     content = models.TextField()
     num_like = models.IntegerField(default=0)
 
