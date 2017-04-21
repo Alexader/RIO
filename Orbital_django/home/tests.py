@@ -1,5 +1,6 @@
 from django.test import TestCase
 from models import User
+from django.db import IntegrityError
 
 
 class TestUser(TestCase):
@@ -19,3 +20,28 @@ class TestUser(TestCase):
         self.assertEqual(is_active, True)
         self.assertEqual(nickname, "")
 
+    def test_create_user_with_same_email_address(self):
+        new_user = User()
+        new_user.email_address = "test@test.test"
+        new_user2 = User()
+        new_user2.email_address = new_user.email_address
+        new_user.save()
+        self.assertEqual(User.objects.all().count(), 1)
+        self.assertEqual(User.objects.filter(email_address="test@test.test").count(), 1)
+        try:
+            new_user2.save()
+            self.assertTrue(False)
+        except IntegrityError:
+            self.assertTrue(True)
+
+    def test_create_user_with_same_empty_email_address(self):
+        new_user = User()
+        new_user2 = User()
+        new_user.save()
+        self.assertEqual(User.objects.all().count(), 1)
+        self.assertEqual(User.objects.filter(email_address="").count(), 1)
+        try:
+            new_user2.save()
+            self.assertTrue(False)
+        except IntegrityError:
+            self.assertTrue(True)
