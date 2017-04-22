@@ -30,6 +30,7 @@ class CoterieAnnotationReplyModelAdmin(admin.ModelAdmin):
     list_filter = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply", "replier", "num_like"]
     search_fields = ["id", "content", "reply_to_annotation", "reply_to_annotation_reply", "replier", "num_like"]
 
+
 class CoterieCommentModelAdmin(admin.ModelAdmin):
     list_display = ["id", "content", "document_this_comment_belongs", "commenter", "num_like"]
     list_filter = ["id", "content", "document_this_comment_belongs", "commenter", "num_like"]

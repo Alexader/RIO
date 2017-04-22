@@ -30,9 +30,9 @@ def delete_local_file(sender, instance, **kwargs):
     file_location = instance.file_field.name
 
     file_local_location = instance.file_field.storage.path(instance.file_field)
-    file_local_dirname, file_name_and_extension = os.path.split(file_local_location)
+    file_local_directory_name, file_name_and_extension = os.path.split(file_local_location)
     file_name = file_name_and_extension.split(".")[0]
-    associated_folder_local_location = os.path.join(file_local_dirname, file_name)
+    associated_folder_local_location = os.path.join(file_local_directory_name, file_name)
     type_level_dir_name = os.path.dirname(file_local_location)
 
     # instance.file_field.storage will return an instance of Storage' subclass,
@@ -74,7 +74,7 @@ def may_delete_unique_file(sender, instance, **kwargs):
 class Comment(models.Model):
     post_time = models.DateTimeField(auto_now=False, auto_now_add=True)
     commenter = models.ForeignKey(User)  # many Comments to one User
-    document_this_comment_belongs = models.ForeignKey(Document)  # many Commments to one Document
+    document_this_comment_belongs = models.ForeignKey(Document)  # many Comments to one Document
     content = models.TextField()
     reply_to_comment = models.ForeignKey("Comment",
                                          related_name="reply_set",

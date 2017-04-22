@@ -9,17 +9,17 @@ import models
 
 
 def serve_file(request):
-    document = models.Document.objects.get(id = int(request.GET["document_id"]))
+    document = models.Document.objects.get(id=int(request.GET["document_id"]))
     file = document.unique_file
     file_position = file.file_field.storage.path(file.file_field)
     content = open(file_position, 'rb')
     response = HttpResponse(content, content_type='application/pdf')
-    response['Content-Disposition'] = "attachment; filename=%s.pdf" % (document.title)
+    response['Content-Disposition'] = "attachment; filename=%s.pdf" % document.title
     return response
 
 
 def edit_doc_title(request):
-    document = models.Document.objects.get(id = int(request.POST["document_id"]))
+    document = models.Document.objects.get(id=int(request.POST["document_id"]))
     new_doc_title = request.POST["new_doc_title"]
     document.title = new_doc_title
     document.save()
@@ -153,9 +153,9 @@ def display_file_viewer_page(request):
         file_position = file.file_field.storage.path(file.file_field)
         file_url = file.file_field.url
 
-        file_dirname, file_name_and_extension = os.path.split(file_position)
+        file_directory_name, file_name_and_extension = os.path.split(file_position)
         file_name, extension = file_name_and_extension.split(".")
-        img_folder_path = os.path.join(file_dirname, file_name)
+        img_folder_path = os.path.join(file_directory_name, file_name)
 
         pages = []
 

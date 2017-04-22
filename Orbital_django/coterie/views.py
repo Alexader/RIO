@@ -99,7 +99,7 @@ def serve_coteriefile(request):
     file_position = file.file_field.storage.path(file.file_field)
     content = open(file_position, 'rb')
     response = HttpResponse(content, content_type='application/pdf')
-    response['Content-Disposition'] = "attachment; filename=%s.pdf" % (document.title)
+    response['Content-Disposition'] = "attachment; filename=%s.pdf" % document.title
     return response
 
 
@@ -163,7 +163,7 @@ def display_coteriefile_viewer_page(request):
                 comment.content = request.POST["comment_content"]
                 comment.commenter = get_user(request)
                 comment.document_this_comment_belongs = document
-                if request.POST.has_key("reply_to_comment_id"):
+                if "reply_to_comment_id" in request.POST:
                     comment.reply_to_comment = models.CoterieComment.objects.get(
                         id=int(request.POST["reply_to_comment_id"]))
                 comment.save()
@@ -205,7 +205,7 @@ def display_coteriefile_viewer_page(request):
                 annotation_reply.replier = get_user(request)
                 annotation_reply.reply_to_annotation = annotation
 
-                if request.POST.has_key("reply_to_annotation_reply_id"):
+                if "reply_to_annotation_reply_id" in request.POST:
                     annotation_reply.reply_to_annotation_reply = models.CoterieAnnotationReply.objects.get(
                         id=int(request.POST["reply_to_annotation_reply_id"]))
 
@@ -242,12 +242,12 @@ def display_coteriefile_viewer_page(request):
 
         if extension == "zip":
             zip_file = zipfile.ZipFile(file_position, "r")
-            zip_alphabatical_list = sorted(zip_file.namelist())
+            zip_alphabetical_list = sorted(zip_file.namelist())
 
             if not os.path.isdir(img_folder_path):
                 os.mkdir(img_folder_path)
                 i = 0
-                for page_name in zip_alphabatical_list:
+                for page_name in zip_alphabetical_list:
                     zip_file.extract(page_name, img_folder_path)
                     os.rename(os.path.join(img_folder_path, page_name),
                               os.path.join(img_folder_path, str(i) + "." + page_name.split(".")[-1]))
@@ -256,19 +256,19 @@ def display_coteriefile_viewer_page(request):
                     i += 1
             else:
                 i = 0
-                for page_name in zip_alphabatical_list:
+                for page_name in zip_alphabetical_list:
                     pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." +
                                   page_name.split(".")[-1]])
                     i += 1
 
         elif extension == "rar":
             rar_file = rarfile.RarFile(file_position, "r")
-            rar_alphabatical_list = sorted(rar_file.namelist())
+            rar_alphabetical_list = sorted(rar_file.namelist())
 
             if not os.path.isdir(img_folder_path):
                 os.mkdir(img_folder_path)
                 i = 0
-                for page_name in rar_alphabatical_list:
+                for page_name in rar_alphabetical_list:
                     rar_file.extract(page_name, img_folder_path)
                     os.rename(os.path.join(img_folder_path, page_name),
                               os.path.join(img_folder_path, str(i) + "." + page_name.split(".")[-1]))
@@ -277,7 +277,7 @@ def display_coteriefile_viewer_page(request):
                     i += 1
             else:
                 i = 0
-                for page_name in rar_alphabatical_list:
+                for page_name in rar_alphabetical_list:
                     pages.extend([os.path.dirname(file_url)[1:] + "/" + file_name + "/" + str(i) + "." +
                                   page_name.split(".")[-1]])
                     i += 1
