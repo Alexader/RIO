@@ -9,8 +9,8 @@ urlpatterns = [
     url(r'^friends_page', views.display_friends_page, name="friends_page"),
 
     url(r'^group_page', views.display_group_page, name="group_page"),
-	
-	url(r'^friend_page', views.display_friend_page, name="friend_page"),
+
+    url(r'^friend_page', views.display_friend_page, name="friend_page"),
 
     url(r'^handle_log_out', views.handle_log_out, name="log_out"),
 

@@ -91,18 +91,18 @@ def display_friends_page(request):
 
 @login_required(login_url='/')
 def display_group_page(request):
-    type = request.GET["coterie_type"]
+    role = request.GET["coterie_type"]
     context = {
         "current_user": get_user(request),
         "coterie": Coterie.objects.get(id=request.GET["coterie_id"]),
-        "page_type": type +"_" + "coterie_page",
+        "page_type": role + "_" + "coterie_page",
     }
-    if type == "administrated":
+    if role == "administrated":
         return render(request, "user_dashboard/administrated_coterie_page.html", context)
-    elif type == "joined":
+    elif role == "joined":
         return render(request, "user_dashboard/joined_coterie_page.html", context)		
-		
-		
+
+
 @login_required(login_url='/')
 def display_friend_page(request):
     context = {
