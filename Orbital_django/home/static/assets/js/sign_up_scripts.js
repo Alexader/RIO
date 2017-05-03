@@ -95,7 +95,8 @@ jQuery(document).ready(function() {
         });
     });
 
-    // when leave sign_up_page, send information to the server to delete the temporary information for this signing up
+    // when leave sign_up_page,
+    // send information to the server to delete the temporary information for this signing up
     $(window).on("unload", function(){
         $.ajax({
             type: "POST",
@@ -108,7 +109,7 @@ jQuery(document).ready(function() {
         })
     });
 
-    // clear
+    // clear the content in all the input box
     $('.registration-form .btn-clear').on("click", function() {
         $(this).parents('.form-bottom').find('input').val("");
     });

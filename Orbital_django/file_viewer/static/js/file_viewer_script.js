@@ -81,12 +81,12 @@ function startListeningSelectionBoxCreation() {
         $(".ui-draggable").remove();  // detach() 会保留所有绑定的事件、附加的数据，而remove()不会
 
         var page = $(this).find(".PageImg, .PageCanvas");
-        var mouse_absolut_x = e.pageX;
-        var mouse_absolut_y = e.pageY;
+        var mouse_absolute_x = e.pageX;
+        var mouse_absolute_y = e.pageY;
         var page_top_left_x = page.offset().left;
         var page_top_left_y = page.offset().top;
-        var top_left_relative_x = mouse_absolut_x - page_top_left_x;
-        var top_left_relative_y = mouse_absolut_y - page_top_left_y;
+        var top_left_relative_x = mouse_absolute_x - page_top_left_x;
+        var top_left_relative_y = mouse_absolute_y - page_top_left_y;
 
         var new_annotation = $("<div class='Annotation'></div>");
         page.parents(".page_div, .PageDiv").append(new_annotation);
@@ -100,12 +100,12 @@ function startListeningSelectionBoxCreation() {
         });
 
         $(".PageImg, .PageCanvas, .Annotation").on("mousemove", function(e) {
-            mouse_absolut_x = e.pageX;
-            mouse_absolut_y = e.pageY;
+            mouse_absolute_x = e.pageX;
+            mouse_absolute_y = e.pageY;
             page_top_left_x = page.offset().left;
             page_top_left_y = page.offset().top;
-            var bottom_right_relative_x = mouse_absolut_x - page_top_left_x;
-            var bottom_right_relative_y = mouse_absolut_y - page_top_left_y;
+            var bottom_right_relative_x = mouse_absolute_x - page_top_left_x;
+            var bottom_right_relative_y = mouse_absolute_y - page_top_left_y;
 
             new_annotation.css({
                 "width": Math.abs(bottom_right_relative_x - top_left_relative_x),
@@ -128,13 +128,13 @@ function startListeningSelectionBoxCreation() {
                 new_annotation.draggable({ containment: "parent" }).resizable({ containment: "parent" });
                 
                 // show post-annotation window
-                // "annotationWindow" is a number (start from 1), which is the index of this annotatation window
+                // "annotationWindow" is a number (start from 1), which is the index of this annotation window
                 var annotationWindow = layer.open({
                     type: 1,
                     title: "Post Annotation",
                     shadeClose: true,
                     shade: false,
-                    maxmin: true,  //开启最大化最小化按钮
+                    maxmin: true,  // 开启最大化最小化按钮
                     zIndex: 800,
                     fixed: false,
                     content:    '<form id="annotation_form">\
@@ -206,7 +206,10 @@ function startListeningSelectionBoxCreation() {
     });
 }
 
-
+/**
+ * scale the annotation boxes and adjust their position accordingly
+ * @param scaleFactor
+ */
 function resizeAnnotations(scaleFactor) {
     $(".Annotation").each(function() {
         $(this).css("top", parseFloat($(this).css("top")) * scaleFactor + "px");
@@ -216,29 +219,31 @@ function resizeAnnotations(scaleFactor) {
     });
 }
 
-
-// called after clicking scale button (buttonForLarger/buttonForSmaller)
+/**
+ * called after clicking scale button (buttonForLarger/buttonForSmaller)
+ * @param {number} scaleFactor
+ */
 function scale(scaleFactor) {
     if ($("canvas").length == 0) {
         var oldScrollHeight = $("#file_viewer")[0].scrollHeight;
-        
+
         $('.PageImg').css("width", parseFloat($('.PageImg').css("width")) * scaleFactor + "px");
         $(".PageDiv").each(function() {
             var div = $(this);
             var img = div.children(".PageImg");
             div.css("width", img.width() + 6 + "px");
-            div.css("height", img.height() + 6 + "px");              
+            div.css("height", img.height() + 6 + "px");
         });
         resizeAnnotations(scaleFactor);
 
         var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight
         $("#file_viewer").scrollTop(parseFloat($("#file_viewer").scrollTop()) * factor);
-    }   
+    }
 }
 
 /**
  * scroll the specified page into fileViewer's visible window
- * @param {int} pageIndex - the index of the page to be scroll to 
+ * @param {jQuery} pageDiv - the jQuery object representing the page to scroll to
  * @return {undefined}
  */
 function scrollPageDivIntoView(pageDiv) {
@@ -268,7 +273,7 @@ function addCommentRelatedListener() {
         if (is_authenticated) {
             $this = $(this);
             var new_num = parseInt($this.next().text()) + 1;
-            $this.next().text(new_num.toString())                
+            $this.next().text(new_num.toString())
             $this.off("click");
             $this.css("color", "#6495ED");
             $this.on("click", function() {
@@ -345,13 +350,44 @@ function addCommentRelatedListener() {
                 }
             })
         }
-        else
-            layer.msg('you need to log in to reply'); 
+        else layer.msg('you need to log in to reply');
     })
 }
 
-$(document).ready(function() {
-    tinymceInit();
+function setupFileViewerSize() {
+    var wrapper = $("#wrapper");
+    var fileViewer = $("#file_viewer");
+    // 设置wrapper的高度
+    wrapper.css("height", document.body.clientHeight - 28 + "px");  //jquery的css方法既可以设置css内容又可以获取css内容
+    wrapper.css("width", document.body.clientWidth);
+    // 设置fileViewer的高度和宽度
+    fileViewer.css("height", wrapper.height() + "px");
+    fileViewer.css("width", parseInt(wrapper.css("width")) * 0.6 + "px");  //jquery的css方法获得的是字符串，用js的parseInt获取数值
+    // 设置annotation_update_div的高度和宽度
+    $("#annotation_update_div").css("height", wrapper.height() + "px");
+    $("#annotation_update_div").css("width", wrapper.width() - 3.8 - fileViewer.width() + "px");
+
+    $("#horizontal_draggable").css("height", wrapper.height() + "px");
+
+    // 设置文档的大小
+    $(".PageImg").css("width", fileViewer.width() - 24 + "px");
+    $(".PageDiv").each(function() {
+        var div = $(this);
+        var img = div.children(".PageImg");
+        imgLoad(img[0], function() {
+            div.css("width", img.width() + 6 + "px");
+            div.css("height", img.height() + 6 + "px");
+        });
+        /* this is not correct when images are gotten from cache rather than loaded from url
+            "complete" is true when the image is shown
+            "load" is triggered when the image is loaded from url
+        img.load(function() {
+            div.css("height", img.height() + 6 + "px");
+        });*/
+    });
+}
+
+function animateOnce() {
     // add animation using animate.css
     $.fn.extend({
         animateOnce: function (animationName) {
@@ -363,6 +399,11 @@ $(document).ready(function() {
     });
     $("#navbar").animateOnce("fadeInDown")
     $("#annotation_update_div").find("blockquote").animateOnce("fadeInRight")
+}
+
+$(document).ready(function() {
+    tinymceInit();
+    animateOnce();
     $("#refresh_comment_button").on('click', function () {
         $.ajax({
             type: "POST",
@@ -384,7 +425,7 @@ $(document).ready(function() {
         scale(scaleFactor);
     });
     $("#buttonForSmaller").on('click', function () {
-        scale(1/scaleFactor);
+        scale(1 / scaleFactor);
     });
 
     $("#post_comment_button").click(function () {
@@ -409,57 +450,25 @@ $(document).ready(function() {
                 }
             })
         }
-        else
-            layer.msg('you need to log in to post comment');
+        else layer.msg('you need to log in to post comment');
     });
-    
+
     $(window).resize(function () {
-        var wrapper = $("#wrapper");
-        var fileViewer = $("#file_viewer");
-        wrapper.css("height", document.body.clientHeight - 28 + "px");
-        wrapper.css("width", document.body.clientWidth);
-        fileViewer.css("height", wrapper.height() + "px");
-        fileViewer.css("width", wrapper.width() * 0.6 + "px");
-        $("#annotation_update_div").css("height", wrapper.height() + "px");
-        $("#annotation_update_div").css("width", wrapper.width() - 3.8 - fileViewer.width() + "px");
+        setupFileViewerSize();
 
-        $("#horizontal_draggable").css("height", wrapper.height() + "px");
-        // 设置文档的大小
         var originalWidth = parseFloat($(".PageImg").css("width"));
-
-        $(".PageImg").css("width", fileViewer.width() - 24 + "px");
-
-        $(".PageDiv").each(function() {
-            var div = $(this);
-            var img = div.children(".PageImg");
-            imgLoad(img[0], function() {
-                div.css("width", img.width() + 6 + "px");
-                div.css("height", img.height() + 6 + "px");
-            });
-        });
-
         var newWidth = parseFloat($(".PageImg").css("width"));
         var scaleFactor = newWidth / originalWidth;
         resizeAnnotations(scaleFactor)
     });
     
     addCommentRelatedListener();
+    setupFileViewerSize();
 
     var wrapper = $("#wrapper");
     var fileViewer = $("#file_viewer");
-    // 设置wrapper的高度
-    wrapper.css("height", document.body.clientHeight - 28 + "px");  //jquery的css方法既可以设置css内容又可以获取css内容
-    wrapper.css("width", document.body.clientWidth);
-    // 设置fileViewer的高度和宽度
-    fileViewer.css("height", wrapper.height() + "px");
-    fileViewer.css("width", parseInt(wrapper.css("width")) * 0.6 + "px");  //jquery的css方法获得的是字符串，用js的parseInt获取数值
-    // 设置annotation_update_div的高度和宽度
-    $("#annotation_update_div").css("height", wrapper.height() + "px");
-    $("#annotation_update_div").css("width", wrapper.width() - 3.8 - fileViewer.width() + "px");
-
-    $("#horizontal_draggable").css("height", wrapper.height() + "px");
-    $("#horizontal_draggable").draggable({ 
-        axis: "x", 
+    $("#horizontal_draggable").draggable({
+        axis: "x",
         containment: "#containment-wrapper", 
         revert: true,
         revertDuration: 0,
@@ -469,21 +478,5 @@ $(document).ready(function() {
             $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
             console.log(fileViewer.width())
         }
-    });
-    // 设置文档的大小
-    $(".PageImg").css("width", fileViewer.width() - 24 + "px");
-    $(".PageDiv").each(function() {
-        var div = $(this);
-        var img = div.children(".PageImg");
-        imgLoad(img[0], function() {
-            div.css("width", img.width() + 6 + "px");
-            div.css("height", img.height() + 6 + "px");
-        });
-        /* this is not correct when images are gotten from cache rather than loaded from url
-            "complete" is true when the image is shown
-            "load" is triggered when the image is loaded from url
-        img.load(function() {
-            div.css("height", img.height() + 6 + "px");
-        });*/
     });
 });
