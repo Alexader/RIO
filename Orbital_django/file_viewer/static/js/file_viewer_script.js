@@ -401,9 +401,17 @@ function animateOnce() {
     $("#annotation_update_div").find("blockquote").animateOnce("fadeInRight")
 }
 
-$(document).ready(function() {
-    tinymceInit();
-    animateOnce();
+function enableResizeButton() {
+    // img resize
+    $("#buttonForLarger").on('click', function () {
+        scale(scaleFactor);
+    });
+    $("#buttonForSmaller").on('click', function () {
+        scale(1 / scaleFactor);
+    });
+}
+
+function enableRefreshCommentButton() {
     $("#refresh_comment_button").on('click', function () {
         $.ajax({
             type: "POST",
@@ -419,16 +427,10 @@ $(document).ready(function() {
             },
         })
     });
+}
 
-    // img resize
-    $("#buttonForLarger").on('click', function () {
-        scale(scaleFactor);
-    });
-    $("#buttonForSmaller").on('click', function () {
-        scale(1 / scaleFactor);
-    });
-
-    $("#post_comment_button").click(function () {
+function enablePostCommentButton() {
+    $("#post_comment_button").on('click', function () {
         if (is_authenticated) {
             tinyMCE.triggerSave();  // http://www.sifangke.com/2012/04/ajax-submit-tinymce-content/
             var index = layer.load(0, {shade: 0.18});  //0代表加载的风格，支持0-2
@@ -452,6 +454,15 @@ $(document).ready(function() {
         }
         else layer.msg('you need to log in to post comment');
     });
+}
+
+$(document).ready(function() {
+    tinymceInit();
+    animateOnce();
+
+    enablePostCommentButton();
+    enableRefreshCommentButton();
+    enableResizeButton();
 
     $(window).resize(function () {
         setupFileViewerSize();
