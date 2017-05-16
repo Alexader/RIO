@@ -124,7 +124,6 @@ def change_portrait(request):
         if user.portrait and hasattr(user.portrait, 'name'):
             previous_portrait = user.portrait
             img_location = previous_portrait.name
-            print img_location
             previous_portrait.storage.delete(img_location)
 
         # store and set the new portrait
