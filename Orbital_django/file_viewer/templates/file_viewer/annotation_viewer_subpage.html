@@ -68,7 +68,7 @@ $(document).ready(function() {
                 operation: "delete_annotation",
                 annotation_id: this.value,
             },
-            success: function () {
+            success: function() {
                 window.location.reload();
             }
         })
@@ -84,7 +84,7 @@ $(document).ready(function() {
                 reply_id: this.value,
                 document_id: $("button[name='document_id']").val(),
             },
-            success: function (data) {
+            success: function(data) {
                 $("#annotation_update_div").html(data);
                 tinymceInit();
                 layer.close(index);
@@ -106,7 +106,7 @@ $(document).ready(function() {
                     reply_to_annotation_id: thisButton.val(),
                     document_id: $("button[name='document_id']").val(),
                 },
-                success: function (data) {
+                success: function(data) {
                     $("#annotation_update_div").html(data);
                     tinymceInit();
                     layer.close(index);
@@ -132,7 +132,7 @@ $(document).ready(function() {
                     reply_to_annotation_reply_id: thisButton.val(),
                     document_id: $("button[name='document_id']").val(),
                 },
-                success: function (data) {
+                success: function(data) {
                     $("#annotation_update_div").html(data);
                     tinymceInit();
                     layer.close(index);
@@ -154,7 +154,7 @@ $(document).ready(function() {
             }
         }});
     })
-    $(".LikeAnnotationButton").on("click", function () {
+    $(".LikeAnnotationButton").on("click", function() {
         if (is_authenticated) {
             $this = $(this);
             var new_num = parseInt($this.next().text()) + 1;
@@ -177,7 +177,7 @@ $(document).ready(function() {
         else
             layer.msg('you need to log in to like');
     });
-    $(".LikeAnnotationReplyButton").on("click", function () {
+    $(".LikeAnnotationReplyButton").on("click", function() {
         if (is_authenticated) {
             $this = $(this);
             var new_num = parseInt($this.next().text()) + 1;
@@ -202,19 +202,19 @@ $(document).ready(function() {
     });
     $(".AnnotationBlock").on("mouseover", function() {
         var annotation_id = $(this).attr("annotation_id");
-        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
+        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']");
         $(this).css("background-color", Annotation.css("background-color"));
         Annotation.css("border", "1px solid #0F0F0F");
     });
     $(".AnnotationBlock").on("mouseout", function() {
         var annotation_id = $(this).attr("annotation_id");
-        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
+        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']");
         $(this).css("background-color", "white");
         Annotation.css("border", "none");
     });
     $(".AnnotationBlock").on("click", function() {  // scroll to the corresponding Anotation when clicking a certain AnnotationBlock
         var annotation_id = $(this).attr("annotation_id");
-        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
+        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']");
         var fileViewer = $("#file_viewer");
         var down = Annotation.offset().top - fileViewer.offset().top + fileViewer.scrollTop() - window.innerHeight * 0.38 + Annotation.height() / 2;
         fileViewer.animate({scrollTop: parseInt(down)}, 240);

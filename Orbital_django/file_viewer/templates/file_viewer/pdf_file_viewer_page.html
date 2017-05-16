@@ -193,7 +193,7 @@ function prepareAndRenderAll(scale) {
 
     var documentLoadingIcon = layer.load(1, {shade: false, offset: '48%'});
     PDFJS.getDocument(url).then(function(pdf) {
-        layer.close(documentLoadingIcon)
+        layer.close(documentLoadingIcon);
 
         pdfDoc = pdf;
         
@@ -204,16 +204,15 @@ function prepareAndRenderAll(scale) {
         // also 
         // initialize the canvases' height and width according to the last page
         pdfDoc.getPage(numPages).then(function(sample_page) {
-            samplePage = sample_page;
-            var appendPages = ""
+            var appendPages = "";
             sampleHeight = sample_page.getViewport(scale).height;
             sampleWidth = sample_page.getViewport(scale).width;
 
             for (var i = 1; i <= pdfDoc.numPages; i++) {
-                new_page_div_id = "page_div_" + i;
-                new_page_canvas_id = "page_canvas_" + i;
+                var new_page_div_id = "page_div_" + i;
+                var new_page_canvas_id = "page_canvas_" + i;
 
-                new_page = "<div class='page_div' id=" + "'" + new_page_div_id +  "'>" + 
+                var new_page = "<div class='page_div' id=" + "'" + new_page_div_id +  "'>" +
                             "<canvas class='PageCanvas' id=" + "'" + new_page_canvas_id + "'" + "></canvas>" + 
                             "</div>" +
                             "<br>";
@@ -222,8 +221,8 @@ function prepareAndRenderAll(scale) {
 
             $("#file_viewer").append(appendPages);
 
-            $(".page_div").css("height", (sampleHeight + 6) + "px")
-            $(".page_div").css("width", (sampleWidth + 6) + "px")
+            $(".page_div").css("height", (sampleHeight + 6) + "px");
+            $(".page_div").css("width", (sampleWidth + 6) + "px");
 
             startListeningSelectionBoxCreation();
             drawAllExistingAnnotationFrame();
@@ -247,7 +246,7 @@ function startListeningScroll() {
 
     $("#file_viewer").scroll(function() {
         var percentage = this.scrollTop / this.scrollHeight;
-        page_index = Math.ceil(percentage * numPages);
+        var page_index = Math.ceil(percentage * numPages);
         if (page_index != previous) {
 
             // console.log(finishList);
@@ -311,7 +310,7 @@ function drawAllExistingAnnotationFrame() {
             "left": pageDiv.width() * left_percent + "px",
             "top": pageDiv.height() * top_percent + "px",
         });
-        new_annotation.attr("annotation_id", '{{ annotation.id }}')
+        new_annotation.attr("annotation_id", '{{ annotation.id }}');
         pageDiv.append(new_annotation);
     {% endfor %}
 }
