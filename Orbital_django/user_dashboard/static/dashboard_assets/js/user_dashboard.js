@@ -86,7 +86,7 @@ $(document).ready(function() {
 
     // confirmation after clicking delete
     $(".FileDeleteForm").find("button").on("click", function() {
-        var this_button = $(this);
+        var thisBtn = $(this);
         layer.confirm('confirm delete?', 
             {
                 btn: ['yes'], //按钮
@@ -95,13 +95,13 @@ $(document).ready(function() {
             }, 
             function() {
                 layer.msg('delete successfully', {icon: 1});
-                this_button.parents(".FileDeleteForm").submit();
+                thisBtn.parents(".FileDeleteForm").submit();
             }
         );
     });
     // confirmation after clicking remove member
     $(".MemberRemoveForm").find("button").on("click", function() {
-        var this_button = $(this);
+        var thisBtn = $(this);
         layer.confirm('confirm remove this member?', 
             {
                 btn: ['yes'], //按钮
@@ -110,7 +110,7 @@ $(document).ready(function() {
             }, 
             function() {
                 layer.msg('remove successfully', {icon: 1});
-                this_button.parents(".MemberRemoveForm").submit();
+                thisBtn.parents(".MemberRemoveForm").submit();
             }
         );
     });
