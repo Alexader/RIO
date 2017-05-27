@@ -28,7 +28,6 @@
                 xsize = $pcnt.width(),
                 ysize = $pcnt.height();
 
-                console.log('init',[xsize,ysize]);
                 $('#preview').Jcrop({
                     onChange: updatePreview,
                     onSelect: updatePreview,
@@ -50,10 +49,6 @@
     	            if (parseInt(c.w) > 0){
      		            var rx = xsize / c.w;
                         var ry = ysize / c.h;
-                        console.log("new width:"+Math.round(rx * boundx) );
-                        console.log("new height:"+Math.round(ry * boundy) );
-                        console.log("marginTop:"+Math.round(ry * c.y));
-                        console.log("marginLeft:"+Math.round(rx * c.x));
 
                         img_top_margin=c.y;
                         img_left_margin=c.x;

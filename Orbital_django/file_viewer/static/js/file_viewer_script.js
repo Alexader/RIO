@@ -486,7 +486,6 @@ $(document).ready(function() {
             var left = ui.offset["left"];
             fileViewer.css("width", left + "px");
             $("#annotation_update_div").css("width", wrapper.width() - 3 - fileViewer.width() + "px");
-            console.log(fileViewer.width())
         }
     });
 });
