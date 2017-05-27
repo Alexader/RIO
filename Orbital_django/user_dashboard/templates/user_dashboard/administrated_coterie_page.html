@@ -60,7 +60,7 @@
                                                 <td>{{ user.nickname }}</td>
                                                 <td>{{ user.email_address }}</td>
                                                 <td>
-                                                    <form class="member_remove_form" method="post" action="/coterie/handle_remove_member" style="display: inline-block; font-family: arial; color: white">
+                                                    <form class="MemberRemoveForm" method="post" action="/coterie/handle_remove_member" style="display: inline-block; font-family: arial; color: white">
                                                         {% csrf_token %}
                                                         <input name="coterie_id" value={{ coterie.id }} style="display: none;">
                                                         <input name="user_id" value={{ user.id }} style="display: none;">
@@ -136,7 +136,7 @@
                                                 <tr>
                                                     <td>1</td>
                                                     <td>
-                                                        <i class="fa fa-pencil-square-o edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>&nbsp
+                                                        <i class="fa fa-pencil-square-o EditDocTitleButton" style="cursor: pointer" aria-hidden="true"></i>&nbsp
                                                         <span>{{ document.title }}</span>
                                                     </td>
                                                     <td>
@@ -148,7 +148,7 @@
                                                         </form>
                                                     </td>
                                                     <td>
-                                                        <form class="file_delete_form" method="post" action="/coterie/handle_coteriefile_delete" style="display: inline-block;">
+                                                        <form class="FileDeleteForm" method="post" action="/coterie/handle_coteriefile_delete" style="display: inline-block;">
                                                         {% csrf_token %}
                                                             <input name="coterie_id" value="{{ coterie.id }}" style="display: none;">
                                                             <input name="current_url" value="{{ request.get_full_path }}" style="display: none;">
@@ -204,6 +204,6 @@
 {% endblock %}
 {% block extra_script %}
     <script>
-        var user_dashboard_page_type = "administrated_coterie_page";
+        var userDashboardPageType = "administrated_coterie_page";
     </script>
 {% endblock %} 

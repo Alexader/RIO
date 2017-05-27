@@ -5,11 +5,11 @@ import os
 import zipfile
 # from unrar import rarfile
 # from wand.image import Image
-import models
+from models import Document, Annotation, Comment, AnnotationReply
 
 
 def serve_file(request):
-    document = models.Document.objects.get(id=int(request.GET["document_id"]))
+    document = Document.objects.get(id=int(request.GET["document_id"]))
     file = document.unique_file
     file_position = file.file_field.storage.path(file.file_field)
     content = open(file_position, 'rb')
@@ -19,7 +19,7 @@ def serve_file(request):
 
 
 def edit_doc_title(request):
-    document = models.Document.objects.get(id=int(request.POST["document_id"]))
+    document = Document.objects.get(id=int(request.POST["document_id"]))
     new_doc_title = request.POST["new_doc_title"]
     document.title = new_doc_title
     document.save()
@@ -29,13 +29,13 @@ def edit_doc_title(request):
 def display_file_viewer_page(request):
     if request.method == "POST":
         if request.POST["operation"] == "delete_annotation":
-            annotation = models.Annotation.objects.get(id=int(request.POST["annotation_id"]))
+            annotation = Annotation.objects.get(id=int(request.POST["annotation_id"]))
             annotation.delete()
             return HttpResponse()
 
         elif request.POST["operation"] == "delete_annotation_reply":
-            document = models.Document.objects.get(id=int(request.POST["document_id"]))
-            reply_annotation = models.AnnotationReply.objects.get(id=int(request.POST["reply_id"]))
+            document = Document.objects.get(id=int(request.POST["document_id"]))
+            reply_annotation = AnnotationReply.objects.get(id=int(request.POST["reply_id"]))
             reply_annotation.delete()
             context = {
                 "document": document,
@@ -44,8 +44,8 @@ def display_file_viewer_page(request):
             return render(request, "file_viewer/annotation_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "delete_comment":
-            document = models.Document.objects.get(id=int(request.POST["document_id"]))
-            comment = models.Comment.objects.get(id=int(request.POST["comment_id"]))
+            document = Document.objects.get(id=int(request.POST["document_id"]))
+            comment = Comment.objects.get(id=int(request.POST["comment_id"]))
             comment.delete()
             context = {
                 "document": document,
@@ -54,39 +54,39 @@ def display_file_viewer_page(request):
             return render(request, "file_viewer/comment_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "like_annotation":
-            annotation = models.Annotation.objects.get(id=int(request.POST["annotation_id"]))
+            annotation = Annotation.objects.get(id=int(request.POST["annotation_id"]))
             annotation.num_like += 1
             annotation.save()
             return HttpResponse()
 
         elif request.POST["operation"] == "like_annotation_reply":
-            annotation_reply = models.AnnotationReply.objects.get(id=int(request.POST["annotation_reply_id"]))
+            annotation_reply = AnnotationReply.objects.get(id=int(request.POST["annotation_reply_id"]))
             annotation_reply.num_like += 1
             annotation_reply.save()
             return HttpResponse()
 
         elif request.POST["operation"] == "like_comment":
-            comment = models.Comment.objects.get(id=int(request.POST["comment_id"]))
+            comment = Comment.objects.get(id=int(request.POST["comment_id"]))
             comment.num_like += 1
             comment.save()
             return HttpResponse()
 
         elif request.POST["operation"] == "collect":
             user = get_user(request)
-            document = models.Document.objects.get(id=int(request.POST["document_id"]))
+            document = Document.objects.get(id=int(request.POST["document_id"]))
             document.collectors.add(user)
             document.save()
             return HttpResponse()
 
         elif request.POST["operation"] == "uncollect":
             user = get_user(request)
-            document = models.Document.objects.get(id=int(request.POST["document_id"]))
+            document = Document.objects.get(id=int(request.POST["document_id"]))
             document.collectors.remove(user)
             document.save()
             return HttpResponse()
 
         elif request.POST["operation"] == "refresh":
-            document = models.Document.objects.get(id=int(request.POST["document_id"]))
+            document = Document.objects.get(id=int(request.POST["document_id"]))
             context = {
                 "document": document,
                 "comments": document.comment_set.order_by("-post_time"),
@@ -94,14 +94,14 @@ def display_file_viewer_page(request):
             return render(request, "file_viewer/comment_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "comment":
-            document = models.Document.objects.get(id=int(request.POST["document_id"]))
+            document = Document.objects.get(id=int(request.POST["document_id"]))
             if request.POST["comment_content"] != "":    
-                comment = models.Comment()
+                comment = Comment()
                 comment.content = request.POST["comment_content"]
                 comment.commenter = get_user(request)
                 comment.document_this_comment_belongs = document
                 if "reply_to_comment_id" in request.POST:
-                    comment.reply_to_comment = models.Comment.objects.get(id=int(request.POST["reply_to_comment_id"]))
+                    comment.reply_to_comment = Comment.objects.get(id=int(request.POST["reply_to_comment_id"]))
                 comment.save()
             context = {
                 "document": document,
@@ -110,8 +110,8 @@ def display_file_viewer_page(request):
             return render(request, "file_viewer/comment_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "annotate":
-            document = models.Document.objects.get(id=int(request.POST["document_id"]))
-            annotation = models.Annotation()
+            document = Document.objects.get(id=int(request.POST["document_id"]))
+            annotation = Annotation()
             annotation.content = request.POST["annotation_content"]
             annotation.annotator = get_user(request)
             annotation.document_this_annotation_belongs = document
@@ -130,15 +130,15 @@ def display_file_viewer_page(request):
             return render(request, "file_viewer/annotation_viewer_subpage.html", context)
 
         elif request.POST["operation"] == "reply_annotation":
-            document = models.Document.objects.get(id=int(request.POST["document_id"]))
+            document = Document.objects.get(id=int(request.POST["document_id"]))
             if request.POST["annotation_reply_content"] != "":
-                annotation_reply = models.AnnotationReply()
-                annotation = models.Annotation.objects.get(id=int(request.POST["reply_to_annotation_id"]))    
+                annotation_reply = AnnotationReply()
+                annotation = Annotation.objects.get(id=int(request.POST["reply_to_annotation_id"]))    
                 annotation_reply.content = request.POST["annotation_reply_content"]
                 annotation_reply.replier = get_user(request)
                 annotation_reply.reply_to_annotation = annotation
                 if request.POST.has_key("reply_to_annotation_reply_id"):
-                    annotation_reply.reply_to_annotation_reply = models.AnnotationReply.objects.get(id=int(request.POST["reply_to_annotation_reply_id"]))
+                    annotation_reply.reply_to_annotation_reply = AnnotationReply.objects.get(id=int(request.POST["reply_to_annotation_reply_id"]))
                 annotation_reply.save()
             context = {
                 "document": document,
@@ -147,7 +147,7 @@ def display_file_viewer_page(request):
             return render(request, "file_viewer/annotation_viewer_subpage.html", context)
 
     else:
-        document = models.Document.objects.get(id=int(request.GET["document_id"]))
+        document = Document.objects.get(id=int(request.GET["document_id"]))
         file = document.unique_file
 
         file_position = file.file_field.storage.path(file.file_field)

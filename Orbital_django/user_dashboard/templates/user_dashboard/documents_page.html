@@ -28,7 +28,7 @@
                                                 <tr>
                                                     <td>1</td>
                                                     <td>
-                                                        <i class="fa fa-pencil-square-o edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>&nbsp
+                                                        <i class="fa fa-pencil-square-o EditDocTitleButton" style="cursor: pointer" aria-hidden="true"></i>&nbsp
                                                         <span>{{ document.title }}</span>
                                                     </td>
                                                     <td>
@@ -38,7 +38,7 @@
                                                         </form>
                                                     </td>
                                                     <td>
-                                                        <form class="file_delete_form" method="post" action="/user_dashboard/handle_delete" style="display: inline-block;">
+                                                        <form class="FileDeleteForm" method="post" action="/user_dashboard/handle_delete" style="display: inline-block;">
                                                         {% csrf_token %}
                                                             <input name="document_id" value={{ document.id }} style="display: none">
                                                             <button type="button" class="btn btn-info">delete</button>
@@ -130,6 +130,6 @@
 {% endblock %}
 {% block extra_script %}
     <script>
-        var user_dashboard_page_type = "documents_page";
+        var userDashboardPageType = "documents_page";
     </script>
 {% endblock %} 

@@ -115,7 +115,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SESSION_ENGINE = "django.contrib.sessions.backends.file"
-SESSION_FILE_PATH = os.path.join(BASE_DIR, 'temp_session')
+SESSION_FILE_PATH = os.path.join(BASE_DIR, 'temp_sessions')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

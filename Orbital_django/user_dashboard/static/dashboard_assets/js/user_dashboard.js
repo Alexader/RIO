@@ -1,24 +1,24 @@
 'use strict';
 
-function add_edit_doc_title_listener() {
+function addEditDocTitleListener() {
     // change document title
-    $(".edit_doc_title_button").on("click", function() {
+    $(".EditDocTitleButton").on("click", function() {
         var $td = $(this).parents("td");
-        var orig_doc_title = $td.find("span").text();
+        var origDocTitle = $td.find("span").text();
         $td.html("<input type='text'></input>&nbsp<i class='fa fa-check-circle' style='cursor: pointer' aria-hidden='true'></i>");
-        if (user_dashboard_page_type == "administrated_coterie_page")
+        if (userDashboardPageType == "administrated_coterie_page")
             $td.find("input").css("width", String($td.width() - $td.find("i").width() - 80) + "px");
         else
             $td.find("input").css("width", String($td.width() - $td.find("i").width() - 28) + "px");
-        $td.find("input").val(orig_doc_title);
+        $td.find("input").val(origDocTitle);
 
         $td.find("i").on("click", function() {
             var new_doc_title = $td.find("input").val();
-            if (new_doc_title != orig_doc_title) {
+            if (new_doc_title != origDocTitle) {
 
-                if (user_dashboard_page_type == "documents_page")
+                if (userDashboardPageType == "documents_page")
                     var action = "/file_viewer/edit_doc_title";
-                else if (user_dashboard_page_type == "administrated_coterie_page")
+                else if (userDashboardPageType == "administrated_coterie_page")
                     var action = "/coterie/edit_coteriedoc_title";
 
                 $.ajax({
@@ -31,8 +31,8 @@ function add_edit_doc_title_listener() {
                     },
                 });
             }
-            $td.html('<i class="fa fa-pencil-square-o edit_doc_title_button" style="cursor: pointer" aria-hidden="true"></i>&nbsp' + '<span>' + new_doc_title + '</span>');
-            add_edit_doc_title_listener();
+            $td.html('<i class="fa fa-pencil-square-o EditDocTitleButton" style="cursor: pointer" aria-hidden="true"></i>&nbsp' + '<span>' + new_doc_title + '</span>');
+            addEditDocTitleListener();
         });
     });
 }
@@ -85,7 +85,7 @@ $(document).ready(function() {
     });
 
     // confirmation after clicking delete
-    $(".file_delete_form").find("button").on("click", function() {
+    $(".FileDeleteForm").find("button").on("click", function() {
         var this_button = $(this);
         layer.confirm('confirm delete?', 
             {
@@ -95,12 +95,12 @@ $(document).ready(function() {
             }, 
             function() {
                 layer.msg('delete successfully', {icon: 1});
-                this_button.parents(".file_delete_form").submit();
+                this_button.parents(".FileDeleteForm").submit();
             }
         );
     });
     // confirmation after clicking remove member
-    $(".member_remove_form").find("button").on("click", function() {
+    $(".MemberRemoveForm").find("button").on("click", function() {
         var this_button = $(this);
         layer.confirm('confirm remove this member?', 
             {
@@ -110,12 +110,12 @@ $(document).ready(function() {
             }, 
             function() {
                 layer.msg('remove successfully', {icon: 1});
-                this_button.parents(".member_remove_form").submit();
+                this_button.parents(".MemberRemoveForm").submit();
             }
         );
     });
 
-    add_edit_doc_title_listener();
+    addEditDocTitleListener();
 });
 
 function getCookie(name) {
