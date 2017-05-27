@@ -67,12 +67,6 @@ target/
 
 #################### added my Roy #########################
 **/.idea/
-.sqlite3
-**/temp_session/
-
-
-
-
-
-
+db.sqlite3
+**/temp_sessions/
 
