@@ -51,7 +51,7 @@ jQuery(document).ready(function() {
     });
 
     // first step's next step
-    $('.registration-form .btn-next').on("click", function() {
+    $(".registration-form .btn-next").on("click", function() {
     	var parentRegistrationForm = $(this).parents('.registration-form');
        
         parentRegistrationForm.find("iframe").on("load", function() {
@@ -68,7 +68,7 @@ jQuery(document).ready(function() {
     });
 
     // second step
-    $('#sign_me_up_button').on('click', function(e) {
+    $("#sign_me_up_button").on("click", function(e) {
         var parentRegistrationForm = $(this).parents('.registration-form');
         parentRegistrationForm.find('input[type="text"], input[type="password"], input[type="email"]').each(function() {
             if( $(this).val() == "" ) {
@@ -85,7 +85,7 @@ jQuery(document).ready(function() {
                     },
                     success: function (data) {
                         if (data == "wrong") {
-                            document.getElementById("message2").innerHTML = "<font color='red'>verification code is incorrect</font>";
+                            document.getElementById("message2").innerHTML = "<span color='red'>verification code is incorrect</span>";
                         } else {
                             window.location.href = "/";  // return to home page
                         }
@@ -102,7 +102,7 @@ jQuery(document).ready(function() {
             type: "POST",
             url: "/handle_sign_up",
             data: {
-                csrfmiddlewaretoken: getCookie('csrftoken'),
+                csrfmiddlewaretoken: getCookie("csrftoken"),
                 leave: "yes",
                 email_address: email_address,
             },
@@ -118,20 +118,17 @@ jQuery(document).ready(function() {
     $(".registration-form[target='for_submit_refresh']").find("input[name='password_confirm']").keyup(function () {
         var pw1 = document.getElementsByName("password")[0].value;
         var pw2 = document.getElementsByName("password_confirm")[0].value;
-        if(pw2.length < 6){
-            document.getElementById("message").innerHTML="<font color='red'>Password must be longer than or equal to 6 digts.</font>";
+        if (pw2.length < 6){
+            document.getElementById("message").innerHTML="<span color='red'>Password must be longer than or equal to 6 digts.</span>";
             document.getElementById("next_button").disabled = true;
-        }
-        else if(! /^(?=.*[a-z])[a-z0-9]+/ig.test(pw2)){
-            document.getElementById("message").innerHTML="<font color='red'>Password may contain only letters or numbers.</font>";
+        } else if (! /^(?=.*[a-z])[a-z0-9]+/ig.test(pw2)){
+            document.getElementById("message").innerHTML="<span color='red'>Password may contain only letters or numbers.</span>";
             document.getElementById("next_button").disabled = true;
-        }
-        else if(pw1 == pw2) {
-            document.getElementById("message").innerHTML="<font color='green'>Password confirmed.</font>";
+        } else if (pw1 == pw2) {
+            document.getElementById("message").innerHTML="<span color='green'>Password confirmed.</span>";
             document.getElementById("next_button").disabled = false;
-        } 
-        else {
-            document.getElementById("message").innerHTML="<font color='red'>Passwords mismatch.</font>";
+        } else {
+            document.getElementById("message").innerHTML="<span color='red'>Passwords mismatch.</span>";
             document.getElementById("next_button").disabled = true;
         }
     });
