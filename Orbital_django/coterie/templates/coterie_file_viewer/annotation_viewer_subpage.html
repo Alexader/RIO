@@ -1,4 +1,5 @@
 {% for annotation in annotations %}
+<div class="AnnotationDiv" annotation_id="{{ annotation.id }}">
 <hr>
 <blockquote class="AnnotationBlock" annotation_id="{{ annotation.id }}">
     <!--annotation-->
@@ -22,41 +23,47 @@
             <button type="button" class="PostAnnotationReplyButton btn btn-sm btn-info" name="annotation_id" value="{{ annotation.id }}" style="margin-top: 8px; float: right;"> reply</button>
         </form>
     </footer>
-<br>
+    <br>
     <!--annotation replies-->
     {% for annotation_reply in annotation.coterieannotationreply_set.all|dictsort:"post_time" %}
-        <blockquote class="AnnotationReplyBlock" annotation_id="{{ annotation_reply.id }}">
-            {% if annotation_reply.reply_to_annotation_reply.replier %}  <!-- if reply to reply -->
-            <span style="font-size: 66%; float: left;">
-                <i class="fa fa-share" aria-hidden="true"></i>&nbsp&nbsp&nbspreply to <i><b>{{ annotation_reply.reply_to_annotation_reply.replier.nickname }}</b></i>:
-            </span><br>
-            {% endif %}
-            <div class="content-markdown" style="padding-bottom: 8px; font-size: 80%; font-family: Microsoft Yahei;"> {{ annotation_reply.content|safe|linebreaks }} </div>
-            <footer>
-                <img class="img-rounded" src="{{ annotation_reply.replier.portrait_url }}" height="28" width="28">
-                {{ annotation_reply.replier.nickname }} | {{ annotation_reply.post_time.date|date:"Y. M. d" }}
-                <div style="float: right;">
-                    <button class="ReplyAnnotationButton btn" style="border: none; background: none; padding: 0 4px"><i class="fa fa-reply" aria-hidden="true"></i>&nbspreply</button>
-                    {% if annotation_reply.replier == request.user %}
-                        <button class="DeleteAnnotationReplyButton btn" style="border: none; background: none; padding: 0 4px" value="{{ annotation_reply.id }}"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbspdelete</button>
-                    {% endif %}
-                    <div class="btn" style="padding: 0 4px">
-                        <span style="cursor: pointer;" annotation_reply_id="{{ annotation_reply.id }}" class="LikeAnnotationReplyButton glyphicon glyphicon-thumbs-up"></span>
-                        <bold id="num_like">{{ annotation_reply.num_like }}</bold>
-                    </div>
-                </div>   
-                <form style="display: none">
-                    <br>
-                    <textarea name="reply_reply_content" class="form-control" rows="2" style="resize: vertical"></textarea>
-                    <button type="button" class="PostReplyReplyButton btn btn-sm btn-info" name="reply_to_annotation_reply_id" value="{{ annotation_reply.id }}" style="margin-top: 8px; float: right;" >reply</button>
-                </form>
-            </footer>
-        </blockquote>
+    <blockquote class="AnnotationReplyBlock" annotation_id="{{ annotation_reply.id }}">
+        {% if annotation_reply.reply_to_annotation_reply.replier %}  <!-- if reply to reply -->
+        <span style="font-size: 66%; float: left;">
+            <i class="fa fa-share" aria-hidden="true"></i>&nbsp&nbsp&nbspreply to <i><b>{{ annotation_reply.reply_to_annotation_reply.replier.nickname }}</b></i>:
+        </span><br>
+        {% endif %}
+        <div class="content-markdown" style="padding-bottom: 8px; font-size: 80%; font-family: Microsoft Yahei;"> {{ annotation_reply.content|safe|linebreaks }} </div>
+        <footer>
+            <img class="img-rounded" src="{{ annotation_reply.replier.portrait_url }}" height="28" width="28">
+            {{ annotation_reply.replier.nickname }} | {{ annotation_reply.post_time.date|date:"Y. M. d" }}
+            <div style="float: right;">
+                <button class="ReplyAnnotationButton btn" style="border: none; background: none; padding: 0 4px"><i class="fa fa-reply" aria-hidden="true"></i>&nbspreply</button>
+                {% if annotation_reply.replier == request.user %}
+                    <button class="DeleteAnnotationReplyButton btn" style="border: none; background: none; padding: 0 4px" value="{{ annotation_reply.id }}"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbspdelete</button>
+                {% endif %}
+                <div class="btn" style="padding: 0 4px">
+                    <span style="cursor: pointer;" annotation_reply_id="{{ annotation_reply.id }}" class="LikeAnnotationReplyButton glyphicon glyphicon-thumbs-up"></span>
+                    <bold id="num_like">{{ annotation_reply.num_like }}</bold>
+                </div>
+            </div>   
+            <form style="display: none">
+                <br>
+                <textarea name="reply_reply_content" class="form-control" rows="2" style="resize: vertical"></textarea>
+                <button type="button" class="PostReplyReplyButton btn btn-sm btn-info" name="reply_to_annotation_reply_id" value="{{ annotation_reply.id }}" style="margin-top: 8px; float: right;" >reply</button>
+            </form>
+        </footer>
+    </blockquote>
     {% endfor %}
 </blockquote>
+</div>
 {% endfor %}
 
 <script>
+function removeAnnotation(annotationID) {
+    $(".AnnotationDiv[annotation_id='" + annotationID + "']").remove();
+    $(".Annotation[annotation_id='" + annotationID + "']").remove();
+}
+
 $(document).ready(function() {
     tinymceInit();
     new_annotation_id = '{{ new_annotation_id }}';
@@ -69,8 +76,8 @@ $(document).ready(function() {
                 operation: "delete_annotation",
                 annotation_id: this.value,
             },
-            success: function () {
-                window.location.reload();
+            success: function() {
+                removeAnnotation(annotationID);
             }
         })
     });
