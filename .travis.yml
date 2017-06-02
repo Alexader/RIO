@@ -1,6 +1,14 @@
 language: python
+
 python:
     - "2.7"
+
 install:
     - pip install -r requirements.txt
+
+notifications:
+    email:
+	on_success: never
+	on_failure: never
+
 script: python Orbital_django/manage.py test
