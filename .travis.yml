@@ -1,7 +1,7 @@
 language: objective-c
 os: osx
 before_install:
-    - brew udpate
+    - brew update
     - brew install chromedriver
 install:
     - pip install -r requirements.txt
