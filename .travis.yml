@@ -1,12 +1,8 @@
 language: python
-os: linux
-sudo: required
-addons:
-    apt:
-        sources:
-            - google-chrome
-        packages:
-            - google-chrome-stable
+os: osx
+before_install:
+    - brew install python
+    - brew install chromedriver
 install:
     - pip install -r requirements.txt
 script: cd Orbital_django; python manage.py test
