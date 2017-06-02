@@ -6,15 +6,12 @@ sudo: false
 dist: trusty
 addons:
   chrome: stable
- 
-before_script:
-  - "export DISPLAY=:99.0"
-  - sleep 3 # give xvfb some time to start
+
 before_install:
     - brew install chromedriver
 install:
     - pip install -r requirements.txt
-script: cd Orbital_django; xvfb-run python manage.py test
+script: cd Orbital_django; python manage.py test
 notifications:
     email:
         on_success: never
