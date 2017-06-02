@@ -1,11 +1,11 @@
 language: python
-os:
-    - osx
+os: osx
 python:
     - "2.7"
+before_install:
+    - brew install chromedriver
 install:
     - pip install -r requirements.txt
-    - brew install chromedriver
 script: cd Orbital_django; python manage.py test
 notifications:
     email:
