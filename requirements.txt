@@ -1,0 +1,4 @@
+django  # framework
+pillow
+pylint  # coding style
+selenium  # write browser-side tests
