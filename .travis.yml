@@ -1,5 +1,5 @@
 language: python
-os: linum
+os: linux
 sudo: required
 addons:
     apt:
