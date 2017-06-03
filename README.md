@@ -1,7 +1,9 @@
-NAME OF THE PROJECT
+Variorum
 ========
 This is a project for NUS 2016 summer Orbital Program
 --------
+
+[![Build Status](https://travis-ci.org/R-o-y/RIO.svg?branch=master)](https://travis-ci.org/R-o-y/RIO)
 
 #### the idea of this project comes from [NotaBene](http://nb.mit.edu/)
  
