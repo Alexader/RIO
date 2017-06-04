@@ -38,7 +38,6 @@ function tinymceInit() {
             'alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor'
         ],
         paste_as_text: true,
-        branding: false,
     });
     $(document).on('focusin', function(e) {
         // this is to solve the issue of being unable to edit link and image link in bootstrap model
@@ -56,10 +55,10 @@ function tinymceInit() {
 function imgLoad(img, callback) {
     var timer = setInterval(function() {
         if (img.complete) {
-            callback(img)
-            clearInterval(timer)
+            callback(img);
+            clearInterval(timer);
         }
-    }, 8)
+    }, 8);
 }
 
 function startListeningSelectionBoxCreation() {
@@ -174,7 +173,7 @@ function startListeningSelectionBoxCreation() {
                                 $("#annotation_update_div").html(data);
                                 tinymceInit();
 
-                                new_annotation.attr("annotation_id", new_annotation_id)
+                                new_annotation.attr("annotation_id", new_annotation_id);
 
                                 // after uploading the annotation, close the window
                                 layer.close(annotationWindow);
@@ -236,7 +235,7 @@ function scale(scaleFactor) {
         });
         resizeAnnotations(scaleFactor);
 
-        var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight
+        var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight;
         $("#file_viewer").scrollTop(parseFloat($("#file_viewer").scrollTop()) * factor);
     }
 }
@@ -273,7 +272,7 @@ function addCommentRelatedListener() {
         if (is_authenticated) {
             $this = $(this);
             var new_num = parseInt($this.next().text()) + 1;
-            $this.next().text(new_num.toString())
+            $this.next().text(new_num.toString());
             $this.off("click");
             $this.css("color", "#6495ED");
             $this.on("click", function() {
@@ -312,7 +311,7 @@ function addCommentRelatedListener() {
                     addCommentRelatedListener();
                     layer.close(index);
                 }
-            })
+            });
         }
     });
     $(".reply_comment_button").on("click", function() {
@@ -326,7 +325,7 @@ function addCommentRelatedListener() {
                 //     tinyMCE.editors[editor].setContent("")
             }
         }});
-    })
+    });
     $(".post_comment_reply_button").on("click", function() {
         if (is_authenticated) {
             tinyMCE.triggerSave();  // http://www.sifangke.com/2012/04/ajax-submit-tinymce-content/
@@ -348,10 +347,10 @@ function addCommentRelatedListener() {
                     addCommentRelatedListener();
                     layer.close(index);
                 }
-            })
+            });
         }
         else layer.msg('you need to log in to reply');
-    })
+    });
 }
 
 function setupFileViewerSize() {
@@ -397,8 +396,8 @@ function animateOnce() {
             });
         }
     });
-    $("#navbar").animateOnce("fadeInDown")
-    $("#annotation_update_div").find("blockquote").animateOnce("fadeInRight")
+    $("#navbar").animateOnce("fadeInDown");
+    $("#annotation_update_div").find("blockquote").animateOnce("fadeInRight");
 }
 
 function enableResizeButton() {
@@ -425,7 +424,7 @@ function enableRefreshCommentButton() {
                 $("#comment_update_div").html(data);
                 addCommentRelatedListener();
             },
-        })
+        });
     });
 }
 
@@ -450,7 +449,7 @@ function enablePostCommentButton() {
                     activeEditor.setContent("")  // $("textarea[name='comment_content']").val("");
                     layer.close(index);
                 }
-            })
+            });
         }
         else layer.msg('you need to log in to post comment');
     });
@@ -470,7 +469,7 @@ $(document).ready(function() {
         var originalWidth = parseFloat($(".PageImg").css("width"));
         var newWidth = parseFloat($(".PageImg").css("width"));
         var scaleFactor = newWidth / originalWidth;
-        resizeAnnotations(scaleFactor)
+        resizeAnnotations(scaleFactor);
     });
     
     addCommentRelatedListener();

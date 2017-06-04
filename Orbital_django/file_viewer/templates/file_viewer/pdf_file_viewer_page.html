@@ -117,7 +117,7 @@ function pdfScale(scaleFactor) {
     if (taskList.length > 0) {
         while (taskList.length > 1) 
             taskList.pop();
-        taskList.push([taskList[0][0], "PENDING", null])
+        taskList.push([taskList[0][0], "PENDING", null]);
     }
 
     for(var i = 0; i < finishList.length; i++) {
@@ -143,7 +143,7 @@ function pdfScale(scaleFactor) {
     });
     resizeAnnotations(scaleFactor);
 
-    var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight
+    var factor = $("#file_viewer")[0].scrollHeight / oldScrollHeight;
     $("#file_viewer").scrollTop(parseFloat($("#file_viewer").scrollTop()) * factor);
 }
 $("#buttonForLarger").on('click', function () {
@@ -295,7 +295,7 @@ function drawAllExistingAnnotationFrame() {
         var height_percent = parseFloat("{{ annotation.height_percent }}");
         var width_percent = parseFloat("{{ annotation.width_percent }}");
         var pageIndex = "{{ annotation.page_index }}";
-        var frame_color = "{{ annotation.frame_color }}"
+        var frame_color = "{{ annotation.frame_color }}";
         var pageDiv = $("#page_div_" + pageIndex);
         new_annotation.css({
             "background": frame_color,
