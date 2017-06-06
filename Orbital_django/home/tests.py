@@ -58,9 +58,11 @@ class BrowserUITest(StaticLiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def test_login_btn_functionality(self):
+    def test_login_logout(self):
         browser = self.browser
         browser.get(self.live_server_url)
+
+        # test log in
         login_btn = browser.find_element_by_link_text("Log In Now")
         login_btn.click()
         login_popup_window = browser.find_element_by_class_name("layui-layer")
@@ -70,14 +72,7 @@ class BrowserUITest(StaticLiveServerTestCase):
         browser.find_element_by_id("submit_login_form_btn").click()
         self.assertIsNotNone(browser.find_element_by_id("logout_btn"))
 
-    def test_logout(self):
-        # log in first
-        browser = self.browser
-        browser.get(self.live_server_url)
-        browser.find_element_by_link_text("Log In Now").click()
-        browser.find_element_by_name("email_address").send_keys("admin@admin.admin")
-        browser.find_element_by_name("password").send_keys("admin")
-        browser.find_element_by_id("submit_login_form_btn").click()
-        browser.find_element_by_id("logout_btn").click()
         # test log out
+        browser.find_element_by_id("logout_btn").click()
         self.assertIsNotNone(browser.find_element_by_link_text("Log In Now"))
+
