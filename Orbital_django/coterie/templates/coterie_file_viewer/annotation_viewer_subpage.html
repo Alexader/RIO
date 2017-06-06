@@ -79,7 +79,7 @@ $(document).ready(function() {
             success: function() {
                 removeAnnotation(annotationID);
             }
-        })
+        });
     });
     $(".DeleteAnnotationReplyButton").on("click", function() {
         var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
@@ -96,7 +96,7 @@ $(document).ready(function() {
                 $("#annotation_update_div").html(data);
                 layer.close(index);
             }
-        })
+        });
     });
     $(".PostAnnotationReplyButton").on("click", function() {
         var thisButton = $(this);
@@ -116,8 +116,8 @@ $(document).ready(function() {
                 $("#annotation_update_div").html(data);
                 layer.close(index);
             }
-        })
-    })
+        });
+    });
     $(".PostReplyReplyButton").on("click", function() {
         var thisButton = $(this);
         tinyMCE.triggerSave();
@@ -137,20 +137,20 @@ $(document).ready(function() {
                 $("#annotation_update_div").html(data);
                 layer.close(index);
             }
-        })
-    })
+        });
+    });
     $(".ReplyAnnotationButton").on("click", function() {
         $(this).parents("footer").children("form").slideToggle({duration: 180, start: function() {
             if ($(this).is(":hidden")) {
-                // tinyMCE.activeEditor.setContent("")
+                // tinyMCE.activeEditor.setContent("");
             }
             else {
-                $(".ReplyAnnotationButton").parents("footer").children("form").not($(this)).slideUp(180)
+                $(".ReplyAnnotationButton").parents("footer").children("form").not($(this)).slideUp(180);
                 // for (editor in tinyMCE.editors)
-                //     tinyMCE.editors[editor].setContent("")
+                //     tinyMCE.editors[editor].setContent("");
             }
         }});
-    })
+    });
     $(".LikeAnnotationButton").on("click", function () {
         $this = $(this);
         var new_num = parseInt($this.next().text()) + 1;
@@ -168,7 +168,7 @@ $(document).ready(function() {
                 operation: "like_annotation",
                 annotation_id: $this.attr("annotation_id"),
             },
-        })
+        });
     });
     $(".LikeAnnotationReplyButton").on("click", function () {
         $this = $(this);
@@ -187,23 +187,23 @@ $(document).ready(function() {
                 operation: "like_annotation_reply",
                 annotation_reply_id: $this.attr("annotation_reply_id"),
             },
-        })
+        });
     });
     $(".AnnotationBlock").on("mouseover", function() {
         var annotation_id = $(this).attr("annotation_id");
-        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
+        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']");
         $(this).css("background-color", Annotation.css("background-color"));
         Annotation.css("border", "1px solid #0F0F0F");
     });
     $(".AnnotationBlock").on("mouseout", function() {
         var annotation_id = $(this).attr("annotation_id");
-        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
+        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']");
         $(this).css("background-color", "white");
         Annotation.css("border", "none");
     });
     $(".AnnotationBlock").on("click", function() {  // scroll to the corresponding Anotation when clicking a certain AnnotationBlock
         var annotation_id = $(this).attr("annotation_id");
-        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']")
+        var Annotation = $(".Annotation[annotation_id='" + annotation_id + "']");
         var fileViewer = $("#file_viewer");
         var down = Annotation.offset().top - fileViewer.offset().top + fileViewer.scrollTop() - window.innerHeight * 0.38 + Annotation.height() / 2;
         fileViewer.animate({scrollTop: parseInt(down)}, 240);

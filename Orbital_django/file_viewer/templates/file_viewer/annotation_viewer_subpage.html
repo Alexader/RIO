@@ -79,7 +79,7 @@ $(document).ready(function() {
             success: function() {
                 removeAnnotation(annotationID);
             }
-        })
+        });
     });
     $(".DeleteAnnotationReplyButton").on("click", function() {
         var index = layer.load(0, {shade: 0.18}); //0 represent the style, can be 0-2
@@ -97,7 +97,7 @@ $(document).ready(function() {
                 tinymceInit();
                 layer.close(index);
             }
-        })
+        });
     });
     $(".PostAnnotationReplyButton").on("click", function() {
         if (is_authenticated) {
@@ -119,7 +119,7 @@ $(document).ready(function() {
                     tinymceInit();
                     layer.close(index);
                 }
-            })
+            });
         }
         else
             layer.msg('you need to log in to reply');
@@ -145,7 +145,7 @@ $(document).ready(function() {
                     tinymceInit();
                     layer.close(index);
                 }
-            })
+            });
         }
         else
             layer.msg('you need to log in to reply');
@@ -161,7 +161,7 @@ $(document).ready(function() {
                 //     tinyMCE.editors[editor].setContent("")
             }
         }});
-    })
+    });
     $(".LikeAnnotationButton").on("click", function() {
         if (is_authenticated) {
             $this = $(this);
@@ -180,7 +180,7 @@ $(document).ready(function() {
                     operation: "like_annotation",
                     annotation_id: $this.attr("annotation_id"),
                 },
-            })
+            });
         }
         else
             layer.msg('you need to log in to like');
@@ -203,7 +203,7 @@ $(document).ready(function() {
                     operation: "like_annotation_reply",
                     annotation_reply_id: $this.attr("annotation_reply_id"),
                 },
-            })
+            });
         }
         else
             layer.msg('you need to log in to like');

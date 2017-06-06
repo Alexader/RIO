@@ -218,15 +218,15 @@
                             shift: 1,
                             area: ['auto', 'auto'],
                             time: 800,
-                        })
+                        });
                         thisButton.attr("disabled", true);
                         thisButton.text("already followed");
                     }
-                })
+                });
             }
             else
                 layer.msg('you need to log in to follow other users');
-        })
+        });
 
         $(".apply_coterie_button").on("click", function() {
             if (is_authenticated) {
@@ -245,15 +245,15 @@
                             shift: 1,
                             area: ['auto', 'auto'],
                             time: 800,
-                        })
+                        });
                         thisButton.attr("disabled", true);
                         thisButton.text("already applied");
                     }    
-                })
+                });
             }
             else
                 layer.msg('you need to log in to join groups');            
-        })
+        });
     });
 </script>
 </html>

@@ -55,7 +55,7 @@
                     operation: "collect",
                     document_id: $("button[name='document_id']").val(),
                 },
-            })
+            });
         }
         else if (span.hasClass("fa-star")) {
             layer.msg('Uncollected');
@@ -69,9 +69,9 @@
                     operation: "uncollect",
                     document_id: $("button[name='document_id']").val(),
                 },
-            })
+            });
         }
-    })
+    });
     
     $("#show_annotation_frame_button").on('click', function() {
         $(".Annotation").each(function() {

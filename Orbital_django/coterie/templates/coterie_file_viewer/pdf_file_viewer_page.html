@@ -114,7 +114,7 @@ function pdfScale(scaleFactor) {
     if (taskList.length > 0) {
         while (taskList.length > 1) 
             taskList.pop();
-        taskList.push([taskList[0][0], "PENDING", null])
+        taskList.push([taskList[0][0], "PENDING", null]);
     }
 
     for(var i = 0; i < finishList.length; i++) {
@@ -190,7 +190,7 @@ function prepareAndRenderAll(scale) {
 
     var documentLoadingIcon = layer.load(1, {shade: false, offset: '48%'});
     PDFJS.getDocument(url).then(function(pdf) {
-        layer.close(documentLoadingIcon)
+        layer.close(documentLoadingIcon);
         
         pdfDoc = pdf;
         
@@ -251,7 +251,7 @@ function startListeningScroll() {
             var renderOrNot = [true, true, true, true, true];
             // clear pages which are out of view
             var index = 0;
-            var originalLength = finishList.length
+            var originalLength = finishList.length;
             for (var i = 0; i < originalLength; i++) {
                 if (finishList[index] - page_index >= -1 && finishList[index] - page_index <= 3) {
                     renderOrNot[finishList[index] - page_index + 1] = false;
@@ -293,7 +293,7 @@ function drawAllExistingAnnotationFrame() {
         var height_percent = parseFloat("{{ annotation.height_percent }}");
         var width_percent = parseFloat("{{ annotation.width_percent }}");
         var pageIndex = "{{ annotation.page_index }}";
-        var frame_color = "{{ annotation.frame_color }}"
+        var frame_color = "{{ annotation.frame_color }}";
         var pageDiv = $("#page_div_" + pageIndex);
         new_annotation.css({
             "background": frame_color,
@@ -303,7 +303,7 @@ function drawAllExistingAnnotationFrame() {
             "left": pageDiv.width() * left_percent + "px",
             "top": pageDiv.height() * top_percent + "px",
         });
-        new_annotation.attr("annotation_id", '{{ annotation.id }}')
+        new_annotation.attr("annotation_id", '{{ annotation.id }}');
         pageDiv.append(new_annotation);
     {% endfor %}
 }
