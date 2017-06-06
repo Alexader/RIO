@@ -4,7 +4,7 @@
 	<title>Variorum</title>
 
     {% include "home/tools_import_subpage.html" %}
-	
+
 	<!--for goole search console-->
 	<meta name="google-site-verification" content="FKTJESZycg70RIEv4qDSrgE9Tpzs0vim2HwhiJR9wiM" />
 
@@ -113,7 +113,7 @@
 						<div class="ban-info">
 							<h3>STORE & SHARE</h3><br>
 							<p>A repository where you can store your documents and <br>access an extensive collection of shared reading resources</p><br>
-							<a class="hvr-rectangle-out logInButton" style="cursor: pointer">Log In Now</a>
+							<a class="hvr-rectangle-out LoginBtn" style="cursor: pointer">Log In Now</a>
 							<a class="hvr-rectangle-out" href="/sign_up">Sign Up Now</a>
 						</div>		
 					</li>
@@ -121,7 +121,7 @@
 						<div class="ban-info">
 							<h3>READ & ANNOTATE</h3><br>
 							<p>A document viewer that enables you to <br>make annotation and comment on the document you read</p><br>
-							<a class="hvr-rectangle-out logInButton" style="cursor: pointer">Log In Now</a>
+							<a class="hvr-rectangle-out LoginBtn" style="cursor: pointer">Log In Now</a>
 							<a class="hvr-rectangle-out" href="/sign_up">Sign Up Now</a>
 						</div>		
 					</li>
@@ -129,13 +129,13 @@
 						<div class="ban-info">
 							<h3>DISCUSS & COMMUNICATE</h3><br>
 							<p>A platform that facilitates exchange of ideas by <br>allowing multi-user, collaborative annotation on the same document</p><br>
-							<a class="hvr-rectangle-out logInButton" style="cursor: pointer">Log In Now</a>
+							<a class="hvr-rectangle-out LoginBtn" style="cursor: pointer">Log In Now</a>
 							<a class="hvr-rectangle-out" href="/sign_up">Sign Up Now</a>
 						</div>		
 					</li>			
 				</ul>
 				<script>
-					$(".logInButton").on("click", function(e){
+					$(".LoginBtn").on("click", function(e){
 						// check whether user is logged in, very useful
 						var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
 						if (is_authenticated) {
@@ -157,7 +157,7 @@
 												<input name='email_address' type='email' class='form-control input-sm' placeholder='Email' required='required'><hr>\
 												<input name='password' type='password' class='form-control input-sm' placeholder='Password' required='required'><hr>\
 												<button type='button' class='btn btn-warning'><a style='text-decoration:none; color:inherit;' href='https://ivle.nus.edu.sg/api/login/?apikey=Z6Q2MnpaPX8sDSOfHTAnN&url=http://variorum.pythonanywhere.com/handle_nus_log_in'>Log In with NUS ID</a></button>\
-												<button type='submit' class='btn btn-info'>Log In</button>\
+												<button type='submit' id='submit_login_form_btn' class='btn btn-info'>Log In</button>\
 											</form>"
 							}); 
 						}
@@ -265,7 +265,6 @@
 	</script>
 	<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 	<!-- //smooth scrolling -->
-
 </body>
 </html>
 

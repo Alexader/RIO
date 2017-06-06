@@ -47,7 +47,6 @@ body a:hover{
 	height: 32px;
 	border: none;
 	text-indent: 100%;
-	background: url("../images/arr.png") no-repeat 0px 0px;
 }
 #toTopHover {
 	width: 32px;
@@ -71,7 +70,6 @@ body a:hover{
     text-decoration: none;
 }
 .header-left h1 a i {
-	background: url("../images/person.png") no-repeat 0px 0px;	
 	width:32px;
 	height:32px;
 	display:inline-block;
@@ -2146,7 +2144,6 @@ figure.effect-apollo:hover p {
 		font-size: 28px;
 	}
 	.header-left h1 a i {
-		background: url("../images/person.png") no-repeat 0px 5px;
 		background-size: 85% !important;
 	}
 	.top_nav_right {

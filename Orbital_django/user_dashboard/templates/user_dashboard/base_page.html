@@ -224,12 +224,12 @@
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-link">Log Out</button>
                             </form>
-                            <a style="cursor: pointer;" id="actual_log_out_button">
+                            <a style="cursor: pointer;" id="logout_btn">
                                 Log out
                             </a>
                             <script>
                                 $(document).ready(function() {
-                                    $("#actual_log_out_button").on("click", function() {
+                                    $("#logout_btn").on("click", function() {
                                         var form = $(this).prev("form");
                                         form.submit();
                                     })
