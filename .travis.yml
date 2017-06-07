@@ -11,7 +11,7 @@ before_install:
 install:
     - pip install -r requirements.txt
 
-script: sudo Xvfb :99 -ac -screen 0 1024x768x8; cd Orbital_django; python manage.py test
+script: sudo Xvfb :99 -ac -screen 0 1024x768x8; export DISPLAY=:99.0; cd Orbital_django; python manage.py test
 
 notifications:
     email:
