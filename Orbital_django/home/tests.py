@@ -53,6 +53,7 @@ class TestUser(TestCase):
 class BrowserUITest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome()
+        self.browser.set_window_size(2048, 1024)
         User.objects.create_user("admin", "admin@admin.admin", "admin")
 
     def tearDown(self):
