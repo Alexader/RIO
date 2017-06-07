@@ -76,4 +76,5 @@ class BrowserUITest(StaticLiveServerTestCase):
         # test log out
         browser.find_element_by_id("logout_btn").click()
         self.assertIsNotNone(browser.find_element_by_link_text("Log In Now"))
+        self.assertTrue(False)
 
