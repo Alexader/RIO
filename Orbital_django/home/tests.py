@@ -49,6 +49,28 @@ class TestUser(TestCase):
         except IntegrityError:
             self.assertTrue(True)
 
+    def test_create_user_with_empty_nickname(self):
+        new_user = User()
+        new_user.nickname = ""
+        try:
+            new_user.save()
+            self.assertTrue(True)
+        except IntegrityError:
+            self.assertTrue(False)
+
+    def test_create_user_with_same_nickname(self):
+        new_user = User()
+        new_user.nickname = "same"
+        new_user2 = User()
+        new_user2.nickname = new_user.nickname
+        new_user.save()
+        self.assertEqual(User.objects.all().count(), 1)
+        try:
+            new_user2.save()
+            self.assertTrue(False)
+        except IntegrityError:
+            self.assertTrue(True)
+
 
 class BrowserUITest(StaticLiveServerTestCase):
     def setUp(self):
