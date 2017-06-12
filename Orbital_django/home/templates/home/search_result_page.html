@@ -19,16 +19,24 @@
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     
+    <!--  Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="/static/assets/css/themify-icons.css" rel="stylesheet">
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="/static/assets/css/paper-dashboard.css" rel="stylesheet"/>
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="/static/assets/css/demo.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="/static/assets/css/animate.min.css" rel="stylesheet"/>
+
     <style type="text/css">
 
-    nav {
-        background-color: #5CACEE;
-        padding-top: 0.8cm;
-        padding-bottom: 0.8cm;
-    }
-    nav label {
-        color: white;
-    }
+
+
     .button {
         background-color: #4CAF50; /* Green */
         border: none;
@@ -73,23 +81,6 @@
         transition: 0s
     }
 
-    h3,h4 {
-        text-align: center;
-        font-family: Impact, Charcoal, sans-serif;
-        font-style: bold;
-    }
-
-    #list-files{
-        background-color: #008CBA;
-        border-bottom: #00001a;
-    }
-
-    p{
-        color: white;
-        font-size: 30px;
-        font-family: Impact, Charcoal, sans-serif;
-        text-align: auto;
-    }
     </style>
 </head>
 
@@ -98,105 +89,207 @@
 <!--    <input name="search_key" type="text" class="form-control input-sm" required="required">-->
 <!--    <button type="submit" class="button2">search</button>-->
 <!--</form>-->
-<div class="row">
-  <div class="col-md-4 col-md-offset-4">
-        <form class="has-success form-group" action="/handle_search" mtehod="get" style="text-align: center; margin-top: 18px;">
-            <div class="input-group">
-                <input name="search_key" type="search" class="form-control" required="required" placeholder="{{ search_key }}">
-                <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+<div class="wrapper">
+	<div class="sidebar" data-background-color="white" data-active-color="danger">
+
+    <!--
+		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+	-->
+
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="#" class="simple-text">
+                    Variorum
+                </a>
             </div>
-        </form>
+
+            <ul class="nav">
+                <li>
+                    <a href="/">
+                        <i class="ti-panel"></i>
+                        <p>Home</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/">
+                        <i class="ti-user"></i>
+                        <p>Back</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="">
+                        <i class="ti-view-list-alt"></i>
+                        <p>Result List</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+
+    <div class="main-panel">
+        
+		<nav class="navbar navbar-left">
+            <div  class="navbar-header">
+                <div class="container-fluid">
+                    <h3>Result for searching "{{ search_key }}"</h3>
+                </div>
+                
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Documents</h4>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Title </th>
+                                    	<th>Open </th>
+                                        <th>Download </th>
+                                    </thead>
+                                    {% for document in result_documents %} 
+                                    <div id = "list-files">
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <form method="get" action="/file_viewer/" >
+                                                    {% csrf_token %}
+                                                    <td scope = "col">
+                                                        {{ document.title }}
+                                                    </td>
+                                                    <td>
+                                                        <button type="submit" name="document_id" value={{ document.id }} class="button2">open</button>
+                                                    </td>
+                                                </form>
+                                                <form method="get" action="/file_viewer/download" >
+                                                    {% csrf_token %}
+                                                    <td><button type="submit" name="document_id" value={{ document.id }} class="button2"><i class="fa fa-cloud-download" aria-hidden="true"></i></button></td>
+                                                </form>
+                                            </tr>
+                                      </tbody>
+                                    </div>
+                                    {% endfor %}
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Users</h4>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Nickname </th>
+                                    	<th>Relationship </th>
+                                    </thead>
+                                    {% for user in result_users %}
+                                    <div id = "list-files">
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <form style="display: inline-block; font-family: arial; color: white">
+                                                    {% csrf_token %}
+                                                    <td scope = "col">
+                                                        {{ user.nickname }} ({{ user.email_address }})
+                                                    </td>
+                                                    <td>
+                                                        {% if logged_in_user in user.follower_set.all %}
+                                                        <button type="button" class="button2" disabled="disabled" >Already Followed</button>
+                                                        {% else %}
+                                                        <button class="follow_user_button button2" type="button" name="user_id" value={{ user.id }}>Follow</button>
+                                                        {% endif %}
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                        </tbody>
+                                    </div>
+                                {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Groups</h4>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Name </th>
+                                    	<th>Condition </th>
+                                    </thead>
+                                    {% for coterie in result_coteries %}
+                                    <div id = "list-files">
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <form style="display: inline-block; font-family: arial; color: white">
+                                                    {% csrf_token %}
+                                                    <td scope = "col">
+                                                        ({{ coterie.id }}) {{ coterie.name }}
+                                                    </td>
+                                                    <td>
+                                                        {% if logged_in_user in coterie.administrators.all %}
+                                                        <button type="button" class="button2" disabled="disabled" >already administrated</button>
+                                                        {% elif logged_in_user in coterie.members.all %}
+                                                        <button type="button" class="button2" disabled="disabled" >already joined</button>
+                                                        {% elif logged_in_user in coterie.applicants.all %}
+                                                        <button type="button" class="button2" disabled="disabled" >already applied</button>       
+                                                        {% else %}
+                                                        <button class="apply_coterie_button button2" type="button" name="coterie_id" value={{ coterie.id }}>apply to join</button>
+                                                        {% endif %}
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                        </tbody>
+                                    </div>
+                                {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+
     </div>
 </div>
-<h2 align="center">result for searching "{{ search_key }}"</h2>
-<h3 style="text-align: center;">documents</h3>
-<ol>
-    {% for document in result_documents %}
-    <li>
-        <div id = "list-files">
-            <tbody>
-                <tr>
-                    <form method="get" action="/file_viewer/" style="display: inline-block; font-family: arial; color: white">
-                        {% csrf_token %}
-                        <td scope = "col">
-                            {{ document.title }}
-                        </td>
-                        <td>
-                            <button type="submit" name="document_id" value={{ document.id }} class="button2">open</button>
-                        </td>
-                    </form>
-                    <form method="get" action="/file_viewer/download" style="display: inline-block; font-family: arial; color: white">
-                        {% csrf_token %}
-                        <td><button type="submit" name="document_id" value={{ document.id }} class="button2"><i class="fa fa-cloud-download" aria-hidden="true"></i></button></td>
-                    </form>
-                </tr>
-            </tbody>
-        </div>
-    </li>
-    <hr>
-    {% endfor %}
-</ol>
+<footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
 
-<h3 style="text-align: center;">users</h3>
-<ol>
-    {% for user in result_users %}
-    <li>
-        <div id = "list-files">
-            <tbody>
-                <tr>
-                    <form style="display: inline-block; font-family: arial; color: white">
-                        {% csrf_token %}
-                        <td scope = "col">
-                            {{ user.nickname }} ({{ user.email_address }})
-                        </td>
-                        <td>
-                            {% if logged_in_user in user.follower_set.all %}
-                            <button type="button" class="button2" disabled="disabled" >already followed</button>
-                            {% else %}
-                            <button class="follow_user_button button2" type="button" name="user_id" value={{ user.id }}>follow</button>
-                            {% endif %}
-                        </td>
-                    </form>
-                </tr>
-            </tbody>
-        </div>
-    </li>
-    <hr>
-    {% endfor %}
-</ol>
-
-<h3 style="text-align: center;">groups</h3>
-<ol>
-    {% for coterie in result_coteries %}
-    <li>
-        <div id = "list-files">
-            <tbody>
-                <tr>
-                    <form style="display: inline-block; font-family: arial; color: white">
-                        {% csrf_token %}
-                        <td scope = "col">
-                            ({{ coterie.id }}) {{ coterie.name }}
-                        </td>
-                        <td>
-                            {% if logged_in_user in coterie.administrators.all %}
-                            <button type="button" class="button2" disabled="disabled" >already administrated</button>
-                            {% elif logged_in_user in coterie.members.all %}
-                            <button type="button" class="button2" disabled="disabled" >already joined</button>
-                            {% elif logged_in_user in coterie.applicants.all %}
-                            <button type="button" class="button2" disabled="disabled" >already applied</button>       
-                            {% else %}
-                            <button class="apply_coterie_button button2" type="button" name="coterie_id" value={{ coterie.id }}>apply to join</button>
-                            {% endif %}
-                        </td>
-                    </form>
-                </tr>
-            </tbody>
-        </div>
-    </li>
-    <hr>
-    {% endfor %}
-</ol>
+                        <li>
+                            <a href="#">
+                                Variorum
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+				<div class="copyright pull-right">
+                    &copy; <script>document.write(new Date().getFullYear())</script>, made for NUS SOC Oribital</i></a>
+                </div>
+            </div>
+        </footer>
 </body>
+<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+<script src="/static/assets/js/paper-dashboard.js"></script>
 <script>
     var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
 
@@ -218,15 +311,15 @@
                             shift: 1,
                             area: ['auto', 'auto'],
                             time: 800,
-                        });
+                        })
                         thisButton.attr("disabled", true);
                         thisButton.text("already followed");
                     }
-                });
+                })
             }
             else
                 layer.msg('you need to log in to follow other users');
-        });
+        })
 
         $(".apply_coterie_button").on("click", function() {
             if (is_authenticated) {
@@ -245,15 +338,15 @@
                             shift: 1,
                             area: ['auto', 'auto'],
                             time: 800,
-                        });
+                        })
                         thisButton.attr("disabled", true);
                         thisButton.text("already applied");
                     }    
-                });
+                })
             }
             else
                 layer.msg('you need to log in to join groups');            
-        });
+        })
     });
 </script>
 </html>
