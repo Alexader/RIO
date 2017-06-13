@@ -107,13 +107,13 @@
             <ul class="nav">
                 <li>
                     <a href="/">
-                        <i class="ti-panel"></i>
+                        <i class="ti-user"></i>
                         <p>Home</p>
                     </a>
                 </li>
                 <li>
-                    <a href="/">
-                        <i class="ti-user"></i>
+                    <a href=”#” onclick=(history.back())>
+                        <i class="ti-back-right"></i>
                         <p>Back</p>
                     </a>
                 </li>
@@ -129,12 +129,33 @@
 
     <div class="main-panel">
         
-		<nav class="navbar navbar-left">
-            <div  class="navbar-header">
-                <div class="container-fluid">
-                    <h3>Result for searching "{{ search_key }}"</h3>
+		<nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Search Result of "{{ search_key }}"</a>
                 </div>
-                
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <form action="/handle_search" method="get" class="form-inline" style="display: inline">
+                                <div class="input-group">
+                                    <input name="search_key" type="search" class="form-control" required="required" placeholder="{{ search_key }}">
+                                    <button type="submit" style="display: none"></button>
+                                </div>
+                            </form>
+                            <a style="display: inline-block; cursor: pointer; padding-left: 8px; margin-right: 24px"><i class="ti-search"></i></a>
+                            <script>
+                                $(document).ready(function() {
+                                    $(".ti-search").on("click", function() {
+                                        var form = $(this).parents("li").find("form");
+                                        form.submit();
+                                    })
+                                });
+                            </script>
+                        </li> 
+                    </ul>
+
+                </div>
             </div>
         </nav>
         <div class="content">
